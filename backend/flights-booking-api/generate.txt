@@ -1,0 +1,1 @@
+openapi-generator-cli generate -g aspnetcore --additional-properties aspnetCoreVersion=6.0 --additional-properties classModifier=abstract --additional-properties operationModifier=abstract --additional-properties packageName=FlightsBookingAPI --additional-properties packageTitle=FlightsBookingAPI -i openapi.yaml -o ${PWD}

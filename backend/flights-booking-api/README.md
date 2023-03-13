@@ -1,4 +1,4 @@
-# DreamTeam.BookingApp - ASP.NET Core 6.0 Server
+# FlightsBookingAPI - ASP.NET Core 6.0 Server
 
 API aplikacije za kupovinu avionskih karata
 
@@ -44,7 +44,7 @@ build.bat
 ## Run in Docker
 
 ```
-cd src/DreamTeam.BookingApp
-docker build -t dreamteam.bookingapp .
-docker run -p 5000:8080 dreamteam.bookingapp
+cd src/FlightsBookingAPI
+docker build -t flightsbookingapi .
+docker run -p 5000:8080 flightsbookingapi
 ```

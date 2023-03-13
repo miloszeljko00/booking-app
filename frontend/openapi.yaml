@@ -1,0 +1,763 @@
+openapi: 3.0.0
+x-stoplight:
+  id: 0vfn1o7knw4eq
+info:
+  title: FlightBookingAPI
+  version: '1.0'
+  description: API aplikacije za kupovinu avionskih karata
+servers:
+  - url: 'http://localhost:5000'
+paths:
+  /users/actions/register:
+    post:
+      summary: ACTION Register
+      operationId: post-users-actions-register
+      responses:
+        '201':
+          description: 'Created: User successfully registered.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRegisterResponse'
+        '400':
+          description: 'Bad Request: You must enter all required fields.'
+          content: {}
+        '409':
+          description: 'Conflict: Username is already taken.'
+        '500':
+          description: Internal Server Error
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRegisterRequest'
+        description: Treba poslati sve podatke o korisniku pri registraciji
+      description: Endpoint pomocu kojeg registrujemo novog korisnika na sistem.
+      tags:
+        - user
+  /users/actions/login:
+    post:
+      summary: ACTION Login
+      operationId: post-users-actions-login
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserLoginResponse'
+        '400':
+          description: 'Bad Request: User credentials are incorrect.'
+        '500':
+          description: Internal Server Error
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLoginRequest'
+        description: Podaci o korisniku neophodni za prijavu na sistem
+      description: Endpoint pomocu kojeg prijavljujemo korisnika na sistem.
+      tags:
+        - user
+  '/users/{UserId}/flight-tickets':
+    parameters:
+      - schema:
+          type: string
+        name: UserId
+        in: path
+        required: true
+        description: Identifikator korisnika.
+    get:
+      summary: GET FlightTickets
+      tags:
+        - user
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserFlightTicketGetAllResponse'
+        '400':
+          description: 'Bad Request: UserId does not exist.'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      operationId: get-users-id-flight-tickets
+      description: Endpoint koji vraca podatke o svim kartama koje je odabrani korisnik kupio.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
+        description: ''
+      security:
+        - JWT:
+            - user
+  '/users/{UserId}/flight-tickets/{FlightTicketId}':
+    parameters:
+      - schema:
+          type: string
+        name: UserId
+        in: path
+        required: true
+        description: Identifikator korisnika
+      - schema:
+          type: string
+        name: FlightTicketId
+        in: path
+        required: true
+        description: Identifikator karte leta
+    get:
+      summary: GET FlightTicket
+      tags:
+        - user
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserFlightTicketGetResponse'
+        '400':
+          description: 'Bad Request: UserId does not exist.'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: 'Not Found: Flight ticket with FlightTicketId not found.'
+        '500':
+          description: Internal Server Error
+      operationId: get-users-UserId-flight-tickets-FlightTicketId
+      security:
+        - JWT:
+            - user
+      description: Endpoint za dobavljanje podataka o odabranoj karti za let odabranog korisnika.
+  /flights:
+    get:
+      summary: GET Flights
+      tags:
+        - flight
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FlightGetAllResponse'
+      operationId: get-flights
+      description: Endpoint dobavlja podatke o svim letovima.
+    post:
+      summary: POST Flight
+      operationId: post-flights
+      responses:
+        '200':
+          description: OK
+      security:
+        - JWT:
+            - admin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FlightCreateRequest'
+        description: 'Saljemo podatke o mestu i vremenu polaska i dolaska, broju i ceni karata.'
+      description: Endpoint za kreiranje novog leta.
+      tags:
+        - flight
+  '/flights/{FlightId}':
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: FlightId
+        in: path
+        required: true
+        description: Identifikator leta.
+    get:
+      summary: GET Flight
+      tags:
+        - flight
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FlightGetResponse'
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      operationId: get-flights-id
+      description: Endpoint za dobavljanje podataka o odabranom letu.
+    delete:
+      summary: DELETE Flight
+      operationId: delete-flights-id
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content: {}
+      security:
+        - JWT:
+            - admin
+      description: Endpoint za brisanje leta.
+      tags:
+        - flight
+  '/flights/{FlightId}/actions/buy-tickets':
+    parameters:
+      - schema:
+          type: string
+        name: FlightId
+        in: path
+        required: true
+        description: Identifikator leta.
+    post:
+      summary: ACTION BuyTicket
+      operationId: post-flights-id-actions-buy-ticket
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FlightBuyTicketsResponse'
+        '400':
+          description: 'Bad Request: Please specify the amount of tickets.'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: 'Not Found: Flight not found.'
+        '409':
+          description: 'Conflict: No available tickets for choosen flight.'
+      security:
+        - JWT:
+            - user
+      tags:
+        - flight
+      description: Endpoint za kupovinu karata od strane korisnika.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FlightBuyTicketsRequest'
+components:
+  schemas:
+    UserRegisterRequest:
+      title: UserRegisterRequest
+      x-stoplight:
+        id: jhb0mejiu1bw6
+      type: object
+      properties:
+        Username:
+          type: string
+          x-stoplight:
+            id: z6i5mdurrgysl
+          description: Korisnicko ime za prijavu na sistem
+        Password:
+          type: string
+          x-stoplight:
+            id: nfc7cii32l4dr
+          description: Korisnicka lozinka za prijavu na sistem
+        FirstName:
+          type: string
+          x-stoplight:
+            id: tccdkrzjc8i89
+          description: Ime korisnika
+        LastName:
+          type: string
+          x-stoplight:
+            id: b9ra35144iicp
+          description: Prezime korisnika
+        Email:
+          type: string
+          x-stoplight:
+            id: 4srmnzg53r9ce
+          description: Email korisnika
+        Address:
+          $ref: '#/components/schemas/Address'
+          x-stoplight:
+            id: otbu9uulmvjnp
+      required:
+        - Username
+        - Password
+        - FirstName
+        - LastName
+        - Email
+        - Address
+      description: Korisnik mora da posalje sve podatke pri registraciji na sistem.
+    UserRegisterResponse:
+      title: UserRegisterResponse
+      x-stoplight:
+        id: o53m4nkca737y
+      type: object
+      description: 'Nakon uspesne registracije korisniku se vraca JWT token, kako bi smo ga odmah prijavili na sistem'
+      properties:
+        Jwt:
+          type: string
+          x-stoplight:
+            id: vko3zq1egqhdm
+          description: JWT token korisnika za potrebe prijave na sistem.
+      required:
+        - Jwt
+    UserLoginRequest:
+      title: UserLoginRequest
+      x-stoplight:
+        id: z8lgv7lxdst37
+      type: object
+      properties:
+        Username:
+          type: string
+          x-stoplight:
+            id: 8riedafex3u59
+          description: Korisnicko ime za prijavu na sistem
+        Password:
+          type: string
+          x-stoplight:
+            id: gs7w4ecrhpasv
+          format: password
+          description: Korisnicka lozinka za prijavu na sistem
+      required:
+        - Username
+        - Password
+      description: Model za prijavu korisnika na sistem.
+    UserLoginResponse:
+      title: UserLoginResponse
+      x-stoplight:
+        id: v128uv15nffsc
+      type: object
+      description: Nakon uspesne prijave korisniku vracamo JWT token kojim se on dalje autentifikuje.
+      properties:
+        Jwt:
+          type: string
+          x-stoplight:
+            id: 3jsr0vhloqm92
+          description: JWT token korisnika za potrebe prijave na sistem.
+      required:
+        - Jwt
+    UserFlightTicketGetAllResponse:
+      title: UserFlightTicketGetAllResponse
+      x-stoplight:
+        id: 9c5gv4aj1lmq3
+      type: object
+      description: Podaci o svim kupljenim kartama za let odabranog korisnika.
+      properties:
+        FlightTickets:
+          type: array
+          uniqueItems: true
+          description: Podaci o kupljenim kartama za let.
+          items:
+            $ref: '#/components/schemas/UserFlightTicket'
+            x-stoplight:
+              id: cgehdhuyamf8t
+      required:
+        - FlightTickets
+    UserFlightTicketGetResponse:
+      title: UserFlightTicketGetResponse
+      x-stoplight:
+        id: 1cm9ep97p893l
+      type: object
+      properties:
+        FlightTicket:
+          $ref: '#/components/schemas/UserFlightTicket'
+          x-stoplight:
+            id: 8dsokzfkfuzz5
+      required:
+        - FlightTicket
+      description: Podaci o kupljenoj karti za let odabranog korisnika.
+    FlightGetAllResponse:
+      title: FlightGetAllResponse
+      x-stoplight:
+        id: mwyawz0996381
+      type: object
+      description: Podaci o svim letovima.
+      properties:
+        Flights:
+          type: array
+          x-stoplight:
+            id: itktztvxff6mv
+          uniqueItems: true
+          description: Podaci o svim letovima.
+          items:
+            $ref: '#/components/schemas/Flight'
+            x-stoplight:
+              id: k29tbwpqu6g7g
+      required:
+        - Flights
+    FlightCreateRequest:
+      title: FlightCreateRequest
+      x-stoplight:
+        id: htl2m10fkboy7
+      type: object
+      properties:
+        Departure:
+          $ref: '#/components/schemas/Departure'
+          x-stoplight:
+            id: 9tno443slqxz0
+        Arrival:
+          $ref: '#/components/schemas/Arrival'
+          x-stoplight:
+            id: vsbtyt8i9asea
+        TotalTickets:
+          type: integer
+          x-stoplight:
+            id: 0hpomltrwb76q
+          minimum: 0
+          exclusiveMinimum: true
+          description: Ukupan broj karata za let.
+        TicketPrice:
+          type: number
+          x-stoplight:
+            id: p7u5pfjq8qslp
+          format: double
+          minimum: 0
+          description: Cena karte leta.
+      required:
+        - Departure
+        - Arrival
+        - TotalTickets
+        - TicketPrice
+      description: Model za kreiranje novog leta.
+    FlightCreateResponse:
+      title: FlightCreateResponse
+      x-stoplight:
+        id: mun9wqiki0w6f
+      type: object
+      properties:
+        Flight:
+          $ref: '#/components/schemas/Flight'
+          x-stoplight:
+            id: n73y5d3omeng2
+      required:
+        - Flight
+      description: Podaci o kreiranom letu.
+    FlightGetResponse:
+      title: FlightGetResponse
+      x-stoplight:
+        id: jx6visp6d2iw8
+      type: object
+      properties:
+        Flight:
+          $ref: '#/components/schemas/Flight'
+          x-stoplight:
+            id: f9vvl48gr2t0h
+      required:
+        - Flight
+      description: Podaci o odabranom letu.
+    FlightBuyTicketsRequest:
+      title: FlightBuyTicketsRequest
+      x-stoplight:
+        id: 5gg2rbv2q60yb
+      type: object
+      description: Zahtev za kupovinu odredjenog broja karata za odabrani let od strane korisnika.
+      properties:
+        Amount:
+          type: integer
+          x-stoplight:
+            id: 987fslv1oc9n3
+          minimum: 0
+          description: Broj karata za kupovinu.
+      required:
+        - Amount
+    FlightBuyTicketsResponse:
+      title: FlightBuyTicketsResponse
+      x-stoplight:
+        id: 5vbs6lpcs9hn9
+      type: object
+      description: Rezultat kupovine karata odabranog korisnika.
+      properties:
+        FlightTickets:
+          x-stoplight:
+            id: 41vrri3g411w9
+          type: array
+          description: Podaci o kupljenim kartama.
+          items:
+            $ref: '#/components/schemas/UserFlightTicket'
+            x-stoplight:
+              id: xd71n4knrs2sk
+      required:
+        - FlightTickets
+    UserFlightTicket:
+      title: UserFlightTicket
+      x-stoplight:
+        id: 6xgs1iswr8rjx
+      type: object
+      description: Podaci o kupljenoj karti za let.
+      properties:
+        FlightTicketId:
+          type: string
+          x-stoplight:
+            id: ldtqgcoce911z
+          format: uuid
+          description: Identifikator karte leta.
+        Purchased:
+          type: string
+          x-stoplight:
+            id: trc0f6uf9g3nd
+          format: date-time
+          description: Trenutak kada je karta kupljena.
+        Price:
+          x-stoplight:
+            id: ygftz9fg32ju1
+          type: number
+          format: double
+          description: Cena karte u trenutku kupovine.
+        Flight:
+          $ref: '#/components/schemas/UserFlight'
+          x-stoplight:
+            id: k2fplc892p99j
+      required:
+        - FlightTicketId
+        - Purchased
+        - Price
+        - Flight
+    UserFlight:
+      title: UserFlight
+      x-stoplight:
+        id: 0te7x2zzqakjn
+      type: object
+      description: Model koji predstavlja podatke o letu.
+      properties:
+        FlightId:
+          type: string
+          x-stoplight:
+            id: s8tc4uicr1u4w
+          description: Jedinstveni identifikator leta.
+          format: uuid
+        Departure:
+          $ref: '#/components/schemas/Departure'
+          x-stoplight:
+            id: l084i694xyviz
+        Arrival:
+          $ref: '#/components/schemas/Arrival'
+          x-stoplight:
+            id: 7hx5htq7j4ke5
+        Passed:
+          type: boolean
+          x-stoplight:
+            id: pwe25onwfe38y
+          description: Podatak o tome da li je proslo vreme polaska.
+        Canceled:
+          type: boolean
+          x-stoplight:
+            id: ancr57ndj4u78
+          description: Podatak o tome da li je let otkazan.
+      required:
+        - FlightId
+        - Departure
+        - Arrival
+        - Passed
+        - Canceled
+    Address:
+      title: Address
+      x-stoplight:
+        id: 97oro2sxtov2z
+      type: object
+      description: Podaci o adresi korisnika.
+      properties:
+        Address:
+          type: string
+          x-stoplight:
+            id: cggc7tj2o5kbe
+          description: Ulica i broj korisnika.
+        City:
+          type: string
+          x-stoplight:
+            id: yfktr2gfc79ma
+          description: Grad korisnika.
+        Country:
+          type: string
+          x-stoplight:
+            id: z1huke56jvf8g
+          description: Drzava korisnika.
+      required:
+        - Address
+        - City
+        - Country
+    Departure:
+      title: Departure
+      x-stoplight:
+        id: y19h9ehagxrrz
+      type: object
+      description: Podaci o polasku leta.
+      properties:
+        time:
+          type: string
+          x-stoplight:
+            id: hp6w4cdxov7mx
+          format: date-time
+          description: Vreme i datum polaska.
+        city:
+          type: string
+          x-stoplight:
+            id: cgfuebjm4ux41
+          description: Mesto polaska.
+      required:
+        - time
+        - city
+    Arrival:
+      title: Arrival
+      x-stoplight:
+        id: 7d6fm21n9gcys
+      type: object
+      description: Podaci o dolasku leta.
+      properties:
+        time:
+          type: string
+          x-stoplight:
+            id: gosuybp0k26zo
+          format: date-time
+          description: Vreme i datum dolaska.
+        city:
+          type: string
+          x-stoplight:
+            id: 80s00glcaoe6v
+          description: Mesto dolaska.
+      required:
+        - time
+        - city
+    Flight:
+      title: Flight
+      x-stoplight:
+        id: g83i0u0upvhw3
+      type: object
+      properties:
+        FlightId:
+          type: string
+          format: uuid
+          x-stoplight:
+            id: 4sl6tud40zuls
+          description: Identifikator leta.
+        FlightTickets:
+          $ref: '#/components/schemas/FlightTickets'
+          x-stoplight:
+            id: b2au1w4jw71r6
+        Departure:
+          $ref: '#/components/schemas/Departure'
+          x-stoplight:
+            id: efv61cjwqk37k
+        Arrival:
+          $ref: '#/components/schemas/Arrival'
+          x-stoplight:
+            id: 3ezjkp9ko1lyf
+        Passed:
+          type: boolean
+          x-stoplight:
+            id: uhdufsqxgfq6i
+          description: Oznacava da li je proslo vreme polaska leta.
+      required:
+        - FlightId
+        - FlightTickets
+        - Departure
+        - Arrival
+        - Passed
+      description: Podaci o letu.
+    FlightTickets:
+      title: FlightTickets
+      x-stoplight:
+        id: 9lblxqhe5miu3
+      type: object
+      description: Podaci o kartama za let.
+      properties:
+        TotalTickets:
+          type: integer
+          x-stoplight:
+            id: mg9eqtdk14b4y
+          minimum: 0
+          description: Ukupan broj karata za let.
+        Price:
+          type: number
+          x-stoplight:
+            id: jmdaqolr6h6sh
+          format: double
+          minimum: 0
+          description: Trenutna cena karte za jednu osobu.
+        SoldTickets:
+          x-stoplight:
+            id: b2if37ii339f4
+          type: array
+          description: Podaci o kupljenim kartama.
+          items:
+            $ref: '#/components/schemas/FlightTicket'
+            x-stoplight:
+              id: cmoegqid16j4c
+        AvailableTickets:
+          type: integer
+          x-stoplight:
+            id: oey48mn8nse5n
+          exclusiveMinimum: false
+          minimum: 0
+          description: Broj dostupnih karata za kupovinu.
+        TotalPrice:
+          type: number
+          x-stoplight:
+            id: duwjilxquu7gh
+          format: double
+          minimum: 0
+          description: Ukupna vrednost leta (suma cena prodatih karata).
+      required:
+        - TotalTickets
+        - Price
+        - SoldTickets
+        - AvailableTickets
+        - TotalPrice
+    FlightTicket:
+      title: FlightTicket
+      x-stoplight:
+        id: 74af0ze4f2qs8
+      type: object
+      properties:
+        FlightTicketId:
+          type: string
+          x-stoplight:
+            id: gl0auyw3wpief
+          format: uuid
+          description: Identifikator karte leta.
+        Purchased:
+          type: string
+          x-stoplight:
+            id: gzy4g7kjxpbqr
+          description: Datum kupovine karte.
+          format: date-time
+        Price:
+          type: number
+          x-stoplight:
+            id: lvmoyv0v80luc
+          format: double
+          minimum: 0
+          description: Cena po kojoj je karta kupljena.
+      required:
+        - FlightTicketId
+        - Purchased
+        - Price
+      description: Podaci o kupljenoj karti.
+  securitySchemes:
+    JWT:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: ''
+          tokenUrl: ''
+          scopes:
+            admin: Administrator sistema.
+            user: Obican korisnik.
+  requestBodies: {}
+  responses: {}
+tags:
+  - name: flight
+  - name: user
