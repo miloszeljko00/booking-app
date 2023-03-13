@@ -328,10 +328,17 @@ backend/flights-booking-api/src/FlightsBookingAPI/Dockerfile
 backend/flights-booking-api/src/FlightsBookingAPI/FlightsBookingAPI.csproj
 backend/flights-booking-api/src/FlightsBookingAPI/Formatters/InputFormatterStream.cs
 backend/flights-booking-api/src/FlightsBookingAPI/wwwroot/**
+backend/flights-booking-api/src/FlightsBookingAPI/.openapi-generator/**
 
 
-
-
-backend/flights-booking-api/src/FlightsBookingAPI/Controllers/**
 
 frontend/src/app/api/**
+backend/flights-booking-api/.openapi-generator/FILES
+backend/flights-booking-api/build.bat
+backend/flights-booking-api/build.sh
+backend/flights-booking-api/README.md
+backend/flights-booking-api/src/FlightsBookingAPI/appsettings.Development.json
+backend/flights-booking-api/src/FlightsBookingAPI/appsettings.json
+backend/flights-booking-api/src/FlightsBookingAPI/Dockerfile
+backend/flights-booking-api/src/FlightsBookingAPI/FlightsBookingAPI.csproj
+backend/flights-booking-api/src/FlightsBookingAPI/Formatters/InputFormatterStream.cs
