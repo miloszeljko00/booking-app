@@ -1,50 +1,9 @@
-# DreamTeam.BookingApp - ASP.NET Core 6.0 Server
+BookingApp - XWS project
 
-API aplikacije za kupovinu avionskih karata
+OpenAPI specification: https://miloszeljko00.stoplight.io/docs/xws/0vfn1o7knw4eq-flight-booking-api
 
-## Upgrade NuGet Packages
+Class diagram: https://app.diagrams.net/#G15LNM6sxRZ-HRaCoNm6dohjTS__PihNFd
 
-NuGet packages get frequently updated.
+# Setup
 
-To upgrade this solution to the latest version of all NuGet packages, use the dotnet-outdated tool.
-
-
-Install dotnet-outdated tool:
-
-```
-dotnet tool install --global dotnet-outdated-tool
-```
-
-Upgrade only to new minor versions of packages
-
-```
-dotnet outdated --upgrade --version-lock Major
-```
-
-Upgrade to all new versions of packages (more likely to include breaking API changes)
-
-```
-dotnet outdated --upgrade
-```
-
-
-## Run
-
-Linux/OS X:
-
-```
-sh build.sh
-```
-
-Windows:
-
-```
-build.bat
-```
-## Run in Docker
-
-```
-cd src/DreamTeam.BookingApp
-docker build -t dreamteam.bookingapp .
-docker run -p 5000:8080 dreamteam.bookingapp
-```
+// TODO

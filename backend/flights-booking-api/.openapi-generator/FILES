@@ -1,9 +1,6 @@
-.openapi-generator-ignore
-FlightsBookingAPI.sln
 README.md
 build.bat
 build.sh
-src/FlightsBookingAPI/.gitignore
 src/FlightsBookingAPI/Attributes/ValidateModelStateAttribute.cs
 src/FlightsBookingAPI/Authentication/ApiAuthentication.cs
 src/FlightsBookingAPI/Controllers/FlightApi.cs
@@ -35,9 +32,6 @@ src/FlightsBookingAPI/Models/UserLoginResponse.cs
 src/FlightsBookingAPI/Models/UserRegisterRequest.cs
 src/FlightsBookingAPI/Models/UserRegisterResponse.cs
 src/FlightsBookingAPI/OpenApi/TypeExtensions.cs
-src/FlightsBookingAPI/Program.cs
-src/FlightsBookingAPI/Properties/launchSettings.json
-src/FlightsBookingAPI/Startup.cs
 src/FlightsBookingAPI/appsettings.Development.json
 src/FlightsBookingAPI/appsettings.json
 src/FlightsBookingAPI/wwwroot/README.md
