@@ -9,7 +9,7 @@
     <Version>1.0.0</Version>
     <AssemblyName>FlightsBookingAPI</AssemblyName>
     <PackageId>FlightsBookingAPI</PackageId>
-    <UserSecretsId>ce2b68ae-3d2e-44d5-849d-8eb64e3a9735</UserSecretsId>
+    <UserSecretsId>58ee8e5e-7f00-4abc-bea0-eb63620059c7</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..</DockerfileContext>
   </PropertyGroup>

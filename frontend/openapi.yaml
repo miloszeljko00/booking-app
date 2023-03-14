@@ -281,6 +281,11 @@ components:
           type: number
           x-stoplight:
             id: p7u5pfjq8qslp
+            explicitProperties:
+              - type
+              - format
+              - minimum
+              - description
           format: double
           minimum: 0
           description: Cena karte leta.
@@ -371,6 +376,10 @@ components:
         Price:
           x-stoplight:
             id: ygftz9fg32ju1
+            explicitProperties:
+              - type
+              - format
+              - description
           type: number
           format: double
           description: Cena karte u trenutku kupovine.
@@ -420,32 +429,6 @@ components:
         - Arrival
         - Passed
         - Canceled
-    Address:
-      title: Address
-      x-stoplight:
-        id: 97oro2sxtov2z
-      type: object
-      description: Podaci o adresi korisnika.
-      properties:
-        Address:
-          type: string
-          x-stoplight:
-            id: cggc7tj2o5kbe
-          description: Ulica i broj korisnika.
-        City:
-          type: string
-          x-stoplight:
-            id: yfktr2gfc79ma
-          description: Grad korisnika.
-        Country:
-          type: string
-          x-stoplight:
-            id: z1huke56jvf8g
-          description: Drzava korisnika.
-      required:
-        - Address
-        - City
-        - Country
     Departure:
       title: Departure
       x-stoplight:
@@ -526,6 +509,11 @@ components:
           type: number
           x-stoplight:
             id: k1jnm6p2m0sog
+            explicitProperties:
+              - type
+              - format
+              - minimum
+              - description
           format: double
           minimum: 0
           description: Trenutna cena jedne karte na prodaju.
@@ -533,6 +521,11 @@ components:
           type: number
           x-stoplight:
             id: sf3loaaix5rov
+            explicitProperties:
+              - type
+              - format
+              - minimum
+              - description
           format: double
           minimum: 0
           description: Ukupna vrednost svih prodatih karata.
@@ -588,6 +581,11 @@ components:
           type: number
           x-stoplight:
             id: lvmoyv0v80luc
+            explicitProperties:
+              - type
+              - format
+              - minimum
+              - description
           format: double
           minimum: 0
           description: Cena po kojoj je karta kupljena.
