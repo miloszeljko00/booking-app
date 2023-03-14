@@ -8,57 +8,6 @@ info:
 servers:
   - url: 'http://localhost:5000'
 paths:
-  /users/actions/register:
-    post:
-      summary: ACTION Register
-      operationId: post-users-actions-register
-      responses:
-        '201':
-          description: 'Created: User successfully registered.'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UserRegisterResponse'
-        '400':
-          description: 'Bad Request: You must enter all required fields.'
-          content: {}
-        '409':
-          description: 'Conflict: Username is already taken.'
-        '500':
-          description: Internal Server Error
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UserRegisterRequest'
-        description: Treba poslati sve podatke o korisniku pri registraciji
-      description: Endpoint pomocu kojeg registrujemo novog korisnika na sistem.
-      tags:
-        - user
-  /users/actions/login:
-    post:
-      summary: ACTION Login
-      operationId: post-users-actions-login
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UserLoginResponse'
-        '400':
-          description: 'Bad Request: User credentials are incorrect.'
-        '500':
-          description: Internal Server Error
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UserLoginRequest'
-        description: Podaci o korisniku neophodni za prijavu na sistem
-      description: Endpoint pomocu kojeg prijavljujemo korisnika na sistem.
-      tags:
-        - user
   '/users/{UserId}/flight-tickets':
     parameters:
       - schema:
@@ -96,7 +45,7 @@ paths:
               properties: {}
         description: ''
       security:
-        - JWT:
+        - KeyCloak:
             - user
   '/users/{UserId}/flight-tickets/{FlightTicketId}':
     parameters:
@@ -135,7 +84,7 @@ paths:
           description: Internal Server Error
       operationId: get-users-UserId-flight-tickets-FlightTicketId
       security:
-        - JWT:
+        - KeyCloak:
             - user
       description: Endpoint za dobavljanje podataka o odabranoj karti za let odabranog korisnika.
   /flights:
@@ -159,7 +108,7 @@ paths:
         '200':
           description: OK
       security:
-        - JWT:
+        - KeyCloak:
             - admin
       requestBody:
         content:
@@ -212,7 +161,7 @@ paths:
           description: Internal Server Error
           content: {}
       security:
-        - JWT:
+        - KeyCloak:
             - admin
       description: Endpoint za brisanje leta.
       tags:
@@ -246,7 +195,7 @@ paths:
         '409':
           description: 'Conflict: No available tickets for choosen flight.'
       security:
-        - JWT:
+        - KeyCloak:
             - user
       tags:
         - flight
@@ -258,98 +207,6 @@ paths:
               $ref: '#/components/schemas/FlightBuyTicketsRequest'
 components:
   schemas:
-    UserRegisterRequest:
-      title: UserRegisterRequest
-      x-stoplight:
-        id: jhb0mejiu1bw6
-      type: object
-      properties:
-        Username:
-          type: string
-          x-stoplight:
-            id: z6i5mdurrgysl
-          description: Korisnicko ime za prijavu na sistem
-        Password:
-          type: string
-          x-stoplight:
-            id: nfc7cii32l4dr
-          description: Korisnicka lozinka za prijavu na sistem
-        FirstName:
-          type: string
-          x-stoplight:
-            id: tccdkrzjc8i89
-          description: Ime korisnika
-        LastName:
-          type: string
-          x-stoplight:
-            id: b9ra35144iicp
-          description: Prezime korisnika
-        Email:
-          type: string
-          x-stoplight:
-            id: 4srmnzg53r9ce
-          description: Email korisnika
-        Address:
-          $ref: '#/components/schemas/Address'
-          x-stoplight:
-            id: otbu9uulmvjnp
-      required:
-        - Username
-        - Password
-        - FirstName
-        - LastName
-        - Email
-        - Address
-      description: Korisnik mora da posalje sve podatke pri registraciji na sistem.
-    UserRegisterResponse:
-      title: UserRegisterResponse
-      x-stoplight:
-        id: o53m4nkca737y
-      type: object
-      description: 'Nakon uspesne registracije korisniku se vraca JWT token, kako bi smo ga odmah prijavili na sistem'
-      properties:
-        Jwt:
-          type: string
-          x-stoplight:
-            id: vko3zq1egqhdm
-          description: JWT token korisnika za potrebe prijave na sistem.
-      required:
-        - Jwt
-    UserLoginRequest:
-      title: UserLoginRequest
-      x-stoplight:
-        id: z8lgv7lxdst37
-      type: object
-      properties:
-        Username:
-          type: string
-          x-stoplight:
-            id: 8riedafex3u59
-          description: Korisnicko ime za prijavu na sistem
-        Password:
-          type: string
-          x-stoplight:
-            id: gs7w4ecrhpasv
-          format: password
-          description: Korisnicka lozinka za prijavu na sistem
-      required:
-        - Username
-        - Password
-      description: Model za prijavu korisnika na sistem.
-    UserLoginResponse:
-      title: UserLoginResponse
-      x-stoplight:
-        id: v128uv15nffsc
-      type: object
-      description: Nakon uspesne prijave korisniku vracamo JWT token kojim se on dalje autentifikuje.
-      properties:
-        Jwt:
-          type: string
-          x-stoplight:
-            id: 3jsr0vhloqm92
-          description: JWT token korisnika za potrebe prijave na sistem.
-      required:
-        - Jwt
     UserFlightTicketGetAllResponse:
       title: UserFlightTicketGetAllResponse
       x-stoplight:
@@ -636,6 +493,7 @@ components:
       x-stoplight:
         id: g83i0u0upvhw3
       type: object
+      description: Podaci o letu.
       properties:
         FlightId:
           type: string
@@ -643,10 +501,41 @@ components:
           x-stoplight:
             id: 4sl6tud40zuls
           description: Identifikator leta.
-        FlightTickets:
-          $ref: '#/components/schemas/FlightTickets'
+        SoldTickets:
+          type: array
           x-stoplight:
-            id: b2au1w4jw71r6
+            id: a4a8qm6k3bp97
+          description: Podaci o kupljenim kartama.
+          items:
+            $ref: '#/components/schemas/SoldTicket'
+            x-stoplight:
+              id: xmkhs4gywqlvw
+        TotalTickets:
+          type: integer
+          x-stoplight:
+            id: pso262gh3jovj
+          minimum: 0
+          description: Broj ukupnih karata na prodaju.
+        AvailableTickets:
+          type: integer
+          x-stoplight:
+            id: 9uj8mukbe83vi
+          minimum: 0
+          description: Broj preostalih karata za prodaju.
+        TicketPrice:
+          type: number
+          x-stoplight:
+            id: k1jnm6p2m0sog
+          format: double
+          minimum: 0
+          description: Trenutna cena jedne karte na prodaju.
+        TotalPrice:
+          type: number
+          x-stoplight:
+            id: sf3loaaix5rov
+          format: double
+          minimum: 0
+          description: Ukupna vrednost svih prodatih karata.
         Departure:
           $ref: '#/components/schemas/Departure'
           x-stoplight:
@@ -660,67 +549,28 @@ components:
           x-stoplight:
             id: uhdufsqxgfq6i
           description: Oznacava da li je proslo vreme polaska leta.
+        Canceled:
+          type: boolean
+          x-stoplight:
+            id: fmrfkoff5vfh1
+          description: Podatak o tome da li je let otkazan.
       required:
         - FlightId
-        - FlightTickets
+        - SoldTickets
+        - TotalTickets
+        - AvailableTickets
+        - TicketPrice
+        - TotalPrice
         - Departure
         - Arrival
         - Passed
-      description: Podaci o letu.
-    FlightTickets:
-      title: FlightTickets
-      x-stoplight:
-        id: 9lblxqhe5miu3
-      type: object
-      description: Podaci o kartama za let.
-      properties:
-        TotalTickets:
-          type: integer
-          x-stoplight:
-            id: mg9eqtdk14b4y
-          minimum: 0
-          description: Ukupan broj karata za let.
-        Price:
-          type: number
-          x-stoplight:
-            id: jmdaqolr6h6sh
-          format: double
-          minimum: 0
-          description: Trenutna cena karte za jednu osobu.
-        SoldTickets:
-          x-stoplight:
-            id: b2if37ii339f4
-          type: array
-          description: Podaci o kupljenim kartama.
-          items:
-            $ref: '#/components/schemas/FlightTicket'
-            x-stoplight:
-              id: cmoegqid16j4c
-        AvailableTickets:
-          type: integer
-          x-stoplight:
-            id: oey48mn8nse5n
-          exclusiveMinimum: false
-          minimum: 0
-          description: Broj dostupnih karata za kupovinu.
-        TotalPrice:
-          type: number
-          x-stoplight:
-            id: duwjilxquu7gh
-          format: double
-          minimum: 0
-          description: Ukupna vrednost leta (suma cena prodatih karata).
-      required:
-        - TotalTickets
-        - Price
-        - SoldTickets
-        - AvailableTickets
-        - TotalPrice
-    FlightTicket:
-      title: FlightTicket
+        - Canceled
+    SoldTicket:
+      title: SoldTicket
       x-stoplight:
         id: 74af0ze4f2qs8
       type: object
+      description: Podaci o kupljenoj karti.
       properties:
         FlightTicketId:
           type: string
@@ -745,17 +595,17 @@ components:
         - FlightTicketId
         - Purchased
         - Price
-      description: Podaci o kupljenoj karti.
   securitySchemes:
-    JWT:
+    KeyCloak:
       type: oauth2
       flows:
         authorizationCode:
-          authorizationUrl: ''
-          tokenUrl: ''
           scopes:
             admin: Administrator sistema.
             user: Obican korisnik.
+          tokenUrl: 'http://localhost:28080/auth/realms/booking-app/protocol/openid-connect/token'
+          authorizationUrl: 'http://localhost:28080/auth/realms/booking-app/protocol/openid-connect/auth'
+      description: ''
   requestBodies: {}
   responses: {}
 tags:

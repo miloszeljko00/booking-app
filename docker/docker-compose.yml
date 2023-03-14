@@ -1,0 +1,62 @@
+version: "3.8"
+services:
+  #----------------------------------------------------------------
+  keycloak_db_xws:
+    image: postgres
+    container_name: keycloak_db_xws
+    restart: on-failure
+    volumes:
+      - keycloak_xws_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: user
+  keycloak_xws:
+    image: quay.io/keycloak/keycloak:legacy
+    container_name: keycloak_xws
+    restart: on-failure
+    environment:
+      DB_VENDOR: POSTGRES
+      DB_ADDR: keycloak_db_xws
+      DB_DATABASE: keycloak
+      DB_USER: user
+      DB_SCHEMA: public
+      DB_PASSWORD: user
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+    ports:
+      - 28080:8080
+    depends_on:
+      - keycloak_db_xws
+#----------------------------------------------------------------
+  mongo:
+    image: mongo:5.0
+    container_name: mongo
+    environment:
+        - MONGO_INITDB_ROOT_USERNAME=user
+        - MONGO_INITDB_ROOT_PASSWORD=user
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./database/db:/data/db
+      - ./database/dev.archive:/Databases/dev.archive
+      - ./database/production:/Databases/production
+  mongo-express:
+    image: mongo-express
+    container_name: mexpress
+    environment:
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=user
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=user
+      - ME_CONFIG_MONGODB_URL=mongodb://user:user@mongo:27017/?authSource=admin
+      - ME_CONFIG_BASICAUTH_USERNAME=user
+      - ME_CONFIG_BASICAUTH_PASSWORD=user
+    links:
+      - mongo
+    depends_on:
+      - mongo
+    ports:
+      - "5050:8081"
+#----------------------------------------------------------------
+volumes:
+  keycloak_xws_data:
+#----------------------------------------------------------------
