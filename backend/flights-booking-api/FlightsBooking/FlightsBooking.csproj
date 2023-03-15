@@ -7,14 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="NewFolder1\**" />    <EmbeddedResource Remove="NewFolder1\**" />
+    <Compile Remove="Config\**" />
+    <Compile Remove="NewFolder1\**" />
+    <Compile Remove="Repositories\**" />
+    <EmbeddedResource Remove="Config\**" />    <EmbeddedResource Remove="NewFolder1\**" />    <EmbeddedResource Remove="Repositories\**" />    <None Remove="Config\**" />
     <None Remove="NewFolder1\**" />
+    <None Remove="Repositories\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
-    <Folder Include="Config\" />
-    <Folder Include="Repositories\" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
 </Project>
