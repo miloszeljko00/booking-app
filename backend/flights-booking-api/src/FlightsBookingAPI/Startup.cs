@@ -20,11 +20,14 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
-using FlightsBookingAPI.Authentication;
 using FlightsBookingAPI.Filters;
 using FlightsBookingAPI.OpenApi;
 using FlightsBookingAPI.Formatters;
 using FlightsBooking.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
+using Microsoft.Extensions.Options;
 
 namespace FlightsBookingAPI
 {
@@ -53,7 +56,6 @@ namespace FlightsBookingAPI
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
-
             // Add framework services.
             services
                 // Don't need the full MVC stack for an API, see https://andrewlock.net/comparing-startup-between-the-asp-net-core-3-templates/
@@ -98,11 +100,82 @@ namespace FlightsBookingAPI
                     // Include DataAnnotation attributes on Controller Action parameters as OpenAPI validation rules (e.g required, pattern, ..)
                     // Use [ValidateModelState] on Actions to actually validate it in C# as well!
                     c.OperationFilter<GeneratePathParamsValidationFilter>();
+
+                    // KeyCloak
+                    c.CustomSchemaIds(type => type.ToString());
+                    var securityScheme = new OpenApiSecurityScheme
+                    {
+                        Name = "KEYCLOAK",
+                        Type = SecuritySchemeType.OAuth2,
+                        In = ParameterLocation.Header,
+                        BearerFormat = "JWT",
+                        Scheme = "bearer",
+                        Flows = new OpenApiOAuthFlows
+                        {
+                            AuthorizationCode = new OpenApiOAuthFlow
+                            {
+                                AuthorizationUrl = new Uri(Configuration["Jwt:AuthorizationUrl"]),
+                                TokenUrl = new Uri(Configuration["Jwt:TokenUrl"]),
+                                Scopes = new Dictionary<string, string> { }
+                            }
+                        },
+                        Reference = new OpenApiReference
+                        {
+                            Id = JwtBearerDefaults.AuthenticationScheme,
+                            Type = ReferenceType.SecurityScheme
+                        }
+                    };
+                    c.AddSecurityDefinition(securityScheme.Reference.Id, securityScheme);
+                    c.AddSecurityRequirement(new OpenApiSecurityRequirement{
+                                                {securityScheme, new string[] { }}
+                                            });
+
                 });
-                services
+            services
                     .AddSwaggerGenNewtonsoftSupport();
 
+            
 
+            //Keycloak
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
+            }).AddJwtBearer(o =>
+            {
+                o.Authority = Configuration["Jwt:Authority"];
+                o.Audience = Configuration["Jwt:Audience"];
+                o.RequireHttpsMetadata = false;
+                o.Events = new JwtBearerEvents()
+                {
+                    OnAuthenticationFailed = c =>
+                    {
+                        c.NoResult();
+
+                        c.Response.StatusCode = 500;
+                        c.Response.ContentType = "text/plain";
+
+                        if (true)
+                        {
+                            return c.Response.WriteAsync(c.Exception.ToString());
+                        }
+
+                        return c.Response.WriteAsync("An error occured processing your authentication.");
+                    }
+                };
+            });
+
+
+            //Cross-Origin 
+            services
+                .AddCors(options =>
+                {
+                    options.AddPolicy("AllowOrigin",
+                        builder => builder.WithOrigins("http://localhost:4200")
+                                          .AllowAnyHeader()
+                                          .AllowAnyMethod());
+                });
 
             services.AddScoped<IFlightService, FlightService>();
         }
@@ -140,7 +213,10 @@ namespace FlightsBookingAPI
                     //TODO: Or alternatively use the original OpenAPI contract that's included in the static files
                     // c.SwaggerEndpoint("/openapi-original.json", "FlightBookingAPI Original");
                 });
+            app.UseCors("AllowOrigin");
             app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
                 {
                     endpoints.MapControllers();

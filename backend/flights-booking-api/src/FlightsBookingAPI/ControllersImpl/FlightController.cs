@@ -1,9 +1,11 @@
 ﻿using FlightsBooking.Services;
 using FlightsBookingAPI.Controllers;
 using FlightsBookingAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Data;
 
 namespace FlightsBookingAPI.ControllersImpl
 {
@@ -23,7 +25,7 @@ namespace FlightsBookingAPI.ControllersImpl
 
         public override IActionResult GetFlights()
         {
-            return new OkObjectResult(flightService.Test());
+            throw new NotImplementedException();
         }
 
         public override IActionResult GetFlightsId([FromRoute(Name = "FlightId"), Required] Guid flightId)
