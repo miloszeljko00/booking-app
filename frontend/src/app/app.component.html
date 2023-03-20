@@ -1,16 +1,2 @@
-<div *ngIf="authenticated">
-  <mat-card *ngIf="isUser">
-    <h1>
-      User Content
-    </h1>
-  </mat-card>
-  <mat-card *ngIf="isAdmin">
-    <h1>
-      Admin Content
-    </h1>
-  </mat-card>
-</div>
-<div>
-  <button mat-raised-button *ngIf="!authenticated" (click)="login()">Login</button>
-  <button  mat-raised-button *ngIf="authenticated" (click)="logout()">Logout</button>
-</div>
+<app-navbar></app-navbar>
+<router-outlet></router-outlet>

@@ -11,6 +11,7 @@ import { initializeKeycloak } from './core/keycloak/initialize-keycloak';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { HomePage } from './pages/home/home.page';
 
 
 export function apiConfigFactory(): Configuration {
@@ -22,7 +23,7 @@ export function apiConfigFactory(): Configuration {
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
@@ -32,8 +33,6 @@ export function apiConfigFactory(): Configuration {
     ApiModule.forRoot(apiConfigFactory),
     KeycloakAngularModule,
     BrowserAnimationsModule,
-    MatButtonModule,
-    MatCardModule,
   ],
   providers: [
     {

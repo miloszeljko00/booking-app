@@ -14,22 +14,6 @@ export class AppComponent {
   isUser = false;
   isAdmin = false;
 
-  constructor(private readonly keycloak: KeycloakService) {
-    this.keycloak.isLoggedIn().then((authenticated) => {
-      this.authenticated = authenticated;
-      if (authenticated) {
-        const roles = this.keycloak.getUserRoles();
-        this.isUser = roles.includes('user');
-        this.isAdmin = roles.includes('admin');
-      }
-    });
-  }
+  constructor() {}
 
-  login(){
-    this.keycloak.login();
-  }
-
-  logout(){
-    this.keycloak.logout();
-  }
 }
