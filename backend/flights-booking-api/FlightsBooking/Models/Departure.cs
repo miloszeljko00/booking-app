@@ -1,3 +1,4 @@
+using FlightsBooking.Support.ErrorHandler.Model;
 using System.ComponentModel.DataAnnotations;
 
 namespace FlightsBooking.Models
@@ -11,9 +12,16 @@ namespace FlightsBooking.Models
         public string City { get; set; }
         public Departure(DateTime time, string city)
         {
+            ValidateTime(time);
             Time = time;
             City = city;
         }
-
+        private void ValidateTime(DateTime time)
+        {
+            if (time < DateTime.Now)
+            {
+                throw new InvalidDepartureTimeException();
+            }
+        }
     }
 }

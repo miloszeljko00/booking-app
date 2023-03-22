@@ -8,9 +8,6 @@ namespace FlightsBooking.Services
 {
     public class FlightService : IFlightService
     {
-        public string Test()
-        {
-            return "test working";
-        }
+
     }
 }

@@ -8,6 +8,6 @@ namespace FlightsBooking.Services
 {
     public interface IFlightService
     {
-        public string Test();
+
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
+using FlightsBooking.Support.ErrorHandler.Model;
 
 namespace FlightsBooking.Models
 { 
@@ -15,10 +16,17 @@ namespace FlightsBooking.Models
 
         public Arrival(DateTime time, string city)
         {
-            //TODO: create validation for DateTime
+            ValidateTime(time);
             Time = time;
             City = city;
         }
 
+        private void ValidateTime(DateTime time)
+        {
+            if(time < DateTime.Now)
+            {
+                throw new InvalidArrivalTimeException();
+            }
+        }
     }
 }
