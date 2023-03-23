@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FlightsBooking.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,14 @@ namespace FlightsBooking.Services
 {
     public interface IFlightService
     {
+        public Task<List<Flight>> GetAsync();
 
-    }
+        public Task<Flight?> GetAsync(Guid id);
+
+        public Task CreateAsync(Flight newFlight);
+
+        public Task UpdateAsync(Guid id, Flight updatedFlight);
+
+        public  Task RemoveAsync(Guid id);
+    }   
 }

@@ -1,4 +1,6 @@
 using FlightsBooking.Support.ErrorHandler.Model;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 using System.ComponentModel.DataAnnotations;
 
 namespace FlightsBooking.Models
@@ -6,7 +8,8 @@ namespace FlightsBooking.Models
     public class Flight
     {
         [Key]
-        public Guid FlightId { get; set; }
+        [BsonId]
+        public Guid Id { get; set; }
 
         [Required]
         public Departure Departure { get; set; }
@@ -18,7 +21,6 @@ namespace FlightsBooking.Models
         public double TicketPrice { get; set; }
         [Required]
         public List<SoldTicket> SoldTickets { get; set; }
-
         [Required]
         public bool IsDeleted { get; set; }
 
@@ -27,7 +29,6 @@ namespace FlightsBooking.Models
             ValidateTicketPrice(ticketPrice);
             ValidateTotalTicketsCount(totalTickets);
             CheckIfDepartureIsBeforeArrival(departure, arrival);
-            FlightId = Guid.NewGuid();
             Departure = departure;
             Arrival = arrival;
             TotalTickets = totalTickets;
