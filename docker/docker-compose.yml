@@ -38,7 +38,7 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - ./database/db:/data/db
+    #  - ./database/db:/data/db
       - ./database/dev.archive:/Databases/dev.archive
       - ./database/production:/Databases/production
   mongo-express:
