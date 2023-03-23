@@ -311,6 +311,7 @@ obj/
 
 # End of https://www.toptal.com/developers/gitignore/api/aspnetcore,angular,dotnetcore
 
+docker/database/*
 
 backend/flights-booking-api/src/FlightsBookingAPI/Controllers/**
 backend/flights-booking-api/src/FlightsBookingAPI/Attributes/**
