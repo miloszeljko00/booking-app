@@ -15,6 +15,7 @@
             <ng-container class="admin-pages" *ngIf="user.roles.includes('admin')">
                 <!-- TODO: Ovde dodavati dugmad za administratora -->
                 <app-navbar-button (click)="goToHomePage()">Home</app-navbar-button>
+                <app-navbar-button (click)="goToCreateFlight()">Create flight</app-navbar-button>
             </ng-container>
         </div>
     </div>

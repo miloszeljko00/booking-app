@@ -1,0 +1,49 @@
+<div class="create-flight-div">
+    <div>
+        <div class="column">
+            <form class="create-flight-form" [formGroup]="formGroup1">
+                <mat-form-field appearance="outline" color="primary">
+                    <mat-label>Departure place</mat-label>
+                    <input matInput type="text" name="placeDeparture" formControlName="placeDeparture" [(ngModel)]="placeDeparture">
+                </mat-form-field><br/>
+                <mat-form-field appearance="outline" color="primary">
+                    <mat-label>Departure date(mm/dd/yyyy)</mat-label>
+                    <input matInput [matDatepicker]="dateDeparture" name="dateDeparture" formControlName="dateDeparture" (ngModelChange)="getDateDeparture($event)">
+                    <mat-datepicker #dateDeparture></mat-datepicker>
+                </mat-form-field><br/>
+                <mat-form-field appearance="outline" color="primary">
+                    <mat-label>Depature time</mat-label>
+                    <input matInput [format]="24" [ngxTimepicker]="timeDeparture" name="timeDeparture" formControlName="timeDeparture" (ngModelChange)="getTimeDeparture($event)">
+                    <ngx-material-timepicker #timeDeparture></ngx-material-timepicker>
+                </mat-form-field><br/>
+                <mat-form-field appearance="outline" color="primary">
+                    <mat-label>Arrival place</mat-label>
+                    <input matInput type="text" name="placeArrival" formControlName="placeArrival" [(ngModel)]="placeArrival">
+                </mat-form-field><br/>
+                <mat-form-field appearance="outline" color="primary">
+                    <mat-label>Arrival date(mm/dd/yyyy)</mat-label>
+                    <input matInput [matDatepicker]="dateArrival" name="dateArrival" formControlName="dateArrival" (ngModelChange)="getDateArrival($event)">
+                    <mat-datepicker #dateArrival></mat-datepicker>
+                </mat-form-field><br/>
+                <mat-form-field appearance="outline" color="primary">
+                    <mat-label>Arrival time</mat-label>
+                    <input matInput [format]="24" [ngxTimepicker]="timeArrival" name="timeArrival" formControlName="timeArrival" (ngModelChange)="getTimeArrival($event)">
+                    <ngx-material-timepicker #timeArrival></ngx-material-timepicker>
+                </mat-form-field><br/>
+            </form>
+        </div>
+        <div class="column">
+            <form class="create-flight-form" [formGroup]="formGroup2">
+                <mat-form-field appearance="outline" color="primary">
+                    <mat-label>Ticket price per person</mat-label>
+                    <input matInput type="number" min="1" name="ticketPrice" formControlName="ticketPrice" [(ngModel)]="ticketPrice">
+                </mat-form-field><br/>
+                <mat-form-field appearance="outline" color="primary">
+                    <mat-label>Total number of tickets</mat-label>
+                    <input matInput type="number" min="1" name="totalTickets" formControlName="totalTickets" [(ngModel)]="totalTickets">
+                </mat-form-field><br/>
+            </form>
+        </div>
+    </div>
+    <button class="button" mat-raised-button color="primary" (click)="create()" [disabled]="!formGroup1.valid || !formGroup2.valid">Create flight</button>
+</div>
