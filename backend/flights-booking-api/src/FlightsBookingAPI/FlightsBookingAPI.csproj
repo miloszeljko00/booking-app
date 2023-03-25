@@ -9,12 +9,14 @@
     <Version>1.0.0</Version>
     <AssemblyName>FlightsBookingAPI</AssemblyName>
     <PackageId>FlightsBookingAPI</PackageId>
-    <UserSecretsId>58ee8e5e-7f00-4abc-bea0-eb63620059c7</UserSecretsId>
+    <UserSecretsId>f4f5df28-ef62-4807-ae65-0dd12e8bdf9e</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..</DockerfileContext>
   </PropertyGroup>
   <ItemGroup>
+
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.15" />
+
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.8" />
     <PackageReference Include="MongoDB.Driver" Version="2.19.0" />

@@ -122,5 +122,39 @@ namespace FlightsBookingAPI.ControllersImpl
         {
             throw new NotImplementedException();
         }
+
+        public override async Task<ActionResult<FlightGetAllResponse>> SearchFlights(string arrivalPlace, string departurePlace, DateTime departureDate, int availableTickets)
+        {
+            List<FlightsBooking.Models.Flight> flights = await this.flightService.SearchAsync(arrivalPlace, departurePlace, departureDate, availableTickets);
+            List<Flight> fs = new List<Flight>();
+            foreach (FlightsBooking.Models.Flight flight in flights)
+            {
+                List<SoldTicket> st = new List<SoldTicket>();
+                foreach (FlightsBooking.Models.SoldTicket soldTicket in flight.SoldTickets)
+                {
+                    st.Add(new SoldTicket
+                    {
+                        FlightTicketId = new Guid(soldTicket.Id),
+                        Purchased = soldTicket.Purchased,
+                        Price = soldTicket.Price
+                    });
+                }
+                fs.Add(
+                    new Flight
+                    {
+                        FlightId = flight.Id,
+                        Arrival = new Arrival { City = flight.Arrival.City, Time = flight.Arrival.Time },
+                        Departure = new Departure { City = flight.Departure.City, Time = flight.Departure.Time },
+                        SoldTickets = st,
+                        TotalTickets = flight.TotalTickets,
+                        AvailableTickets = flight.CalculateNumberOfAvailableTicketForTheFlight(),
+                        TicketPrice = flight.TicketPrice,
+                        TotalPrice = flight.CalculateTotalPriceForFlight(),
+                        Passed = flight.IsFlightPassed(),
+                        Canceled = flight.IsDeleted
+                    });
+            };
+            return new FlightGetAllResponse { Flights = fs };
+        }
     }
 }

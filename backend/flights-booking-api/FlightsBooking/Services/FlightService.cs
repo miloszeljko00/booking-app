@@ -35,5 +35,28 @@ namespace FlightsBooking.Services
 
         public async Task RemoveAsync(Guid id) =>
             await _flightCollection.DeleteOneAsync(x => x.Id == id);
+
+        public async Task<List<Flight>> SearchAsync(string arrivalPlace, string departurePlace, DateTime departureDate, int availableTickets)
+        {
+            if (arrivalPlace == null) arrivalPlace = "";
+            if (departurePlace == null) departurePlace = "";
+            if (availableTickets == null) availableTickets = 0;
+            var flights = await _flightCollection.Find(_ => true).ToListAsync();
+            List<Flight> result = new List<Flight>();
+            foreach(Flight flight in flights)
+            {
+                if (!flight.Arrival.City.ToLower().Contains(arrivalPlace.ToLower()))
+                    continue;
+                if (!flight.Departure.City.ToLower().Contains(departurePlace.ToLower()))
+                    continue;
+                if (departureDate.Date!= default(DateTime) && !flight.Departure.Time.Date.Equals(departureDate.Date))
+                    continue;
+                if(flight.CalculateNumberOfAvailableTicketForTheFlight()<availableTickets) 
+                    continue;
+                result.Add(flight);
+            }
+            return result;
+        }
+        
     }
 }

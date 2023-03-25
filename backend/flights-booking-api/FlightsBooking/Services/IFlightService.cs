@@ -18,5 +18,7 @@ namespace FlightsBooking.Services
         public Task UpdateAsync(Guid id, Flight updatedFlight);
 
         public  Task RemoveAsync(Guid id);
+        
+        public Task<List<Flight>> SearchAsync(string arrivalPlace, string departurePlace, DateTime departureDate, int availableTickets);
     }   
 }
