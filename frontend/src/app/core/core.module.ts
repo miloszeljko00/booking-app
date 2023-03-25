@@ -14,6 +14,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { ToastrModule } from 'ngx-toastr';
 import { ReviewFlightsComponent } from './components/review-flights/review-flights.component';
+import { SearchFlightsComponent } from './components/search-flights/search-flights.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { ReviewFlightsComponent } from './components/review-flights/review-fligh
     NavbarComponent,
     NavbarButtonComponent,
     CreateFlightComponent,
-    ReviewFlightsComponent
+    ReviewFlightsComponent,
+    SearchFlightsComponent
   ],
   imports:[
     BrowserModule,
