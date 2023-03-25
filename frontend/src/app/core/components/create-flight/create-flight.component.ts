@@ -12,7 +12,7 @@ import { FlightCreateRequest, FlightService } from 'src/app/api';
 export class CreateFlightComponent {
   formGroup1!: FormGroup;
   formGroup2!: FormGroup;
-  Flight!: FlightCreateRequest;
+  flight!: FlightCreateRequest;
   placeDeparture: string = '';
   dateDeparture: string = '';
   timeDeparture: string = '';
@@ -22,7 +22,7 @@ export class CreateFlightComponent {
   ticketPrice: number = 0;
   totalTickets: number = 0;
 
-  constructor(private datepipe: DatePipe, private FlightService: FlightService, private toastr : ToastrService){}
+  constructor(private datepipe: DatePipe, private flightService: FlightService, private toastr : ToastrService){}
 
   ngOnInit(): void {
     this.formGroup1 = new FormGroup({
@@ -76,12 +76,12 @@ export class CreateFlightComponent {
         }
       }
     }
-    this.Flight = {Departure: {time: dateDepartureString + ' ' + this.timeDeparture, city: this.placeDeparture},
-                   Arrival: {time: dateArrivalString + ' ' + this.timeArrival, city: this.placeArrival},
-                   TotalTickets: this.totalTickets,
-                   TicketPrice: this.ticketPrice
+    this.flight = {departure: {time: dateDepartureString + ' ' + this.timeDeparture, city: this.placeDeparture},
+                   arrival: {time: dateArrivalString + ' ' + this.timeArrival, city: this.placeArrival},
+                   totalTickets: this.totalTickets,
+                   ticketPrice: this.ticketPrice
                   }
-    this.FlightService.postFlights(this.Flight).subscribe({
+    this.flightService.postFlights(this.flight).subscribe({
       next: (flight) => {
         this.showSuccess('Successfully created flight');
       },

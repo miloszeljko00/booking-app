@@ -13,13 +13,15 @@ import { MatSelectModule } from '@angular/material/select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { ToastrModule } from 'ngx-toastr';
+import { ReviewFlightsComponent } from './components/review-flights/review-flights.component';
 
 
 @NgModule({
   declarations: [
     NavbarComponent,
     NavbarButtonComponent,
-    CreateFlightComponent
+    CreateFlightComponent,
+    ReviewFlightsComponent
   ],
   imports:[
     BrowserModule,

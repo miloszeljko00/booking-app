@@ -62,6 +62,10 @@ namespace FlightsBookingAPI
                 .AddControllers(options => {
                     options.InputFormatters.Insert(0, new InputFormatterStream());
                 })
+                .AddJsonOptions(options =>
+                {
+                        options.JsonSerializerOptions.PropertyNamingPolicy = null;
+                })
                 .AddNewtonsoftJson(opts =>
                 {
                     opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();

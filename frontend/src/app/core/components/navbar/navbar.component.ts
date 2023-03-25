@@ -36,4 +36,7 @@ export class NavbarComponent implements OnDestroy{
     this.router.navigate(['create-flight']);
   }
 
+  goToReviewFlights(): void {
+    this.router.navigate(['review-flights']);
+  }
 }
