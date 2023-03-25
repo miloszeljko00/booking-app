@@ -1,0 +1,68 @@
+
+<div class="container">
+
+      <form [formGroup]="formGroup1">
+        <mat-form-field>
+          <input matInput placeholder="Departure place" name="departure-place" formControlName="placeDeparture" [(ngModel)]="placeDeparture">
+        </mat-form-field>
+      
+        <mat-form-field>
+          <input matInput placeholder="Arrival place" name="arrival-place" formControlName="placeArrival" [(ngModel)]="placeArrival">
+        </mat-form-field>
+      
+        <mat-form-field>
+          <input matInput [matDatepicker]="picker" placeholder="Date of departure" name="date-of-departure" formControlName="dateDeparture" [(ngModel)]="dateDeparture">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      
+        <mat-form-field>
+          <input matInput type="number" placeholder="Available tickes" name="available-tickets" formControlName="availableTickets" [(ngModel)]="availableTickets">
+        </mat-form-field>
+      
+        <button class="button" mat-raised-button color="primary" (click)="search()" >Search</button>
+      </form>
+      
+    <table mat-table [dataSource]="dataSourceFlights">
+        <ng-container matColumnDef="departurePlace">
+            <th mat-header-cell *matHeaderCellDef class="cell-center"> Departure place </th>
+            <td mat-cell *matCellDef="let flight" class="cell-center">{{flight.departure.city}}</td>
+        </ng-container>
+        <ng-container matColumnDef="departureTime">
+            <th mat-header-cell *matHeaderCellDef class="cell-center"> Departure date and time </th>
+            <td mat-cell *matCellDef="let flight" class="cell-center">{{flight.departure.time}}</td>
+        </ng-container>
+        <ng-container matColumnDef="arrivalPlace">
+            <th mat-header-cell *matHeaderCellDef class="cell-center"> Arrival place </th>
+            <td mat-cell *matCellDef="let flight" class="cell-center">{{flight.arrival.city}}</td>
+        </ng-container>
+        <ng-container matColumnDef="arrivalTime">
+            <th mat-header-cell *matHeaderCellDef class="cell-center"> Arrival date and time </th>
+            <td mat-cell *matCellDef="let flight" class="cell-center">{{flight.arrival.time}}</td>
+        </ng-container>
+        <ng-container matColumnDef="totalTickets">
+            <th mat-header-cell *matHeaderCellDef class="cell-center"> Total tickets </th>
+            <td mat-cell *matCellDef="let flight" class="cell-center">{{flight.totalTickets}}</td>
+        </ng-container>
+        <ng-container matColumnDef="availableTickets">
+            <th mat-header-cell *matHeaderCellDef class="cell-center"> Available tickets </th>
+            <td mat-cell *matCellDef="let flight" class="cell-center">{{flight.availableTickets}}</td>
+        </ng-container>
+        <ng-container matColumnDef="ticketPrice">
+            <th mat-header-cell *matHeaderCellDef class="cell-center"> Ticket price </th>
+            <td mat-cell *matCellDef="let flight" class="cell-center">{{flight.ticketPrice}}</td>
+        </ng-container>
+        <ng-container matColumnDef="totalPrice">
+            <th mat-header-cell *matHeaderCellDef class="cell-center"> Total price </th>
+            <td mat-cell *matCellDef="let flight" class="cell-center">{{flight.totalPrice}}</td>
+        </ng-container>
+        <ng-container matColumnDef="cancel">
+            <th mat-header-cell *matHeaderCellDef class="cell-center"></th>
+            <td mat-cell *matCellDef="let flight">
+              <button mat-raised-button color="primary" [disabled]="flight.canceled == true" (click)="Book(flight)">Book</button>
+            </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsFlights; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumnsFlights;"></tr>
+    </table>
+</div>
