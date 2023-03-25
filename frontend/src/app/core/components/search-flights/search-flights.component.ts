@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { Flight, FlightGetAllResponse, FlightService } from 'src/app/api';
+import { FlightService } from 'src/app/api';
 import { ToastrService } from 'ngx-toastr';
 import { DatePipe } from '@angular/common';
 import { FormGroup } from '@angular/forms';
 import { FormControl } from '@angular/forms';
+import { Flight } from 'src/app/api';
 @Component({
   selector: 'app-search-flights',
   templateUrl: './search-flights.component.html',
@@ -19,7 +20,7 @@ export class SearchFlightsComponent {
   flight!: Flight;
   formGroup1!: FormGroup;
   placeDeparture: string = '';
-  dateDeparture: Date = new Date();
+  dateDeparture: string = '';
   placeArrival: string = '';
   availableTickets: number = 0;
 
@@ -45,11 +46,19 @@ export class SearchFlightsComponent {
 
   }
   search():void{
-    console.log(this.placeDeparture)
-    console.log(this.placeArrival)
-    console.log(this.dateDeparture)
-    console.log(this.availableTickets)
-  }
+    
+    this.dateDeparture = this.datepipe.transform(this.dateDeparture, 'dd-MM-yyyy HH:mm')??''
+    
+    this.flightService.getFlightsActionsSearch(this.placeArrival, this.placeDeparture, this.dateDeparture, this.availableTickets).subscribe(res => {
+      this.flights = Array.from(res.flights)
+      this.flights.forEach(f => {
+        f.departure.time = this.datepipe.transform(f.departure.time, 'dd-MM-yyyy HH:mm') ?? '';
+        f.arrival.time = this.datepipe.transform(f.arrival.time, 'dd-MM-yyyy HH:mm') ?? '';
+      });
+      this.dataSourceFlights.data = this.flights
+      this.dateDeparture=''
+  })
+}
   showSuccess(message: string) {
     this.toastr.success(message, 'Booking application');
   }
