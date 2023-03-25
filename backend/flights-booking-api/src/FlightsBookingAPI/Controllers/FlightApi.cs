@@ -104,5 +104,12 @@ namespace FlightsBookingAPI.Controllers
         [SwaggerOperation("PostFlightsIdActionsBuyTicket")]
         [SwaggerResponse(statusCode: 200, type: typeof(FlightBuyTicketsResponse), description: "OK")]
         public abstract IActionResult PostFlightsIdActionsBuyTicket([FromRoute (Name = "FlightId")][Required]Guid flightId, [FromBody]FlightBuyTicketsRequest flightBuyTicketsRequest);
+
+        [HttpGet]
+        [Route("/search")]
+        [ValidateModelState]
+        [SwaggerOperation("SearchFlights")]
+        [SwaggerResponse(statusCode: 200, type: typeof(FlightGetAllResponse), description: "OK")]
+        public abstract Task<ActionResult<FlightGetAllResponse>> SearchFlights(string arrivalPlace, string departurePlace, DateTime departureDate, int availableTickets);
     }
 }
