@@ -11,6 +11,8 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
@@ -45,7 +47,7 @@ namespace FlightsBookingAPI.Controllers
         [ValidateModelState]
         [SwaggerOperation("GetUsersIdFlightTickets")]
         [SwaggerResponse(statusCode: 200, type: typeof(UserFlightTicketGetAllResponse), description: "OK")]
-        public abstract IActionResult GetUsersIdFlightTickets([FromRoute (Name = "UserId")][Required]string userId, [FromBody]Object body);
+        public abstract Task<IActionResult> GetUsersIdFlightTickets([FromRoute (Name = "UserId")][Required]string userId, [FromBody]Object body);
 
         /// <summary>
         /// GET FlightTicket
@@ -64,6 +66,6 @@ namespace FlightsBookingAPI.Controllers
         [ValidateModelState]
         [SwaggerOperation("GetUsersUserIdFlightTicketsFlightTicketId")]
         [SwaggerResponse(statusCode: 200, type: typeof(UserFlightTicketGetResponse), description: "OK")]
-        public abstract IActionResult GetUsersUserIdFlightTicketsFlightTicketId([FromRoute (Name = "UserId")][Required]string userId, [FromRoute (Name = "FlightTicketId")][Required]string flightTicketId);
+        public abstract Task<IActionResult> GetUsersUserIdFlightTicketsFlightTicketId([FromRoute (Name = "UserId")][Required]string userId, [FromRoute (Name = "FlightTicketId")][Required]string flightTicketId);
     }
 }

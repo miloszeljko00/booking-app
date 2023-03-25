@@ -20,7 +20,7 @@ namespace FlightsBookingAPI.ControllersImpl
             this.flightService = flightService;
         }
 
-        public override async Task<IActionResult> DeleteFlightsIdAsync([FromRoute(Name = "FlightId"), Required] Guid flightId)
+        public override async Task<IActionResult> DeleteFlightsId([FromRoute(Name = "FlightId"), Required] Guid flightId)
         {
             var flight = await this.flightService.GetAsync(flightId);
             if (flight is null)
@@ -33,7 +33,7 @@ namespace FlightsBookingAPI.ControllersImpl
             return NoContent();
         }
 
-        public override async Task<ActionResult<FlightGetAllResponse>> GetFlights()
+        public override async Task<IActionResult> GetFlights()
         {
             List < FlightsBooking.Models.Flight > flights = await this.flightService.GetAsync();
             List<Flight> fs = new List<Flight>();
@@ -64,10 +64,15 @@ namespace FlightsBookingAPI.ControllersImpl
                         Canceled = flight.IsDeleted
                     }) ;
             };
-            return new FlightGetAllResponse { Flights = fs };
+            return Ok(new FlightGetAllResponse { Flights = fs });
         }
 
-        public override async Task<ActionResult<FlightGetResponse>> GetFlightsId([FromRoute(Name = "FlightId"), Required] Guid flightId)
+        public override Task<IActionResult> GetFlightsActionsSearch([FromQuery(Name = "arrivalPlace")] string arrivalPlace, [FromQuery(Name = "departurePlace")] string departurePlace, [FromQuery(Name = "departureDate")] string departureDate, [FromQuery(Name = "availableTickets")] decimal? availableTickets)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override async Task<IActionResult> GetFlightsId([FromRoute(Name = "FlightId"), Required] Guid flightId)
         {
             FlightsBooking.Models.Flight flight = await this.flightService.GetAsync(flightId);
             if (flight is null)
@@ -97,10 +102,10 @@ namespace FlightsBookingAPI.ControllersImpl
                 Passed = flight.IsFlightPassed(),
                 Canceled = flight.IsDeleted
             } ;
-            return new FlightGetResponse { Flight = f};
+            return Ok(new FlightGetResponse { Flight = f});
         }
 
-        public override async Task<ActionResult<FlightCreateRequest>> PostFlights([FromBody] FlightCreateRequest flightCreateRequest)
+        public override async Task<IActionResult> PostFlights([FromBody] FlightCreateRequest flightCreateRequest)
         {
             FlightsBooking.Models.Flight flight = new FlightsBooking.Models.Flight(
                 new FlightsBooking.Models.Departure(flightCreateRequest.Departure.Time, flightCreateRequest.Departure.City),
@@ -109,10 +114,11 @@ namespace FlightsBookingAPI.ControllersImpl
                 flightCreateRequest.TicketPrice, 
                 new List<FlightsBooking.Models.SoldTicket>());
             await this.flightService.CreateAsync(flight);
-            return flightCreateRequest;
+            return Ok(flightCreateRequest);
         }
 
-        public override IActionResult PostFlightsIdActionsBuyTicket([FromRoute(Name = "FlightId"), Required] Guid flightId, [FromBody] FlightBuyTicketsRequest flightBuyTicketsRequest)
+       
+        public override Task<IActionResult> PostFlightsIdActionsBuyTicket([FromRoute(Name = "FlightId"), Required] string flightId, [FromBody] FlightBuyTicketsRequest flightBuyTicketsRequest)
         {
             throw new NotImplementedException();
         }

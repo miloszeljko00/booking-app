@@ -25,7 +25,9 @@
 
 **/Program.cs
 **/Startup.cs
-**/appsettings.cs
+**/appsettings.json
+**/appsettings.Development.json
 **/.gitignore
 **/launchSettings.json
+**/FlightsBookingAPI.csproj
 FlightsBookingAPI.sln
