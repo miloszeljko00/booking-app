@@ -9,7 +9,6 @@ src/FlightsBookingAPI/Converters/CustomEnumConverter.cs
 src/FlightsBookingAPI/Dockerfile
 src/FlightsBookingAPI/Filters/BasePathFilter.cs
 src/FlightsBookingAPI/Filters/GeneratePathParamsValidationFilter.cs
-src/FlightsBookingAPI/FlightsBookingAPI.csproj
 src/FlightsBookingAPI/Formatters/InputFormatterStream.cs
 src/FlightsBookingAPI/Models/Arrival.cs
 src/FlightsBookingAPI/Models/Departure.cs
@@ -26,8 +25,6 @@ src/FlightsBookingAPI/Models/UserFlightTicket.cs
 src/FlightsBookingAPI/Models/UserFlightTicketGetAllResponse.cs
 src/FlightsBookingAPI/Models/UserFlightTicketGetResponse.cs
 src/FlightsBookingAPI/OpenApi/TypeExtensions.cs
-src/FlightsBookingAPI/appsettings.Development.json
-src/FlightsBookingAPI/appsettings.json
 src/FlightsBookingAPI/wwwroot/README.md
 src/FlightsBookingAPI/wwwroot/index.html
 src/FlightsBookingAPI/wwwroot/openapi-original.json

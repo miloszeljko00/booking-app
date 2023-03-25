@@ -166,6 +166,41 @@ paths:
       description: Endpoint za brisanje leta.
       tags:
         - flight
+  /flights/actions/search:
+    get:
+      summary: ACTION SearchFlights
+      tags:
+        - flight
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FlightGetAllResponse'
+      operationId: get-flights-actions-search
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: arrivalPlace
+          description: Naziv mesta polaska
+        - schema:
+            type: string
+          in: query
+          name: departurePlace
+          description: Naziv mesta dolaska
+        - schema:
+            type: string
+          in: query
+          name: departureDate
+          description: Datum polaska
+        - schema:
+            type: number
+          in: query
+          name: availableTickets
+          description: Broj dostupnih karata na prodaju
+      description: Pretraga letova po zadatim parametrima.
   '/flights/{FlightId}/actions/buy-tickets':
     parameters:
       - schema:
@@ -214,7 +249,7 @@ components:
       type: object
       description: Podaci o svim kupljenim kartama za let odabranog korisnika.
       properties:
-        FlightTickets:
+        flightTickets:
           type: array
           uniqueItems: true
           description: Podaci o kupljenim kartama za let.
@@ -223,20 +258,20 @@ components:
             x-stoplight:
               id: cgehdhuyamf8t
       required:
-        - FlightTickets
+        - flightTickets
     UserFlightTicketGetResponse:
       title: UserFlightTicketGetResponse
       x-stoplight:
         id: 1cm9ep97p893l
       type: object
+      description: Podaci o kupljenoj karti za let odabranog korisnika.
       properties:
-        FlightTicket:
+        flightTicket:
           $ref: '#/components/schemas/UserFlightTicket'
           x-stoplight:
             id: 8dsokzfkfuzz5
       required:
-        - FlightTicket
-      description: Podaci o kupljenoj karti za let odabranog korisnika.
+        - flightTicket
     FlightGetAllResponse:
       title: FlightGetAllResponse
       x-stoplight:
@@ -244,7 +279,7 @@ components:
       type: object
       description: Podaci o svim letovima.
       properties:
-        Flights:
+        flights:
           type: array
           x-stoplight:
             id: itktztvxff6mv
@@ -255,29 +290,30 @@ components:
             x-stoplight:
               id: k29tbwpqu6g7g
       required:
-        - Flights
+        - flights
     FlightCreateRequest:
       title: FlightCreateRequest
       x-stoplight:
         id: htl2m10fkboy7
       type: object
+      description: Model za kreiranje novog leta.
       properties:
-        Departure:
+        departure:
           $ref: '#/components/schemas/Departure'
           x-stoplight:
             id: 9tno443slqxz0
-        Arrival:
+        arrival:
           $ref: '#/components/schemas/Arrival'
           x-stoplight:
             id: vsbtyt8i9asea
-        TotalTickets:
+        totalTickets:
           type: integer
           x-stoplight:
             id: 0hpomltrwb76q
           minimum: 0
           exclusiveMinimum: true
           description: Ukupan broj karata za let.
-        TicketPrice:
+        ticketPrice:
           type: number
           x-stoplight:
             id: p7u5pfjq8qslp
@@ -290,37 +326,36 @@ components:
           minimum: 0
           description: Cena karte leta.
       required:
-        - Departure
-        - Arrival
-        - TotalTickets
-        - TicketPrice
-      description: Model za kreiranje novog leta.
+        - departure
+        - arrival
+        - totalTickets
+        - ticketPrice
     FlightCreateResponse:
       title: FlightCreateResponse
       x-stoplight:
         id: mun9wqiki0w6f
       type: object
+      description: Podaci o kreiranom letu.
       properties:
-        Flight:
+        flight:
           $ref: '#/components/schemas/Flight'
           x-stoplight:
             id: n73y5d3omeng2
       required:
-        - Flight
-      description: Podaci o kreiranom letu.
+        - flight
     FlightGetResponse:
       title: FlightGetResponse
       x-stoplight:
         id: jx6visp6d2iw8
       type: object
+      description: Podaci o odabranom letu.
       properties:
-        Flight:
+        flight:
           $ref: '#/components/schemas/Flight'
           x-stoplight:
             id: f9vvl48gr2t0h
       required:
-        - Flight
-      description: Podaci o odabranom letu.
+        - flight
     FlightBuyTicketsRequest:
       title: FlightBuyTicketsRequest
       x-stoplight:
@@ -328,14 +363,14 @@ components:
       type: object
       description: Zahtev za kupovinu odredjenog broja karata za odabrani let od strane korisnika.
       properties:
-        Amount:
+        amount:
           type: integer
           x-stoplight:
             id: 987fslv1oc9n3
           minimum: 0
           description: Broj karata za kupovinu.
       required:
-        - Amount
+        - amount
     FlightBuyTicketsResponse:
       title: FlightBuyTicketsResponse
       x-stoplight:
@@ -343,7 +378,7 @@ components:
       type: object
       description: Rezultat kupovine karata odabranog korisnika.
       properties:
-        FlightTickets:
+        flightTickets:
           x-stoplight:
             id: 41vrri3g411w9
           type: array
@@ -353,7 +388,7 @@ components:
             x-stoplight:
               id: xd71n4knrs2sk
       required:
-        - FlightTickets
+        - flightTickets
     UserFlightTicket:
       title: UserFlightTicket
       x-stoplight:
@@ -361,19 +396,19 @@ components:
       type: object
       description: Podaci o kupljenoj karti za let.
       properties:
-        FlightTicketId:
+        flightTicketId:
           type: string
           x-stoplight:
             id: ldtqgcoce911z
           format: uuid
           description: Identifikator karte leta.
-        Purchased:
+        purchased:
           type: string
           x-stoplight:
             id: trc0f6uf9g3nd
           format: date-time
           description: Trenutak kada je karta kupljena.
-        Price:
+        price:
           x-stoplight:
             id: ygftz9fg32ju1
             explicitProperties:
@@ -383,15 +418,15 @@ components:
           type: number
           format: double
           description: Cena karte u trenutku kupovine.
-        Flight:
+        flight:
           $ref: '#/components/schemas/UserFlight'
           x-stoplight:
             id: k2fplc892p99j
       required:
-        - FlightTicketId
-        - Purchased
-        - Price
-        - Flight
+        - flightTicketId
+        - purchased
+        - price
+        - flight
     UserFlight:
       title: UserFlight
       x-stoplight:
@@ -399,36 +434,36 @@ components:
       type: object
       description: Model koji predstavlja podatke o letu.
       properties:
-        FlightId:
+        flightId:
           type: string
           x-stoplight:
             id: s8tc4uicr1u4w
           description: Jedinstveni identifikator leta.
           format: uuid
-        Departure:
+        departure:
           $ref: '#/components/schemas/Departure'
           x-stoplight:
             id: l084i694xyviz
-        Arrival:
+        arrival:
           $ref: '#/components/schemas/Arrival'
           x-stoplight:
             id: 7hx5htq7j4ke5
-        Passed:
+        passed:
           type: boolean
           x-stoplight:
             id: pwe25onwfe38y
           description: Podatak o tome da li je proslo vreme polaska.
-        Canceled:
+        canceled:
           type: boolean
           x-stoplight:
             id: ancr57ndj4u78
           description: Podatak o tome da li je let otkazan.
       required:
-        - FlightId
-        - Departure
-        - Arrival
-        - Passed
-        - Canceled
+        - flightId
+        - departure
+        - arrival
+        - passed
+        - canceled
     Departure:
       title: Departure
       x-stoplight:
@@ -478,13 +513,13 @@ components:
       type: object
       description: Podaci o letu.
       properties:
-        FlightId:
+        flightId:
           type: string
           format: uuid
           x-stoplight:
             id: 4sl6tud40zuls
           description: Identifikator leta.
-        SoldTickets:
+        soldTickets:
           type: array
           x-stoplight:
             id: a4a8qm6k3bp97
@@ -493,19 +528,19 @@ components:
             $ref: '#/components/schemas/SoldTicket'
             x-stoplight:
               id: xmkhs4gywqlvw
-        TotalTickets:
+        totalTickets:
           type: integer
           x-stoplight:
             id: pso262gh3jovj
           minimum: 0
           description: Broj ukupnih karata na prodaju.
-        AvailableTickets:
+        availableTickets:
           type: integer
           x-stoplight:
             id: 9uj8mukbe83vi
           minimum: 0
           description: Broj preostalih karata za prodaju.
-        TicketPrice:
+        ticketPrice:
           type: number
           x-stoplight:
             id: k1jnm6p2m0sog
@@ -517,7 +552,7 @@ components:
           format: double
           minimum: 0
           description: Trenutna cena jedne karte na prodaju.
-        TotalPrice:
+        totalPrice:
           type: number
           x-stoplight:
             id: sf3loaaix5rov
@@ -529,35 +564,35 @@ components:
           format: double
           minimum: 0
           description: Ukupna vrednost svih prodatih karata.
-        Departure:
+        departure:
           $ref: '#/components/schemas/Departure'
           x-stoplight:
             id: efv61cjwqk37k
-        Arrival:
+        arrival:
           $ref: '#/components/schemas/Arrival'
           x-stoplight:
             id: 3ezjkp9ko1lyf
-        Passed:
+        passed:
           type: boolean
           x-stoplight:
             id: uhdufsqxgfq6i
           description: Oznacava da li je proslo vreme polaska leta.
-        Canceled:
+        canceled:
           type: boolean
           x-stoplight:
             id: fmrfkoff5vfh1
           description: Podatak o tome da li je let otkazan.
       required:
-        - FlightId
-        - SoldTickets
-        - TotalTickets
-        - AvailableTickets
-        - TicketPrice
-        - TotalPrice
-        - Departure
-        - Arrival
-        - Passed
-        - Canceled
+        - flightId
+        - soldTickets
+        - totalTickets
+        - availableTickets
+        - ticketPrice
+        - totalPrice
+        - departure
+        - arrival
+        - passed
+        - canceled
     SoldTicket:
       title: SoldTicket
       x-stoplight:
@@ -565,19 +600,19 @@ components:
       type: object
       description: Podaci o kupljenoj karti.
       properties:
-        FlightTicketId:
+        flightTicketId:
           type: string
           x-stoplight:
             id: gl0auyw3wpief
           format: uuid
           description: Identifikator karte leta.
-        Purchased:
+        purchased:
           type: string
           x-stoplight:
             id: gzy4g7kjxpbqr
           description: Datum kupovine karte.
           format: date-time
-        Price:
+        price:
           type: number
           x-stoplight:
             id: lvmoyv0v80luc
@@ -590,9 +625,9 @@ components:
           minimum: 0
           description: Cena po kojoj je karta kupljena.
       required:
-        - FlightTicketId
-        - Purchased
-        - Price
+        - flightTicketId
+        - purchased
+        - price
   securitySchemes:
     KeyCloak:
       type: oauth2

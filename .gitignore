@@ -314,6 +314,7 @@ obj/
 backend/flights-booking-api/src/FlightsBookingAPI/Attributes/**
 backend/flights-booking-api/src/FlightsBookingAPI/Authentication/**
 backend/flights-booking-api/src/FlightsBookingAPI/Converters/**
+backend/flights-booking-api/src/FlightsBookingAPI/Controllers/**
 backend/flights-booking-api/src/FlightsBookingAPI/Filters/**
 backend/flights-booking-api/src/FlightsBookingAPI/Models/**
 backend/flights-booking-api/src/FlightsBookingAPI/OpenApi/**
@@ -330,8 +331,7 @@ backend/flights-booking-api/src/FlightsBookingAPI/.openapi-generator/**
 
 
 
-frontend/src/app/api/*
-!frontend/src/app/api/model/
+frontend/src/app/api/**
 backend/flights-booking-api/.openapi-generator/FILES
 backend/flights-booking-api/build.bat
 backend/flights-booking-api/build.sh

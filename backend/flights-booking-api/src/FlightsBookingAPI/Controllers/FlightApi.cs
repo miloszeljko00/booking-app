@@ -11,6 +11,8 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
@@ -19,7 +21,6 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using Newtonsoft.Json;
 using FlightsBookingAPI.Attributes;
 using FlightsBookingAPI.Models;
-using System.Threading.Tasks;
 
 namespace FlightsBookingAPI.Controllers
 { 
@@ -43,7 +44,7 @@ namespace FlightsBookingAPI.Controllers
         [Route("/flights/{FlightId}")]
         [ValidateModelState]
         [SwaggerOperation("DeleteFlightsId")]
-        public abstract Task<IActionResult> DeleteFlightsIdAsync([FromRoute (Name = "FlightId")][Required]Guid flightId);
+        public abstract Task<IActionResult> DeleteFlightsId([FromRoute (Name = "FlightId")][Required]Guid flightId);
 
         /// <summary>
         /// GET Flights
@@ -55,7 +56,23 @@ namespace FlightsBookingAPI.Controllers
         [ValidateModelState]
         [SwaggerOperation("GetFlights")]
         [SwaggerResponse(statusCode: 200, type: typeof(FlightGetAllResponse), description: "OK")]
-        public abstract Task<ActionResult<FlightGetAllResponse>> GetFlights();
+        public abstract Task<IActionResult> GetFlights();
+
+        /// <summary>
+        /// ACTION SearchFlights
+        /// </summary>
+        /// <remarks>Pretraga letova po zadatim parametrima.</remarks>
+        /// <param name="arrivalPlace">Naziv mesta polaska</param>
+        /// <param name="departurePlace">Naziv mesta dolaska</param>
+        /// <param name="departureDate">Datum polaska</param>
+        /// <param name="availableTickets">Broj dostupnih karata na prodaju</param>
+        /// <response code="200">OK</response>
+        [HttpGet]
+        [Route("/flights/actions/search")]
+        [ValidateModelState]
+        [SwaggerOperation("GetFlightsActionsSearch")]
+        [SwaggerResponse(statusCode: 200, type: typeof(FlightGetAllResponse), description: "OK")]
+        public abstract Task<IActionResult> GetFlightsActionsSearch([FromQuery (Name = "arrivalPlace")]string arrivalPlace, [FromQuery (Name = "departurePlace")]string departurePlace, [FromQuery (Name = "departureDate")]string departureDate, [FromQuery (Name = "availableTickets")]decimal? availableTickets);
 
         /// <summary>
         /// GET Flight
@@ -70,7 +87,7 @@ namespace FlightsBookingAPI.Controllers
         [ValidateModelState]
         [SwaggerOperation("GetFlightsId")]
         [SwaggerResponse(statusCode: 200, type: typeof(FlightGetResponse), description: "OK")]
-        public abstract Task<ActionResult<FlightGetResponse>> GetFlightsId([FromRoute (Name = "FlightId")][Required]Guid flightId);
+        public abstract Task<IActionResult> GetFlightsId([FromRoute (Name = "FlightId")][Required]Guid flightId);
 
         /// <summary>
         /// POST Flight
@@ -83,7 +100,7 @@ namespace FlightsBookingAPI.Controllers
         [Consumes("application/json")]
         [ValidateModelState]
         [SwaggerOperation("PostFlights")]
-        public abstract Task<ActionResult<FlightCreateRequest>> PostFlights([FromBody]FlightCreateRequest flightCreateRequest);
+        public abstract Task<IActionResult> PostFlights([FromBody]FlightCreateRequest flightCreateRequest);
 
         /// <summary>
         /// ACTION BuyTicket
@@ -103,6 +120,6 @@ namespace FlightsBookingAPI.Controllers
         [ValidateModelState]
         [SwaggerOperation("PostFlightsIdActionsBuyTicket")]
         [SwaggerResponse(statusCode: 200, type: typeof(FlightBuyTicketsResponse), description: "OK")]
-        public abstract IActionResult PostFlightsIdActionsBuyTicket([FromRoute (Name = "FlightId")][Required]Guid flightId, [FromBody]FlightBuyTicketsRequest flightBuyTicketsRequest);
+        public abstract Task<IActionResult> PostFlightsIdActionsBuyTicket([FromRoute (Name = "FlightId")][Required]string flightId, [FromBody]FlightBuyTicketsRequest flightBuyTicketsRequest);
     }
 }
