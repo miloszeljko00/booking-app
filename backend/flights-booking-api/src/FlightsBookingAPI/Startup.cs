@@ -213,7 +213,10 @@ namespace FlightsBookingAPI
                     c.RoutePrefix = "openapi";
                     //TODO: Either use the SwaggerGen generated OpenAPI contract (generated from C# classes)
                     c.SwaggerEndpoint("/openapi/1.0/openapi.json", "FlightBookingAPI");
-
+                    c.OAuthClientId(Configuration["Jwt:ClientId"]);
+                    c.OAuthClientSecret(Configuration["Jwt:ClientSecret"]);
+                    c.OAuthRealm(Configuration["Jwt:Realm"]);
+                    c.OAuthAppName("KEYCLOAK");
                     //TODO: Or alternatively use the original OpenAPI contract that's included in the static files
                     // c.SwaggerEndpoint("/openapi-original.json", "FlightBookingAPI Original");
                 });
