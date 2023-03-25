@@ -27,8 +27,8 @@ namespace FlightsBookingAPI.ControllersImpl
             {
                 return NotFound();
             }
-
-            await this.flightService.RemoveAsync(flightId);
+            flight.IsDeleted = true;
+            await this.flightService.UpdateAsync(flightId, flight);
 
             return NoContent();
         }

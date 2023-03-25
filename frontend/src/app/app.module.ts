@@ -9,9 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { initializeKeycloak } from './core/keycloak/initialize-keycloak';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { HomePage } from './pages/home/home.page';
+import { DatePipe } from '@angular/common';
 
 
 export function apiConfigFactory(): Configuration {
@@ -35,6 +33,7 @@ export function apiConfigFactory(): Configuration {
     BrowserAnimationsModule,
   ],
   providers: [
+    DatePipe,
     {
       provide: APP_INITIALIZER,
       useFactory: initializeKeycloak,
