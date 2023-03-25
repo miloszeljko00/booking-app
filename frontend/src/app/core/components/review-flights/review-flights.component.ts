@@ -22,12 +22,12 @@ export class ReviewFlightsComponent {
 
   ngOnInit(){
     this.flightService.getFlights().subscribe(res => {
-      let flights = Array.from(res.flights)
-      flights.forEach(f => {
+      this.flights = Array.from(res.flights)
+      this.flights.forEach(f => {
         f.departure.time = this.datepipe.transform(f.departure.time, 'dd-MM-yyyy HH:mm') ?? '';
         f.arrival.time = this.datepipe.transform(f.arrival.time, 'dd-MM-yyyy HH:mm') ?? '';
       })
-      this.dataSourceFlights.data = Array.from(res.flights)
+      this.dataSourceFlights.data = this.flights
     })
   }
 
@@ -35,6 +35,11 @@ export class ReviewFlightsComponent {
     this.flightService.deleteFlightsId(flight.flightId).subscribe({
       next: () => {
         this.showSuccess('Successfully deleted flight');
+        this.flights.forEach(f => {
+          if(f.flightId == flight.flightId)
+            f.canceled = !f.canceled;
+        });
+        this.dataSourceFlights.data = this.flights;
       },
       error: (e) => this.showError('Error happened while deleting flight')
     })

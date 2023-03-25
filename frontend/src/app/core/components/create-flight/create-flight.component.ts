@@ -84,6 +84,8 @@ export class CreateFlightComponent {
     this.flightService.postFlights(this.flight).subscribe({
       next: (flight) => {
         this.showSuccess('Successfully created flight');
+        this.formGroup1.reset();
+        this.formGroup2.reset();
       },
       error: (e) => this.showError('Error happened while creating flight')
     })
