@@ -59,6 +59,23 @@ namespace FlightsBooking.Services
             }
             return result;
         }
-        
+        public async Task<List<Flight>> getUserFlights(string userId)
+        {
+            var flights = await _flightCollection.Find(_ => true).ToListAsync();
+            List<Flight> userFlights = new List<Flight>();
+            foreach (var flight in flights)
+            {
+                foreach(var soldTicket in flight.SoldTickets)
+                {
+                    if (soldTicket.UserId.Equals(userId))
+                    {
+                        userFlights.Add(flight);
+                        break;
+                    }
+                }
+            }
+            return userFlights;
+       }
+
     }
 }

@@ -15,6 +15,7 @@ import { MatInputModule } from '@angular/material/input';
 import { ToastrModule } from 'ngx-toastr';
 import { ReviewFlightsComponent } from './components/review-flights/review-flights.component';
 import { SearchFlightsComponent } from './components/search-flights/search-flights.component';
+import { UserFlightsComponent } from './components/user-flights/user-flights.component';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { SearchFlightsComponent } from './components/search-flights/search-fligh
     NavbarButtonComponent,
     CreateFlightComponent,
     ReviewFlightsComponent,
-    SearchFlightsComponent
+    SearchFlightsComponent,
+    UserFlightsComponent
   ],
   imports:[
     BrowserModule,
