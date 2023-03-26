@@ -6,6 +6,9 @@ import { DatePipe } from '@angular/common';
 import { FormGroup } from '@angular/forms';
 import { FormControl } from '@angular/forms';
 import { Flight } from 'src/app/api';
+import { User } from '../../keycloak/model/user';
+import { AuthService } from '../../keycloak/auth.service';
+
 @Component({
   selector: 'app-search-flights',
   templateUrl: './search-flights.component.html',
@@ -14,7 +17,7 @@ import { Flight } from 'src/app/api';
 export class SearchFlightsComponent {
   dataSourceFlights = new MatTableDataSource<Flight>();
   displayedColumnsFlights = ['departurePlace', 'departureTime', 'arrivalPlace', 'arrivalTime',
-                             'totalTickets', 'availableTickets', 'ticketPrice', 'totalPrice', 'cancel'
+                             'totalTickets', 'availableTickets', 'ticketPrice', 'totalPrice', 'book'
                             ];
   flights!: Flight[];
   flight!: Flight;
@@ -23,8 +26,11 @@ export class SearchFlightsComponent {
   dateDeparture: string = '';
   placeArrival: string = '';
   availableTickets: number = 0;
+  user!: User | null;
 
-  constructor(private datepipe: DatePipe, private flightService: FlightService, private toastr : ToastrService) { }
+  constructor(private datepipe: DatePipe, private flightService: FlightService, private toastr : ToastrService, private authService: AuthService) {
+      this.user = this.authService.getUser()
+   }
 
   ngOnInit(){
     this.flightService.getFlights().subscribe(res => {
