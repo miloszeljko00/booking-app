@@ -6,6 +6,7 @@
         <div class="guest-pages" *ngIf="!(user$ | async)">
             <!-- TODO: Ovde dodavati dugmad za neulogovanog korisnika -->
             <app-navbar-button (click)="goToHomePage()">Home</app-navbar-button>
+            <app-navbar-button (click)="goToSearchFlights()">Flights</app-navbar-button>
         </div>
         <div *ngIf="(user$ | async); let user">
             <ng-container class="user-pages" *ngIf="user.roles.includes('user')">
