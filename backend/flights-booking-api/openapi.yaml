@@ -37,9 +37,6 @@ paths:
           description: Internal Server Error
       operationId: get-users-id-flight-tickets
       description: Endpoint koji vraca podatke o svim kartama koje je odabrani korisnik kupio.
-      requestBody:
-        content: {}
-        description: ''
       security:
         - KeyCloak:
             - user
