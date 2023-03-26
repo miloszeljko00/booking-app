@@ -49,10 +49,10 @@ export class SearchFlightsComponent {
     });
   }
   Book(flight:Flight):void{
-
+      console.log(this.user?.email)
   }
   search():void{
-    
+    console.log(this.user?.email)
     this.dateDeparture = this.datepipe.transform(this.dateDeparture, 'dd-MM-yyyy HH:mm')??''
     
     this.flightService.getFlightsActionsSearch(this.placeArrival, this.placeDeparture, this.dateDeparture, this.availableTickets).subscribe(res => {
