@@ -1,0 +1,14 @@
+<h1 mat-dialog-title>Buy tickets</h1>
+<div mat-dialog-content>
+  <p>How many tickets you want to buy?</p>
+  <form class="create-flight-form" [formGroup]="formGroup">
+    <mat-form-field appearance="outline" color="primary">
+      <mat-label>Amount</mat-label>
+      <input matInput type="number" min="1" name="amount" formControlName="amount" [(ngModel)]="amount">
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button [mat-dialog-close]="amount" [disabled]="!formGroup.valid">OK</button>
+</div>

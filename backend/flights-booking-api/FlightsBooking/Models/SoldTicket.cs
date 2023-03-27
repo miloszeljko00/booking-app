@@ -6,7 +6,7 @@ namespace FlightsBooking.Models
     public class SoldTicket
     {
         [Key]
-        public string Id { get; set; }
+        public Guid Id { get; set; }
         [Required]
         public DateTime Purchased { get; set; }
         [Required]
@@ -14,7 +14,7 @@ namespace FlightsBooking.Models
         [Required]
         public double Price { get; set; }
 
-        public SoldTicket(string flightTicketId, DateTime purchased, string userId, double price)
+        public SoldTicket(Guid flightTicketId, DateTime purchased, string userId, double price)
         {
             ValidateTime(Purchased);
             ValidatePrice(price);

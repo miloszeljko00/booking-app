@@ -1,13 +1,15 @@
-import { Component } from '@angular/core';
+import { Component,Inject } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { FlightService } from 'src/app/api';
 import { ToastrService } from 'ngx-toastr';
 import { DatePipe } from '@angular/common';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, Validators } from '@angular/forms';
 import { FormControl } from '@angular/forms';
 import { Flight } from 'src/app/api';
 import { User } from '../../keycloak/model/user';
 import { AuthService } from '../../keycloak/auth.service';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogComponent } from '../dialog/dialog.component';
 
 @Component({
   selector: 'app-search-flights',
@@ -27,12 +29,41 @@ export class SearchFlightsComponent {
   placeArrival: string = '';
   availableTickets: number = 0;
   user!: User | null;
+  amount!: number; 
 
-  constructor(private datepipe: DatePipe, private flightService: FlightService, private toastr : ToastrService, private authService: AuthService) {
+  constructor(public dialog: MatDialog, private datepipe: DatePipe, private flightService: FlightService, private toastr : ToastrService, private authService: AuthService) {
       this.user = this.authService.getUser()
    }
 
   ngOnInit(){
+    this.getAllFlights();
+    this.formGroup1 = new FormGroup({
+      placeDeparture: new FormControl(''),
+      dateDeparture: new FormControl(''),
+      placeArrival: new FormControl(''),
+      availableTickets: new FormControl('',[Validators.min(1)]),
+    });
+  }
+
+  openDialog(flight:Flight){
+    const dialogRef = this.dialog.open(DialogComponent, {
+      data: this.amount,
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        this.flightService.postFlightsIdActionsBuyTicket(flight.flightId, {amount: result, userId: this.user?.email ?? ''}).subscribe({
+          next: (flight) => {
+            this.showSuccess('Successfully bought flight tickets');
+            this.getAllFlights();
+          },
+          error: (e) => this.showError('Error happened while buying flight tickets')
+        });
+      }
+    });
+  }
+
+  private getAllFlights(){
     this.flightService.getFlights().subscribe(res => {
       this.flights = Array.from(res.flights)
       this.flights.forEach(f => {
@@ -41,18 +72,9 @@ export class SearchFlightsComponent {
       })
       this.dataSourceFlights.data = this.flights
     })
-    this.formGroup1 = new FormGroup({
-      placeDeparture: new FormControl(''),
-      dateDeparture: new FormControl(''),
-      placeArrival: new FormControl(''),
-      availableTickets: new FormControl(''),
-    });
   }
-  Book(flight:Flight):void{
-      console.log(this.user?.email)
-  }
-  search():void{
-    console.log(this.user?.email)
+
+  search(){
     this.dateDeparture = this.datepipe.transform(this.dateDeparture, 'dd-MM-yyyy HH:mm')??''
     
     this.flightService.getFlightsActionsSearch(this.placeArrival, this.placeDeparture, this.dateDeparture, this.availableTickets).subscribe(res => {
@@ -62,7 +84,6 @@ export class SearchFlightsComponent {
         f.arrival.time = this.datepipe.transform(f.arrival.time, 'dd-MM-yyyy HH:mm') ?? '';
       });
       this.dataSourceFlights.data = this.flights
-      this.dateDeparture=''
   })
 }
   showSuccess(message: string) {

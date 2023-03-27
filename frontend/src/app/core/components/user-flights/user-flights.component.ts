@@ -31,6 +31,7 @@ export class UserFlightsComponent {
         this.tickets.forEach(f => {
         f.flight.departure.time = this.datepipe.transform(f.flight.departure.time, 'dd-MM-yyyy HH:mm') ?? '';
         f.flight.arrival.time = this.datepipe.transform(f.flight.arrival.time, 'dd-MM-yyyy HH:mm') ?? '';
+        f.purchased = this.datepipe.transform(f.purchased, 'dd-MM-yyyy HH:mm') ?? '';
         })
         this.dataSourceFlights.data = this.tickets
       })

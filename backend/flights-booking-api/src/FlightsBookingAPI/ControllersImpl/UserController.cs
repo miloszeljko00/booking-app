@@ -17,7 +17,7 @@ namespace FlightsBookingAPI.ControllersImpl
         {
             this.flightService = flightService;
         }
-        public override async Task<IActionResult> GetUsersIdFlightTickets([FromRoute(Name = "UserId"), Required] string userId, [FromBody] object body)
+        public override async Task<IActionResult> GetUsersIdFlightTickets([FromRoute(Name = "UserId"), Required] string userId)
         {
             //throw new System.NotImplementedException();
             List<FlightsBooking.Models.Flight> flights = await this.flightService.getUserFlights(userId);
@@ -40,7 +40,7 @@ namespace FlightsBookingAPI.ControllersImpl
                         UserFlightTicket uft =
                             new UserFlightTicket
                             {
-                                FlightTicketId = new Guid(soldTicket.Id),
+                                FlightTicketId = soldTicket.Id,
                                 Purchased = soldTicket.Purchased,
                                 Price = soldTicket.Price,
                                 Flight = uf

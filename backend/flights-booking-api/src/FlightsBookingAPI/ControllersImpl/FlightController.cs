@@ -44,7 +44,7 @@ namespace FlightsBookingAPI.ControllersImpl
                 {
                     st.Add(new SoldTicket
                     {
-                        FlightTicketId = new Guid(soldTicket.Id),
+                        FlightTicketId = soldTicket.Id,
                         Purchased = soldTicket.Purchased,
                         Price = soldTicket.Price
                     });
@@ -78,7 +78,7 @@ namespace FlightsBookingAPI.ControllersImpl
                 {
                     st.Add(new SoldTicket
                     {
-                        FlightTicketId = new Guid(soldTicket.Id),
+                        FlightTicketId = soldTicket.Id,
                         Purchased = soldTicket.Purchased,
                         Price = soldTicket.Price
                     });
@@ -113,7 +113,7 @@ namespace FlightsBookingAPI.ControllersImpl
             {
                 st.Add(new SoldTicket
                 {
-                    FlightTicketId = new Guid(soldTicket.Id),
+                    FlightTicketId = soldTicket.Id,
                     Purchased = soldTicket.Purchased,
                     Price = soldTicket.Price
                 });
@@ -147,11 +147,31 @@ namespace FlightsBookingAPI.ControllersImpl
         }
 
        
-        public override Task<IActionResult> PostFlightsIdActionsBuyTicket([FromRoute(Name = "FlightId"), Required] string flightId, [FromBody] FlightBuyTicketsRequest flightBuyTicketsRequest)
+        public override async Task<IActionResult> PostFlightsIdActionsBuyTicket([FromRoute(Name = "FlightId"), Required] string flightId, [FromBody] FlightBuyTicketsRequest flightBuyTicketsRequest)
         {
-            throw new NotImplementedException();
+            FlightsBooking.Models.Flight flight = await this.flightService.GetAsync(new Guid(flightId));
+            List<UserFlightTicket> userFlightTickets = new List<UserFlightTicket>();
+            for (int i = 0; i < flightBuyTicketsRequest.Amount; i++)
+            {
+                FlightsBooking.Models.SoldTicket soldTicket = new FlightsBooking.Models.SoldTicket(Guid.NewGuid(), DateTime.Now, flightBuyTicketsRequest.UserId, flight.TicketPrice);
+                userFlightTickets.Add(new UserFlightTicket
+                {
+                    FlightTicketId = soldTicket.Id,
+                    Purchased = soldTicket.Purchased,
+                    Price = soldTicket.Price,
+                    Flight = new UserFlight
+                    {
+                        FlightId = flight.Id,
+                        Arrival = new Arrival { City = flight.Arrival.City, Time = flight.Arrival.Time },
+                        Departure = new Departure { City = flight.Departure.City, Time = flight.Departure.Time },
+                        Passed = flight.IsFlightPassed(),
+                        Canceled = flight.IsDeleted
+                    }
+                });
+                flight.SoldTickets.Add(soldTicket);
+            }
+            await this.flightService.UpdateAsync(new Guid(flightId), flight);
+            return Ok(userFlightTickets);
         }
-
-      
     }
 }
