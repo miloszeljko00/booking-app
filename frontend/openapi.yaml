@@ -362,8 +362,13 @@ components:
             id: 987fslv1oc9n3
           minimum: 0
           description: Broj karata za kupovinu.
+        userId:
+          type: string
+          x-stoplight:
+            id: fjle3df08izaj
       required:
         - amount
+        - userId
     FlightBuyTicketsResponse:
       title: FlightBuyTicketsResponse
       x-stoplight:
