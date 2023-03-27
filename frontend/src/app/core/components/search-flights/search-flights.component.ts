@@ -46,6 +46,7 @@ export class SearchFlightsComponent {
   }
 
   openDialog(flight:Flight){
+    this.amount = flight.availableTickets;
     const dialogRef = this.dialog.open(DialogComponent, {
       data: this.amount,
     });

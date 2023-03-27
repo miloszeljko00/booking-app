@@ -16,6 +16,7 @@ export class NavbarComponent implements OnDestroy{
 
   constructor(private authService: AuthService, private router: Router) {
     this.user$ = this.authService.getUserObservable();
+    this.goToHomePage();
   }
   ngOnDestroy(): void {
   }

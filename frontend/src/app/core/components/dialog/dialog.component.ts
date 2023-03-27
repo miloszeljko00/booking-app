@@ -9,6 +9,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class DialogComponent {
   formGroup!: FormGroup;
+  maxAmount!: number;
 
   constructor(
     public dialogRef: MatDialogRef<DialogComponent>,
@@ -16,8 +17,10 @@ export class DialogComponent {
   ) {}
 
   ngOnInit(){
+    this.maxAmount = this.amount;
+    this.amount = 0;
     this.formGroup = new FormGroup({
-      amount: new FormControl('',[Validators.min(1), Validators.required]),
+      amount: new FormControl('',[Validators.min(1), Validators.max(this.maxAmount),Validators.required]),
     });
   }
 
