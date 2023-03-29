@@ -14,7 +14,7 @@ import { DatePipe } from '@angular/common';
 
 export function apiConfigFactory(): Configuration {
   const params: ConfigurationParameters = {
-    basePath: 'https://localhost:44301',
+    basePath: 'http://localhost:5000',
   };
   return new Configuration(params);
 }

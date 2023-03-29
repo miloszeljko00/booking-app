@@ -1577,6 +1577,10 @@
     "fromDisplayName": "SveNaDev",
     "user": "svenadev@gmail.com"
   },
+  "loginTheme": "keycloak",
+  "accountTheme": "keycloak",
+  "adminTheme": "keycloak",
+  "emailTheme": "keycloak",
   "eventsEnabled": false,
   "eventsListeners": [
     "jboss-logging"

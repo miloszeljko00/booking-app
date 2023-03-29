@@ -14,7 +14,7 @@ namespace FlightsBooking.Services
 
         public FlightService()
         {
-            var mongoClient = new MongoClient("mongodb://user:user@localhost:27017/?authSource=admin");
+            var mongoClient = new MongoClient("mongodb://user:user@mongo:27017/?authSource=admin");
 
             var mongoDatabase = mongoClient.GetDatabase("BookingApp");
 

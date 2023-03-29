@@ -37,9 +37,7 @@ paths:
           description: Internal Server Error
       operationId: get-users-id-flight-tickets
       description: Endpoint koji vraca podatke o svim kartama koje je odabrani korisnik kupio.
-      security:
-        - KeyCloak:
-            - user
+      security: []
   '/users/{UserId}/flight-tickets/{FlightTicketId}':
     parameters:
       - schema:
@@ -76,9 +74,7 @@ paths:
         '500':
           description: Internal Server Error
       operationId: get-users-UserId-flight-tickets-FlightTicketId
-      security:
-        - KeyCloak:
-            - user
+      security: []
       description: Endpoint za dobavljanje podataka o odabranoj karti za let odabranog korisnika.
   /flights:
     get:
@@ -98,11 +94,10 @@ paths:
       summary: POST Flight
       operationId: post-flights
       responses:
-        '200':
-          description: OK
-      security:
-        - KeyCloak:
-            - admin
+        '204':
+          description: No Content
+          content: {}
+      security: []
       requestBody:
         content:
           application/json:
@@ -153,9 +148,7 @@ paths:
         '500':
           description: Internal Server Error
           content: {}
-      security:
-        - KeyCloak:
-            - admin
+      security: []
       description: Endpoint za brisanje leta.
       tags:
         - flight
@@ -222,9 +215,7 @@ paths:
           description: 'Not Found: Flight not found.'
         '409':
           description: 'Conflict: No available tickets for choosen flight.'
-      security:
-        - KeyCloak:
-            - user
+      security: []
       tags:
         - flight
       description: Endpoint za kupovinu karata od strane korisnika.
@@ -626,17 +617,7 @@ components:
         - flightTicketId
         - purchased
         - price
-  securitySchemes:
-    KeyCloak:
-      type: oauth2
-      flows:
-        authorizationCode:
-          scopes:
-            admin: Administrator sistema.
-            user: Obican korisnik.
-          tokenUrl: 'http://localhost:28080/auth/realms/booking-app/protocol/openid-connect/token'
-          authorizationUrl: 'http://localhost:28080/auth/realms/booking-app/protocol/openid-connect/auth'
-      description: ''
+  securitySchemes: {}
   requestBodies: {}
   responses: {}
 tags:

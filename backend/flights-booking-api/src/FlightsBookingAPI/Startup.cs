@@ -138,7 +138,8 @@ namespace FlightsBookingAPI
             services
                     .AddSwaggerGenNewtonsoftSupport();
 
-            
+
+            Console.WriteLine(Configuration["Jwt:Authority"]);
 
             //Keycloak
             services.AddAuthentication(options =>
@@ -170,7 +171,6 @@ namespace FlightsBookingAPI
                 };
             });
 
-
             //Cross-Origin 
             services
                 .AddCors(options =>
@@ -191,16 +191,7 @@ namespace FlightsBookingAPI
         /// <param name="env"></param>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseHsts();
-            }
-
-            app.UseHttpsRedirection();
+       
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseSwagger(c =>

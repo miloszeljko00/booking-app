@@ -1,31 +1,5 @@
 version: "3.8"
 services:
-  #----------------------------------------------------------------
-  keycloak_db_xws:
-    image: postgres
-    container_name: keycloak_db_xws
-    volumes:
-      - keycloak_xws_data:/var/lib/postgresql/data
-    environment:
-      POSTGRES_DB: keycloak
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: user
-  keycloak_xws:
-    image: quay.io/keycloak/keycloak:legacy
-    container_name: keycloak_xws
-    environment:
-      DB_VENDOR: POSTGRES
-      DB_ADDR: keycloak_db_xws
-      DB_DATABASE: keycloak
-      DB_USER: user
-      DB_SCHEMA: public
-      DB_PASSWORD: user
-      #KEYCLOAK_USER: admin
-      #KEYCLOAK_PASSWORD: admin
-    ports:
-      - 28080:8080
-    depends_on:
-      - keycloak_db_xws
 #----------------------------------------------------------------
   mongo:
     image: mongo:5.0
@@ -37,6 +11,8 @@ services:
       - "27017:27017"
     volumes:
       - mongo_data:/var/lib/mongo/data
+    networks:
+      - docker-network
   mongo-express:
     image: mongo-express
     container_name: mexpress
@@ -52,17 +28,22 @@ services:
       - mongo
     ports:
       - "5050:8081"
+    networks:
+      - docker-network
 #----------------------------------------------------------------
   booking-service:
+    build: ./../backend/flights-booking-api
     container_name: booking-service
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
     depends_on:
       - mongo
-      - keycloak_xws
-    build: ./../backend/flights-booking-api
     expose:
       - 5000
     ports:
       - "5000:5000"
+    networks:
+      - docker-network
 #----------------------------------------------------------------
   booking-app:
     build: ./../frontend
@@ -71,6 +52,7 @@ services:
       - 4200:80
 #----------------------------------------------------------------
 volumes:
-  keycloak_xws_data:
   mongo_data:
 #----------------------------------------------------------------
+networks:
+  docker-network:

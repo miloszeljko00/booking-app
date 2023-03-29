@@ -143,7 +143,7 @@ namespace FlightsBookingAPI.ControllersImpl
                 flightCreateRequest.TicketPrice, 
                 new List<FlightsBooking.Models.SoldTicket>());
             await this.flightService.CreateAsync(flight);
-            return Ok(flightCreateRequest);
+            return NoContent();
         }
 
        

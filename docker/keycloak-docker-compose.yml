@@ -1,0 +1,40 @@
+version: "3.8"
+services:
+  #----------------------------------------------------------------
+  keycloak_db:
+    image: postgres
+    container_name: keycloak_db
+    volumes:
+      - keycloak_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: user
+    networks:
+      - docker-network
+  keycloak:
+    build: ./../keycloak
+    image: mzdockerregistry.azurecr.io/keycloak:1.0.0
+    container_name: keycloak
+    environment:
+      DB_VENDOR: POSTGRES
+      DB_ADDR: keycloak_db
+      DB_DATABASE: keycloak
+      DB_USER: user
+      DB_SCHEMA: public
+      DB_PASSWORD: user
+      PROXY_ADDRESS_FORWARDING: true
+      FRONT_PROXY_URL: https://login-booking-app.azurewebsites.net
+    ports:
+      - 80:8080
+      - 443:8443
+    depends_on:
+      - keycloak_db
+    networks:
+      - docker-network
+#----------------------------------------------------------------
+volumes:
+  keycloak_data:
+#----------------------------------------------------------------
+networks:
+  docker-network:
