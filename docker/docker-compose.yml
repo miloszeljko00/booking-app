@@ -4,7 +4,6 @@ services:
   keycloak_db_xws:
     image: postgres
     container_name: keycloak_db_xws
-    restart: on-failure
     volumes:
       - keycloak_xws_data:/var/lib/postgresql/data
     environment:
@@ -14,7 +13,6 @@ services:
   keycloak_xws:
     image: quay.io/keycloak/keycloak:legacy
     container_name: keycloak_xws
-    restart: on-failure
     environment:
       DB_VENDOR: POSTGRES
       DB_ADDR: keycloak_db_xws
@@ -22,8 +20,8 @@ services:
       DB_USER: user
       DB_SCHEMA: public
       DB_PASSWORD: user
-      KEYCLOAK_USER: admin
-      KEYCLOAK_PASSWORD: admin
+      #KEYCLOAK_USER: admin
+      #KEYCLOAK_PASSWORD: admin
     ports:
       - 28080:8080
     depends_on:
@@ -54,6 +52,23 @@ services:
       - mongo
     ports:
       - "5050:8081"
+#----------------------------------------------------------------
+  booking-service:
+    container_name: booking-service
+    depends_on:
+      - mongo
+      - keycloak_xws
+    build: ./../backend/flights-booking-api
+    expose:
+      - 5000
+    ports:
+      - "5000:5000"
+#----------------------------------------------------------------
+  booking-app:
+    build: ./../frontend
+    container_name: booking-app
+    ports:
+      - 4200:80
 #----------------------------------------------------------------
 volumes:
   keycloak_xws_data:

@@ -25,6 +25,7 @@
     </div>
     
     <div>
+        <app-navbar-button *ngIf="(user$ | async)" (click)="goToAccountPage()">Account</app-navbar-button>
         <app-navbar-button *ngIf="!(user$ | async)" (click)="login()">Login</app-navbar-button>
         <app-navbar-button *ngIf="(user$ | async)" (click)="logout()">Logout</app-navbar-button>
     </div>
