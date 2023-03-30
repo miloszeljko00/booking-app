@@ -76,7 +76,7 @@ export class SearchFlightsComponent {
   }
 
   search(){
-    this.dateDeparture = this.datepipe.transform(this.dateDeparture, 'dd-MM-yyyy HH:mm')??''
+    this.dateDeparture = this.datepipe.transform(this.dateDeparture, 'MM/dd/yyyy')??''
     
     this.flightService.getFlightsActionsSearch(this.placeArrival, this.placeDeparture, this.dateDeparture, this.availableTickets).subscribe(res => {
       this.flights = Array.from(res.flights)
@@ -85,6 +85,7 @@ export class SearchFlightsComponent {
         f.arrival.time = this.datepipe.transform(f.arrival.time, 'dd-MM-yyyy HH:mm') ?? '';
       });
       this.dataSourceFlights.data = this.flights
+      this.dateDeparture = ''
   })
 }
   showSuccess(message: string) {

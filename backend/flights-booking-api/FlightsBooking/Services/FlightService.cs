@@ -1,7 +1,9 @@
 ﻿using FlightsBooking.Models;
+using Microsoft.AspNetCore.Http;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +16,7 @@ namespace FlightsBooking.Services
 
         public FlightService()
         {
-            var mongoClient = new MongoClient("mongodb://user:user@mongo:27017/?authSource=admin");
+            var mongoClient = new MongoClient("mongodb://user:user@localhost:27017/?authSource=admin");
 
             var mongoDatabase = mongoClient.GetDatabase("BookingApp");
 
@@ -44,15 +46,25 @@ namespace FlightsBooking.Services
             bool validDate = !(departureDate == null);
             var flights = await _flightCollection.Find(_ => true).ToListAsync();
             List<Flight> result = new List<Flight>();
-            foreach(Flight flight in flights)
+            
+            string format = "MM/dd/yyyy";
+            
+
+            foreach (Flight flight in flights)
             {
                 if (!flight.Arrival.City.ToLower().Contains(arrivalPlace.ToLower()))
                     continue;
                 if (!flight.Departure.City.ToLower().Contains(departurePlace.ToLower()))
                     continue;
                 if (validDate)
-                    if (!flight.Departure.Time.Date.Equals(DateTime.Parse(departureDate)))
+                    try
+                    {
+                        if (!flight.Departure.Time.Date.Equals(DateTime.ParseExact(departureDate, format, CultureInfo.InvariantCulture)))
                         continue;
+                    }
+                    catch (FormatException e)
+                    { break; }                      
+                   
                 if(flight.CalculateNumberOfAvailableTicketForTheFlight()<availableTickets) 
                     continue;
                 result.Add(flight);

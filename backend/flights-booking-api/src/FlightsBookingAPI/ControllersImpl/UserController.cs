@@ -1,6 +1,7 @@
 ﻿using FlightsBooking.Services;
 using FlightsBookingAPI.Controllers;
 using FlightsBookingAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,7 @@ namespace FlightsBookingAPI.ControllersImpl
         {
             this.flightService = flightService;
         }
+        [Authorize(Roles="user")]
         public override async Task<IActionResult> GetUsersIdFlightTickets([FromRoute(Name = "UserId"), Required] string userId)
         {
             //throw new System.NotImplementedException();
