@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Exceptions.CustomExceptions
 {
-    sealed class InvalidDateRangeException : Exception
+    public sealed class InvalidDateRangeException : Exception
     {
         public InvalidDateRangeException() : base() { }
     }

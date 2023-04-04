@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Exceptions.CustomExceptions
 {
-    public class InvalidCapacityException : Exception
+    public sealed class InvalidCapacityException : Exception
     {
         public InvalidCapacityException() : base() { }
     }

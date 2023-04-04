@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Exceptions.CustomExceptions
 {
-    sealed class InvalidAccommodationException : Exception
+    public sealed class InvalidAccommodationException : Exception
     {
         public InvalidAccommodationException() : base() { }
     }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Exceptions.CustomExceptions
 {
-    sealed class InvalidEmailException : Exception
+    public sealed class InvalidEmailException : Exception
     {
         public InvalidEmailException() : base() { }
     }

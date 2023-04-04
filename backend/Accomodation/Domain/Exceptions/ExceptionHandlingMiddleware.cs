@@ -58,6 +58,10 @@ namespace Domain.Exceptions
                     errorMessageObject.Message = ex.Message;
                     statusCode = (int)HttpStatusCode.InternalServerError;
                     break;
+                case DuplicateAccommodationException:
+                    errorMessageObject.Message = "Ovaj smestaj vec postoji u nasem sistemu...";
+                    statusCode = (int)HttpStatusCode.InternalServerError;
+                    break;
                 default:
                     errorMessageObject.Message = ex.Message;
                     statusCode = (int)HttpStatusCode.InternalServerError;

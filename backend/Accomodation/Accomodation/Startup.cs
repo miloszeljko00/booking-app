@@ -9,9 +9,7 @@ using Microsoft.Extensions.Hosting;
 using System.Reflection;
 using Microsoft.OpenApi.Models;
 using Presentation;
-using Application.AccommodationOfferFolder.Queries;
 using Domain.Entities;
-using Application.AccommodationOfferFolder.Commands;
 using Accomodation.Configuration;
 using Domain.Exceptions;
 

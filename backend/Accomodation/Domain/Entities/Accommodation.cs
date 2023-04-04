@@ -62,6 +62,17 @@ namespace Domain.Entities
         {
             ReservationRequests.Add(Reservation.Create(Guid.NewGuid(), email, start, end, numberOfGuests, price));
         }
+        public bool CheckIfAccommodationIsUnique(Accommodation accommodation)
+        {
+            if(accommodation.Address.Equals(this.Address) && accommodation.Name.Equals(this.Name))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
         private static FluentValidation.Results.ValidationResult CheckIfAccommodationIsValid(Accommodation accommodation)
         {
             var accommodationValidator = new AccommodationValidator();

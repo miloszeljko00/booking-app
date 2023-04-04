@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Exceptions.CustomExceptions
 {
-    sealed class InvalidAddressException : Exception
+    public sealed class InvalidAddressException : Exception
     {
         public InvalidAddressException() : base() { }
     }

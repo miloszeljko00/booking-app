@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Exceptions.CustomExceptions
 {
-    sealed class NumberIsLessOrEqualToZeroException : Exception
+    public sealed class NumberIsLessOrEqualToZeroException : Exception
     {
         public NumberIsLessOrEqualToZeroException() : base() { }
         public NumberIsLessOrEqualToZeroException(string errorMessage) : base(errorMessage) { }

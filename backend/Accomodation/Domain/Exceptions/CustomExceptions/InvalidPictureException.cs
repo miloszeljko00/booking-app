@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Exceptions.CustomExceptions
 {
-    sealed class InvalidPictureException : Exception
+    public sealed class InvalidPictureException : Exception
     {
         public InvalidPictureException() : base() { }
     }

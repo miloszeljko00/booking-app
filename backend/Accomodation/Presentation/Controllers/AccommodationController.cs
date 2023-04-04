@@ -1,7 +1,5 @@
 ﻿using Application.Accommodation.Commands;
 using Application.Accommodation.Queries;
-using Application.AccommodationOfferFolder.Commands;
-using Application.AccommodationOfferFolder.Queries;
 using Application.Dtos;
 using Domain.Entities;
 using MediatR;

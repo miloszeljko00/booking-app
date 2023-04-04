@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Domain.Exceptions.CustomExceptions;
 using Domain.Interfaces;
 using Domain.Primitives.Enums;
 using System;
@@ -65,8 +66,17 @@ namespace Infrastructure.Accommodation
 
         public Task<Domain.Entities.Accommodation> Create(Domain.Entities.Accommodation accommodation)
         {
+            checkIfAccommodationIsNotDuplicated(accommodation);
             MyList.Add(accommodation);
             return Task.FromResult(accommodation);
+        }
+
+        private void checkIfAccommodationIsNotDuplicated(Domain.Entities.Accommodation accommodation)
+        {
+            foreach(var a in MyList)
+            {
+                if (!a.CheckIfAccommodationIsUnique(accommodation)) throw new DuplicateAccommodationException();
+            }
         }
 
         public Task<IReadOnlyCollection<Domain.Entities.Accommodation>> GetAllAsync()

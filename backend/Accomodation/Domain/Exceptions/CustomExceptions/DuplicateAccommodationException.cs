@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Domain.Exceptions.CustomExceptions
 {
-    public sealed class InvalidPriceException : Exception
+    public sealed class DuplicateAccommodationException : Exception
     {
-        public InvalidPriceException() : base() { }
+        public DuplicateAccommodationException() : base() { }
     }
 }
