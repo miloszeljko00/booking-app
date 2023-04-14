@@ -23,7 +23,7 @@ namespace Application.Accommodation.Commands
         {
             var accommodationBuilder = AccommodationBuilder.withAddress(request.AccommodationDto.Address.Country,
                 request.AccommodationDto.Address.City, request.AccommodationDto.Address.Street, request.AccommodationDto.Address.Number)
-                                .withPricePerGuest(999.99)
+                                .withPricePerGuest(request.AccommodationDto.PricePerGuest.Value)
                                 .withName(request.AccommodationDto.Name)
                                 .withPicture("velja_slika.jpg", "velja opis slike")
                                 .withCapacity(request.AccommodationDto.Capacity.Max, request.AccommodationDto.Capacity.Min)
