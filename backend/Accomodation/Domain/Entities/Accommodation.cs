@@ -3,6 +3,7 @@ using AccomodationDomain.Primitives;
 using AccomodationDomain.Primitives.Enums;
 using AccomodationDomain.ValueObjects;
 using FluentValidation;
+using System;
 
 namespace AccomodationDomain.Entities
 {
@@ -77,6 +78,37 @@ namespace AccomodationDomain.Entities
         {
             var accommodationValidator = new AccommodationValidator();
             return accommodationValidator.Validate(accommodation);
+        }
+
+        public Price? GetPriceForSpecificDate(DateTime date)
+        {
+            foreach(Price p in PricePerGuest)
+            {
+                DateTime startFixedYear = new DateTime(2023, p.DateRange.Start.Month, p.DateRange.Start.Day);
+                DateTime endFixedYear = new DateTime(2023, p.DateRange.End.Month, p.DateRange.End.Day);
+                DateTime checkDateFixedYear = new DateTime(2023, date.Month, date.Day);
+
+                if (checkDateFixedYear >= startFixedYear && checkDateFixedYear <= endFixedYear)
+                {
+                    return p;
+                }
+            }
+            return null;
+        }
+
+        public string GetAddressAsString()
+        {
+            return Address.Street + " " + Address.Number + ", " + Address.City + ", " + Address.Country;
+        }
+
+        public string GetBenefitsAsString()
+        {
+            string benefitString = "";
+            foreach(Benefit b in Benefits)
+            {
+                benefitString += Enum.GetName(typeof(Benefit), b) + ", ";
+            }
+            return benefitString.Substring(0, benefitString.Length - 2); 
         }
     }
     public class AccommodationBuilder
