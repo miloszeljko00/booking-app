@@ -1,16 +1,16 @@
-﻿using Application.Abstractions.Messaging;
-using Domain.Entities;
-using Domain.Interfaces;
-using Domain.Primitives.Enums;
+﻿using AccomodationApplication.Abstractions.Messaging;
+using AccomodationDomain.Entities;
+using AccomodationDomain.Interfaces;
+using AccomodationDomain.Primitives.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Accommodation.Commands
+namespace AccomodationApplication.Accommodation.Commands
 {
-    public sealed class CreateAccommodationCommandHandler : ICommandHandler<CreateAccommodationCommand, Domain.Entities.Accommodation>
+    public sealed class CreateAccommodationCommandHandler : ICommandHandler<CreateAccommodationCommand, AccomodationDomain.Entities.Accommodation>
     {
         private readonly IAccommodationRepository _repository;
         public AccommodationBuilder AccommodationBuilder { get; set; } = new AccommodationBuilder();
@@ -19,7 +19,7 @@ namespace Application.Accommodation.Commands
             _repository = repository;
         }
 
-        public Task<Domain.Entities.Accommodation> Handle(CreateAccommodationCommand request, CancellationToken cancellationToken)
+        public Task<AccomodationDomain.Entities.Accommodation> Handle(CreateAccommodationCommand request, CancellationToken cancellationToken)
         {
             var accommodationBuilder = AccommodationBuilder.withAddress(request.AccommodationDto.Address.Country,
                 request.AccommodationDto.Address.City, request.AccommodationDto.Address.Street, request.AccommodationDto.Address.Number)

@@ -1,10 +1,10 @@
-﻿using Domain.Exceptions.CustomExceptions;
-using Domain.Primitives;
-using Domain.Primitives.Enums;
-using Domain.ValueObjects;
+﻿using AccomodationDomain.Exceptions.CustomExceptions;
+using AccomodationDomain.Primitives;
+using AccomodationDomain.Primitives.Enums;
+using AccomodationDomain.ValueObjects;
 using FluentValidation;
 
-namespace Domain.Entities
+namespace AccomodationDomain.Entities
 {
     public class Accommodation : AggregateRoot
     {

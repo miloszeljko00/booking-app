@@ -14,8 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
-    <ProjectReference Include="..\Presentation\Presentation.csproj" />
+    <ProjectReference Include="..\Infrastructure\Accomodation.Infrastructure.csproj" />
+    <ProjectReference Include="..\Presentation\Accomodation.Presentation.csproj" />
   </ItemGroup>
 
 </Project>

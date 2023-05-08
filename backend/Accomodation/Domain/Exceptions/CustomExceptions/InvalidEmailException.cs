@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Exceptions.CustomExceptions
+namespace AccomodationDomain.Exceptions.CustomExceptions
 {
     public sealed class InvalidEmailException : Exception
     {

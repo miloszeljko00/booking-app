@@ -1,13 +1,13 @@
-﻿using Domain.Exceptions.CustomExceptions;
-using Domain.Primitives;
-using Domain.ValueObjects;
+﻿using AccomodationDomain.Exceptions.CustomExceptions;
+using AccomodationDomain.Primitives;
+using AccomodationDomain.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Entities
+namespace AccomodationDomain.Entities
 {
     public class Reservation : Entity
     {

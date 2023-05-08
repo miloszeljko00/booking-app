@@ -1,11 +1,11 @@
-﻿using Domain.Exceptions.CustomExceptions;
+﻿using AccomodationDomain.Exceptions.CustomExceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.ValueObjects
+namespace AccomodationDomain.ValueObjects
 {
     public class Email
     {

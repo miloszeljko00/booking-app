@@ -1,7 +1,7 @@
-﻿using Domain.Entities;
-using Domain.Exceptions.CustomExceptions;
-using Domain.Interfaces;
-using Domain.Primitives.Enums;
+﻿using AccomodationDomain.Entities;
+using AccomodationDomain.Exceptions.CustomExceptions;
+using AccomodationDomain.Interfaces;
+using AccomodationDomain.Primitives.Enums;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Accommodation
+namespace AccomodationInfrastructure.Accommodation
 {
     public class InMemoryAccommodationRepository : IAccommodationRepository
     {
@@ -18,7 +18,7 @@ namespace Infrastructure.Accommodation
         {
         }
 
-        public static List<Domain.Entities.Accommodation> MyList = new List<Domain.Entities.Accommodation>
+        public static List<AccomodationDomain.Entities.Accommodation> MyList = new List<AccomodationDomain.Entities.Accommodation>
         {
             //Domain.Entities.Accommodation.Create(Guid.NewGuid(), "Velja hotel 1", "Velja drzava 1", DateTime.UtcNow.AddDays(1)),
             //Domain.Entities.Accommodation.Create(Guid.NewGuid(), "Velja hotel 2", DateTime.UtcNow, DateTime.UtcNow.AddDays(2)),
@@ -64,14 +64,14 @@ namespace Infrastructure.Accommodation
                                 .build()
         };
 
-        public Task<Domain.Entities.Accommodation> Create(Domain.Entities.Accommodation accommodation)
+        public Task<AccomodationDomain.Entities.Accommodation> Create(AccomodationDomain.Entities.Accommodation accommodation)
         {
             checkIfAccommodationIsNotDuplicated(accommodation);
             MyList.Add(accommodation);
             return Task.FromResult(accommodation);
         }
 
-        private void checkIfAccommodationIsNotDuplicated(Domain.Entities.Accommodation accommodation)
+        private void checkIfAccommodationIsNotDuplicated(AccomodationDomain.Entities.Accommodation accommodation)
         {
             foreach(var a in MyList)
             {
@@ -79,9 +79,9 @@ namespace Infrastructure.Accommodation
             }
         }
 
-        public Task<IReadOnlyCollection<Domain.Entities.Accommodation>> GetAllAsync()
+        public Task<IReadOnlyCollection<AccomodationDomain.Entities.Accommodation>> GetAllAsync()
         {
-            IReadOnlyCollection<Domain.Entities.Accommodation> list = new ReadOnlyCollection<Domain.Entities.Accommodation>(MyList);
+            IReadOnlyCollection<AccomodationDomain.Entities.Accommodation> list = new ReadOnlyCollection<AccomodationDomain.Entities.Accommodation>(MyList);
             return Task.FromResult(list);
         }
     }

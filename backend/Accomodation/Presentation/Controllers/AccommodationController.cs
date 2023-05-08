@@ -1,7 +1,7 @@
-﻿using Application.Accommodation.Commands;
-using Application.Accommodation.Queries;
-using Application.Dtos;
-using Domain.Entities;
+﻿using AccomodationApplication.Accommodation.Commands;
+using AccomodationApplication.Accommodation.Queries;
+using AccomodationApplication.Dtos;
+using AccomodationDomain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Presentation.Controllers
+namespace AccomodationPresentation.Controllers
 {
     [ApiController]
     [Route("[controller]")]

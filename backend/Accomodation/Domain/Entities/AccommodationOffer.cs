@@ -1,7 +1,7 @@
-﻿using Domain.Primitives;
-using Domain.ValueObjects;
+﻿using AccomodationDomain.Primitives;
+using AccomodationDomain.ValueObjects;
 
-namespace Domain.Entities
+namespace AccomodationDomain.Entities
 {
     public class AccommodationOffer : AggregateRoot
     {

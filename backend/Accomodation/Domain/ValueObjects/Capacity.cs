@@ -1,12 +1,12 @@
-﻿using Domain.Exceptions.CustomExceptions;
-using Domain.Primitives;
+﻿using AccomodationDomain.Exceptions.CustomExceptions;
+using AccomodationDomain.Primitives;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.ValueObjects
+namespace AccomodationDomain.ValueObjects
 {
     public class Capacity : ValueObject
     {
