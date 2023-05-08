@@ -10,7 +10,7 @@ namespace AccomodationDomain.Entities
     {
         public string Name { get; init; }
         public Address Address { get; init; }
-        public Price PricePerGuest { get; init; }
+        public List<Price> PricePerGuest { get; init; }
         public List<Benefit> Benefits { get; init; } = new List<Benefit> { };
         public List<Picture> Pictures { get; init; } = new List<Picture> { };
         public Capacity Capacity { get; init; }
@@ -18,13 +18,13 @@ namespace AccomodationDomain.Entities
         public List<Reservation> ReservationRequests { get; init; } = new List<Reservation> { };
         public bool ReserveAutomatically { get; init; }
         
-        private Accommodation(Guid id, string name, Address address, Price price, List<Benefit> benefits,
+        private Accommodation(Guid id, string name, Address address, List<Price> prices, List<Benefit> benefits,
                               List<Picture> pictures, Capacity capacity, List<Reservation> reservations,
                               List<Reservation> reservationRequests, bool reserveAutomatically) : base(id)
         {
             Name = name;
             Address = address;
-            PricePerGuest = price;
+            PricePerGuest = prices;
             Benefits = benefits;
             Pictures = pictures;
             Capacity = capacity;
@@ -33,11 +33,11 @@ namespace AccomodationDomain.Entities
             ReserveAutomatically = reserveAutomatically;
         }
         public static Accommodation Create(Guid id, string name, Address address,
-            Price price, List<Benefit> benefits, List<Picture> pictures,
+            List<Price> prices, List<Benefit> benefits, List<Picture> pictures,
             Capacity capacity, List<Reservation> reservations,
             List<Reservation> reservationRequests, bool reserveAutomatically)
         {
-            var accommodation = new Accommodation(id, name, address, price,
+            var accommodation = new Accommodation(id, name, address, prices,
                 benefits, pictures, capacity, reservations,
                 reservationRequests, reserveAutomatically);
             var validationResult = CheckIfAccommodationIsValid(accommodation);
@@ -50,10 +50,10 @@ namespace AccomodationDomain.Entities
                 throw new InvalidAccommodationException();
             }
         }
-        public double GenerateTotalPricePerNight()
+        /*public double GenerateTotalPricePerNight()
         {
             return PricePerGuest.Value * Capacity.Max;
-        }
+        }*/
         public void CreateReservation(string email, DateTime start, DateTime end, int numberOfGuests, double price)
         {
             Reservations.Add(Reservation.Create(Guid.NewGuid(), email, start, end, numberOfGuests, price));
@@ -83,7 +83,7 @@ namespace AccomodationDomain.Entities
     {
         public string Name { get; set; }
         public Address Address { get; set; }
-        public Price PricePerGuest { get; set; }
+        public List<Price> PricePerGuest { get; set; } = new List<Price> { };
         public List<Benefit> Benefits { get; set; } = new List<Benefit> { };
         public List<Picture> Pictures { get; set; } = new List<Picture> { };
         public Capacity Capacity { get; set; }
@@ -103,7 +103,7 @@ namespace AccomodationDomain.Entities
         }
         public AccommodationBuilder withPricePerGuest(double value)
         {
-            this.PricePerGuest = Price.Create(value);
+            this.PricePerGuest.Add(Price.Create(value));
             return this;
         }
         public AccommodationBuilder withBenefits(List<Benefit> benefits)

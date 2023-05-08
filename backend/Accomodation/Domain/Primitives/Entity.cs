@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson.Serialization.IdGenerators;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -10,6 +12,7 @@ namespace AccomodationDomain.Primitives
     public abstract class Entity : IEquatable<Entity>
     {
         [Key]
+        [BsonId(IdGenerator = typeof(GuidGenerator))]
         public Guid Id { get; private init; }
         public static bool operator ==(Entity? first, Entity? second)
         {
