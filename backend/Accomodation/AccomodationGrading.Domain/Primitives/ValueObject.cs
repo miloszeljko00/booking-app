@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AccomodationDomain.Primitives
+namespace AccomodationGradingDomain.Primitives
 {
     public abstract class ValueObject : IEquatable<ValueObject>
     {

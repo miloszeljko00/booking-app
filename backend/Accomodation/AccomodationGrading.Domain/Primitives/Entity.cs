@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AccomodationDomain.Primitives
+namespace AccomodationGradingDomain.Primitives
 {
     public abstract class Entity : IEquatable<Entity>
     {
