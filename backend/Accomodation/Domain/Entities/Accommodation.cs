@@ -55,11 +55,11 @@ namespace AccomodationDomain.Entities
         {
             return PricePerGuest.Value * Capacity.Max;
         }*/
-        public void CreateReservation(string email, DateTime start, DateTime end, int numberOfGuests, double price)
+        public void CreateReservation(string email, DateTime start, DateTime end, int numberOfGuests, Price price)
         {
             Reservations.Add(Reservation.Create(Guid.NewGuid(), email, start, end, numberOfGuests, price));
         }
-        public void CreateReservationRequest(string email, DateTime start, DateTime end, int numberOfGuests, double price)
+        public void CreateReservationRequest(string email, DateTime start, DateTime end, int numberOfGuests, Price price)
         {
             ReservationRequests.Add(Reservation.Create(Guid.NewGuid(), email, start, end, numberOfGuests, price));
         }
@@ -133,9 +133,9 @@ namespace AccomodationDomain.Entities
             this.Address = Address.Create(country, city, street, number);
             return this;
         }
-        public AccommodationBuilder withPricePerGuest(double value)
+        public AccommodationBuilder withPricePerGuest(double value, DateRange dateRange)
         {
-            this.PricePerGuest.Add(Price.Create(value));
+            this.PricePerGuest.Add(Price.Create(value, dateRange));
             return this;
         }
         public AccommodationBuilder withBenefits(List<Benefit> benefits)

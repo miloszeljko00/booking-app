@@ -17,7 +17,7 @@ namespace AccomodationDomain.ValueObjects
         public Price() { } //obrisati kad se kreiraju dtovi
         private Price(double value)
         {
-            DateRange = DateRange.Create(new DateTime(2023, 1, 1), new DateTime(2023, 12, 31));
+            DateRange = DateRange.Create(new DateTime(2023, 1, 5), new DateTime(2023, 12, 5));
             Value = value;
         }
         private Price(double value, DateRange dateRange)
@@ -25,11 +25,11 @@ namespace AccomodationDomain.ValueObjects
             DateRange = dateRange;
             Value = value;
         }
-        public static Price Create(double value)
+        public static Price Create(double value, DateRange dateRange)
         {
             if (CheckIfPriceIsValid(value))
             {
-                return new Price(value);
+                return new Price(value, dateRange);
             }
             else
             {

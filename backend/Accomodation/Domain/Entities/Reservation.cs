@@ -38,9 +38,9 @@ namespace AccomodationDomain.Entities
             PricePerGuest = price;
         }
 
-        public static Reservation Create(Guid id, string email, DateTime start, DateTime end, int guestNumber, double price)
+        public static Reservation Create(Guid id, string email, DateTime start, DateTime end, int guestNumber, Price price)
         {
-            return new Reservation(id, Email.Create(email), DateRange.Create(start, end), guestNumber, Price.Create(price));
+            return new Reservation(id, Email.Create(email), DateRange.Create(start, end), guestNumber,price);
         }
     }
 }

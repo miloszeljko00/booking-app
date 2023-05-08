@@ -2,6 +2,7 @@
 using AccomodationDomain.Exceptions.CustomExceptions;
 using AccomodationDomain.Interfaces;
 using AccomodationDomain.Primitives.Enums;
+using AccomodationDomain.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -24,7 +25,7 @@ namespace AccomodationInfrastructure.Accommodation
             //Domain.Entities.Accommodation.Create(Guid.NewGuid(), "Velja hotel 2", DateTime.UtcNow, DateTime.UtcNow.AddDays(2)),
             //Domain.Entities.Accommodation.Create(Guid.NewGuid(), "Velja hotel 3", DateTime.UtcNow, DateTime.UtcNow.AddDays(3)),
             AccommodationBuilder.withAddress("Velja drzava 1", "Velja grad 1", "Velja ulica 1", "Velja broj 1 :)")
-                                .withPricePerGuest(999.99)
+                                .withPricePerGuest(999.99, DateRange.Create(new DateTime(2023, 1, 5), new DateTime(2023, 12, 5)))
                                 .withName("Velja smestaj 1")
                                 .withPicture("velja_slika.jpg", "velja opis slike")
                                 .withCapacity(8, 4)
@@ -37,7 +38,7 @@ namespace AccomodationInfrastructure.Accommodation
                                 .withAutomaticallyReservation(false)
                                 .build(),
             AccommodationBuilder.withAddress("Velja drzava 2", "Velja grad 2", "Velja ulica 2", "Velja broj 2 :/")
-                                .withPricePerGuest(888.88)
+                                .withPricePerGuest(888.88, DateRange.Create(new DateTime(2023, 2, 5), new DateTime(2023, 10, 5)))
                                 .withName("Velja smestaj 2")
                                 .withPicture("velja_slika.jpg", "velja opis slike")
                                 .withCapacity(8, 4)
@@ -50,7 +51,7 @@ namespace AccomodationInfrastructure.Accommodation
                                 .withAutomaticallyReservation(false)
                                 .build(),
             AccommodationBuilder.withAddress("Velja drzava 3", "Velja grad 3", "Velja ulica 3", "Velja broj 3 :/")
-                                .withPricePerGuest(777.77)
+                                .withPricePerGuest(777.77, DateRange.Create(new DateTime(2023, 3, 5), new DateTime(2023, 9, 5)))
                                 .withName("Velja smestaj 3")
                                 .withPicture("velja_slika.jpg", "velja opis slike")
                                 .withCapacity(8, 4)
