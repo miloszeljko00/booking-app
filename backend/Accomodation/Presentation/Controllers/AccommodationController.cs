@@ -1,7 +1,9 @@
-﻿using AccomodationApplication.Accommodation.Commands;
+﻿using Accomodation.Application.Dtos;
+using AccomodationApplication.Accommodation.Commands;
 using AccomodationApplication.Accommodation.Queries;
 using AccomodationApplication.Dtos;
 using AccomodationDomain.Entities;
+using AccomodationDomain.ValueObjects;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -24,11 +26,25 @@ namespace AccomodationPresentation.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Accommodation>>> GetAllAccommodations()
+        public async Task<ActionResult<List<AccommodationGetAllDTO>>> GetAllAccommodations()
         {
             var query = new GetAllAccommodationsQuery();
             var result = await _mediator.Send(query);
-            return Ok(result);
+            
+            List<AccommodationGetAllDTO> resultList = new List<AccommodationGetAllDTO>();
+            foreach(Accommodation acc in result)
+            {
+                Price? p = acc.GetPriceForSpecificDate(DateTime.Now);
+                if (p == null)
+                    continue;
+                string address = acc.GetAddressAsString();
+                string benefits = acc.GetBenefitsAsString();
+                AccommodationGetAllDTO dto = new AccommodationGetAllDTO { Name = acc.Name, Address = address, Min = acc.Capacity.Min, Max = acc.Capacity.Max, Price = p.Value, Benefits = benefits, Id = acc.Id.ToString() };
+                
+     
+                resultList.Add(dto);
+            }
+            return Ok(resultList);
         }
 
         [HttpPost]

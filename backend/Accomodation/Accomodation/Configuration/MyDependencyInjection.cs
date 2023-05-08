@@ -1,4 +1,5 @@
-﻿using AccomodationApplication.Accommodation.Commands;
+﻿using Accomodation.Infrastructure.Accommodation;
+using AccomodationApplication.Accommodation.Commands;
 using AccomodationApplication.Accommodation.Queries;
 using AccomodationDomain.Entities;
 using AccomodationDomain.Interfaces;
@@ -13,7 +14,8 @@ namespace Accomodation.Configuration
     {
         public static IServiceCollection AddRepositories(this IServiceCollection services)
         {
-            services.AddScoped<IAccommodationRepository, InMemoryAccommodationRepository>();
+            //services.AddScoped<IAccommodationRepository, InMemoryAccommodationRepository>();
+            services.AddScoped<IAccommodationRepository, MongoAccommodationRepository>();
             return services;
         }
 

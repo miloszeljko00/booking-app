@@ -13,6 +13,7 @@ namespace AccomodationDomain.ValueObjects
         public DateTime Start { get; init; }
         public DateTime End { get; init; }
 
+        public DateRange() { }
         private DateRange(DateTime start, DateTime end)
         {
             Start = start;
