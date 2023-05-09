@@ -13,13 +13,10 @@
                 <!-- TODO: Ovde dodavati dugmad za obicnog korisnika -->
                 <app-navbar-button (click)="goToHomePage()">Home</app-navbar-button>
                 <app-navbar-button (click)="goToSearchAccommodations()">Accommodations</app-navbar-button>
-                <app-navbar-button (click)="goToUserFlights()">My Tickets</app-navbar-button>
             </ng-container>
             <ng-container class="admin-pages" *ngIf="user.roles.includes('admin')">
                 <!-- TODO: Ovde dodavati dugmad za administratora -->
                 <app-navbar-button (click)="goToHomePage()">Home</app-navbar-button>
-                <app-navbar-button (click)="goToCreateFlight()">Create flight</app-navbar-button>
-                <app-navbar-button (click)="goToReviewFlights()">Review flights</app-navbar-button>
             </ng-container>
         </div>
     </div>
