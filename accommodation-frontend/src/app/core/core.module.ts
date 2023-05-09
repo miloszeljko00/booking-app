@@ -41,7 +41,7 @@ import { DialogComponent } from './components/dialog/dialog.component';
     FormsModule,
     MatDialogModule,
     ToastrModule.forRoot({
-      timeOut: 3000,
+      timeOut: 4000,
       positionClass: 'toast-top-right',
     }),
 
