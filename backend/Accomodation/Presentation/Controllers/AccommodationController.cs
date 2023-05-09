@@ -48,7 +48,7 @@ namespace AccomodationPresentation.Controllers
             return Ok(resultList);
         }
 
-        [HttpPost]
+        [HttpPut]
         [Route("reservation")]
         public async Task<ActionResult<ReservationRequest>> CreateReservationRequest([FromBody] ReservationRequestDTO reservationRequestDTO)
         {
