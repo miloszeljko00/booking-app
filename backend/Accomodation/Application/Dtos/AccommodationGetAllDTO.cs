@@ -14,6 +14,7 @@ namespace Accomodation.Application.Dtos
         public int Min { get; set; }
         public int Max { get; set; }
         public string Benefits { get; set; }
+        public string PriceCalculation { get; set; }
         public string Id { get; set; }
         public double Price { get; set; }
 

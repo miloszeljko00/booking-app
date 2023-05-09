@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AccomodationApplication.Accommodation.Queries
 {
-    public sealed class GetAllAccommodationsQueryHandler : IQueryHandler<GetAllAccommodationsQuery, IReadOnlyCollection<AccomodationDomain.Entities.Accommodation>>
+    public sealed class GetAllAccommodationsQueryHandler : IQueryHandler<GetAllAccommodationsQuery, ICollection<AccomodationDomain.Entities.Accommodation>>
     {
         private readonly IAccommodationRepository _repository;
         public GetAllAccommodationsQueryHandler(IAccommodationRepository repository)
@@ -17,7 +17,7 @@ namespace AccomodationApplication.Accommodation.Queries
             _repository = repository;
         }
 
-        public async Task<IReadOnlyCollection<AccomodationDomain.Entities.Accommodation>> Handle(GetAllAccommodationsQuery request, CancellationToken cancellationToken)
+        public async Task<ICollection<AccomodationDomain.Entities.Accommodation>> Handle(GetAllAccommodationsQuery request, CancellationToken cancellationToken)
         {
 
             return await _repository.GetAllAsync();

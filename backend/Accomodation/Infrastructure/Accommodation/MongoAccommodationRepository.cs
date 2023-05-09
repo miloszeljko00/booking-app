@@ -28,9 +28,15 @@ namespace Accomodation.Infrastructure.Accommodation
             return accommodation;
         }
         
-        public async Task<IReadOnlyCollection<AccomodationDomain.Entities.Accommodation>> GetAllAsync()
+        public async Task<ICollection<AccomodationDomain.Entities.Accommodation>> GetAllAsync()
         {
             return await _accommodationCollection.Find(_ => true).ToListAsync();
         }
+
+        public async Task<AccomodationDomain.Entities.Accommodation> GetAsync(Guid id) =>
+            await _accommodationCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
+
+        public async Task UpdateAsync(Guid id, AccomodationDomain.Entities.Accommodation updatedAccommodation) =>
+            await _accommodationCollection.ReplaceOneAsync(x => x.Id == id, updatedAccommodation);
     }
 }

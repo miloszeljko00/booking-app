@@ -1,4 +1,5 @@
-﻿using AccomodationDomain.Exceptions.CustomExceptions;
+﻿using Accomodation.Domain.Primitives.Enums;
+using AccomodationDomain.Exceptions.CustomExceptions;
 using AccomodationDomain.Primitives;
 using System;
 using System.Collections;
@@ -13,13 +14,7 @@ namespace AccomodationDomain.ValueObjects
     {
         public double Value { get; set; }
         public DateRange DateRange { get; set; }
-
-        public Price() { } //obrisati kad se kreiraju dtovi
-        private Price(double value)
-        {
-            DateRange = DateRange.Create(new DateTime(2023, 1, 5), new DateTime(2023, 12, 5));
-            Value = value;
-        }
+        public Price() { }
         private Price(double value, DateRange dateRange)
         {
             DateRange = dateRange;

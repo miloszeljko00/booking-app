@@ -14,7 +14,7 @@ import { AccommodationService } from 'src/app/api/api/accommodation.service';
 export class AccommodationsComponent implements OnInit {
 
   dataSourceAcc = new MatTableDataSource<Accommodation>();
-  displayedColumnsFlights = ['name', 'address', 'price', 'benefits', 'min', 'max'];
+  displayedColumnsFlights = ['name', 'address', 'price', 'priceCalculation' ,'benefits', 'min', 'max'];
                             
   accomodationList!: Accommodation[];
   acc!: Accommodation;

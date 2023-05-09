@@ -9,7 +9,9 @@ namespace AccomodationDomain.Interfaces
 {
     public interface IAccommodationRepository
     {
-        Task<IReadOnlyCollection<Accommodation>> GetAllAsync();
+        Task<ICollection<Accommodation>> GetAllAsync();
+        Task UpdateAsync(Guid id, Accommodation updatedAccommodation);
+        Task<Accommodation> GetAsync(Guid id);
         Task<Accommodation> Create(Accommodation accommodation);
     }
 }

@@ -1,4 +1,5 @@
-﻿using AccomodationDomain.Exceptions.CustomExceptions;
+﻿using Accomodation.Domain.Primitives.Enums;
+using AccomodationDomain.Exceptions.CustomExceptions;
 using AccomodationDomain.Primitives;
 using AccomodationDomain.ValueObjects;
 using System;
@@ -9,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace AccomodationDomain.Entities
 {
-    public class Reservation : Entity
+    public class ReservationRequest : Entity
     {
         public Email GuestEmail { get; init; }
         public DateRange ReservationDate { get; init; }
-        public int TotalPrice { get; init; }
+        public ReservationRequestStatus Status { get; init; }
         private int guestNumber;
         public int GuestNumber
         {
@@ -27,28 +28,22 @@ namespace AccomodationDomain.Entities
                 {
                     throw new NumberIsLessOrEqualToZeroException("Guest number must be greater than 0.");
                 }
-                GuestNumber = guestNumber;
+                guestNumber = value;
             }
         }
 
-        private Reservation(Guid id, Email questEmail, DateRange reservationDate, int guestNumber, bool isPerPerson, int price) : base(id)
+
+        private ReservationRequest(Guid id, Email questEmail, DateRange reservationDate, int guestNumber, ReservationRequestStatus status) : base(id)
         {
             GuestEmail = questEmail;
             ReservationDate = reservationDate;
             GuestNumber = guestNumber;
-            if (isPerPerson)
-            {
-                TotalPrice = guestNumber * price;
-            }
-            else
-            {
-                TotalPrice = price;
-            }
+            Status = status;
         }
 
-        public static Reservation Create(Guid id, string email, DateTime start, DateTime end, int guestNumber, bool isPerPerson, int price)
+        public static ReservationRequest Create(Guid id, string email, DateTime start, DateTime end, int guestNumber, ReservationRequestStatus status)
         {
-            return new Reservation(id, Email.Create(email), DateRange.Create(start, end), guestNumber, isPerPerson, price);
+            return new ReservationRequest(id, Email.Create(email), DateRange.Create(start, end), guestNumber, status);
         }
     }
 }

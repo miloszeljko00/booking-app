@@ -1,4 +1,5 @@
 ﻿using Accomodation.Application.Dtos;
+using Accomodation.Domain.Primitives.Enums;
 using AccomodationApplication.Accommodation.Commands;
 using AccomodationApplication.Accommodation.Queries;
 using AccomodationApplication.Dtos;
@@ -39,12 +40,31 @@ namespace AccomodationPresentation.Controllers
                     continue;
                 string address = acc.GetAddressAsString();
                 string benefits = acc.GetBenefitsAsString();
-                AccommodationGetAllDTO dto = new AccommodationGetAllDTO { Name = acc.Name, Address = address, Min = acc.Capacity.Min, Max = acc.Capacity.Max, Price = p.Value, Benefits = benefits, Id = acc.Id.ToString() };
+                AccommodationGetAllDTO dto = new AccommodationGetAllDTO { Name = acc.Name, Address = address, Min = acc.Capacity.Min, Max = acc.Capacity.Max, Price = p.Value, PriceCalculation = acc.PriceCalculation.ToString(), Benefits = benefits, Id = acc.Id.ToString() };
                 
      
                 resultList.Add(dto);
             }
             return Ok(resultList);
+        }
+
+        [HttpPost]
+        [Route("reservation")]
+        public async Task<ActionResult<ReservationRequest>> CreateReservationRequest([FromBody] ReservationRequestDTO reservationRequestDTO)
+        {
+            var command = new CreateReservationRequestCommand(
+               reservationRequestDTO
+               );
+
+            try
+            {
+                var result = await _mediator.Send(command);
+                return Created("Successful reservation", result);
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpPost]

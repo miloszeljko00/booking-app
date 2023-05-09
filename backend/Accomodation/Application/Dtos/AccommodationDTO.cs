@@ -1,4 +1,5 @@
-﻿using AccomodationDomain.Entities;
+﻿using Accomodation.Domain.Primitives.Enums;
+using AccomodationDomain.Entities;
 using AccomodationDomain.Primitives.Enums;
 using AccomodationDomain.ValueObjects;
 using System;
@@ -13,6 +14,7 @@ namespace AccomodationApplication.Dtos
     {
         public string Name { get; set; }
         public Address Address { get; set; }
+        public PriceCalculation PriceCalculation { get; set; }
         public Price PricePerGuest { get; set; }
         public List<Benefit> Benefits { get; set; }
         public List<Picture> Pictures { get; set; }
