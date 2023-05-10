@@ -47,7 +47,16 @@ export class NavbarComponent implements OnDestroy{
   goToSearchAccommodations():void{
     this.router.navigate(['search-accommodations']);
   }
+
   goToUserFlights():void{
     this.router.navigate(['user-flights']);
+  }
+
+  goToReservationsReview():void{
+    this.router.navigate(['reservations-review']);
+  }
+
+  goToRequestsReview():void{
+    this.router.navigate(['requests-review']);
   }
 }

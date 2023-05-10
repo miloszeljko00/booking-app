@@ -13,6 +13,7 @@ namespace Accomodation.Application.Dtos
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
         public int TotalPrice { get; set; }
+        public string AccommodationName { get; set; }
         public string IsCanceled { get; set; }
         public int GuestNumber { get; set; }
     }

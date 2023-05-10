@@ -1,4 +1,5 @@
 ﻿using Accomodation.Application.Dtos;
+using Accomodation.Domain.Primitives.Enums;
 using AccomodationApplication.Abstractions.Messaging;
 using AccomodationDomain.Entities;
 using AccomodationDomain.Interfaces;
@@ -29,14 +30,15 @@ namespace AccomodationApplication.Accommodation.Queries
                 List<ReservationRequest> requests = acc.ReservationRequests;
                 foreach (ReservationRequest req in requests)
                 {
-                    if (req.GuestEmail.EmailAddress.Equals(request.guestEmail))
+                    if (req.GuestEmail.EmailAddress.Equals(request.guestEmail) && !req.Status.Equals(ReservationRequestStatus.CANCELED))
                         response.Add(new ReservationRequestByGuestDTO
                         {
                             Id = req.Id.ToString(),
                             Start = req.ReservationDate.Start,
                             End = req.ReservationDate.End,
                             GuestNumber = req.GuestNumber,
-                            Status = req.Status.ToString()
+                            Status = req.Status.ToString(),
+                            AccommodationName = acc.Name
                         });
                 }
             }

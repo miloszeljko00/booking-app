@@ -29,7 +29,7 @@ namespace AccomodationApplication.Accommodation.Queries
                 List<Reservation> reservations = acc.Reservations;
                 foreach (Reservation res in reservations)
                 {
-                    if (res.GuestEmail.EmailAddress.Equals(request.guestEmail))
+                    if (res.GuestEmail.EmailAddress.Equals(request.guestEmail) && !res.IsCanceled)
                         response.Add(new ReservationByGuestDTO
                         {
                             Id = res.Id.ToString(),
@@ -37,7 +37,8 @@ namespace AccomodationApplication.Accommodation.Queries
                             End = res.ReservationDate.End,
                             GuestNumber = res.GuestNumber,
                             TotalPrice = res.TotalPrice,
-                            IsCanceled = res.IsCanceled == true ? "CANCELED" : "ACTIVE"
+                            IsCanceled = res.IsCanceled == true ? "CANCELED" : "ACTIVE",
+                            AccommodationName = acc.Name
                         });
                 }
             }

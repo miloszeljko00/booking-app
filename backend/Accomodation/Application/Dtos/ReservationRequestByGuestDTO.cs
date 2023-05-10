@@ -13,6 +13,7 @@ namespace Accomodation.Application.Dtos
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
         public string Status { get; set; }
+        public string AccommodationName { get; set; }
         public int GuestNumber { get; set; }
     }
 }

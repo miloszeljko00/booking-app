@@ -4,4 +4,5 @@ export interface RequestByGuest{
     end: string;
     guestNumber: number;
     status: string;
+    accommodationName: string;
 }

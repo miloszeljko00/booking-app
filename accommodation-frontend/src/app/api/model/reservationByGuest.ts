@@ -5,4 +5,5 @@ export interface ReservationByGuest{
     totalPrice: number;
     isCanceled: boolean;
     guestNumber: number;
+    accommodationName: string;
 }

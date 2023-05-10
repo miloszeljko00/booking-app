@@ -48,6 +48,7 @@ export class AccommodationsComponent implements OnInit {
           let endingDateString = this.dateConversion(result.endingDate, result.endingTime)
           let request = {accommodationId: accommodation.id, guestEmail: this.user?.email ?? '',
           start: startingDateString, end: endingDateString, numberOfGuests: result.numberOfGuests}
+          console.log(request)
           this.accService.makeReservation(request).subscribe({
             next: (res) => {
               this.showSuccess('Successfully made reservation');
@@ -64,6 +65,25 @@ export class AccommodationsComponent implements OnInit {
 
   dateConversion(date: string, time:string){
     let dateFormat = new Date(date);
+    let hour = 0
+    if(Number(time.split(':')[0]) >= 12){
+      hour = Number(time.split(':')[0]) - 2
+      time = hour + ':' + time.split(':')[1]
+    }
+    else if(Number(time.split(':')[0]) < 12 && Number(time.split(':')[0]) >= 2){
+      hour = Number(time.split(':')[0]) - 2
+      time = '0' + hour + ':' + time.split(':')[1]
+    }
+    else if(Number(time.split(':')[0]) == 1){
+      hour = 23
+      time = hour + ':' + time.split(':')[1]
+      dateFormat.setDate(dateFormat.getDate() - 1)
+    }
+    else if(Number(time.split(':')[0]) == 0){
+      hour = 22
+      time = hour + ':' + time.split(':')[1]
+      dateFormat.setDate(dateFormat.getDate() - 1)
+    }
     let stringFormat =this.datepipe.transform(dateFormat, 'yyyy-MM-dd');
     stringFormat = stringFormat + 'T' + time + ':00.000Z'
     return stringFormat

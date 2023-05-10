@@ -16,13 +16,17 @@ import { MatButtonModule } from '@angular/material/button';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { NavbarButtonComponent } from './components/navbar-button/navbar-button.component';
 import { DialogComponent } from './components/dialog/dialog.component';
+import { ReservationsReviewComponent } from './components/reservations-review/reservations-review.component';
+import { RequestsReviewComponent } from './components/requests-review/requests-review.component';
 
 
 @NgModule({
   declarations: [
     NavbarComponent,
     NavbarButtonComponent,
-    DialogComponent
+    DialogComponent,
+    ReservationsReviewComponent,
+    RequestsReviewComponent
   ],
   imports:[
     MatButtonModule,
