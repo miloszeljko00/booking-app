@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { TitleStrategy } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Accommodation } from '../model/accommodation';
 import { Request } from '../model/request';
@@ -25,10 +26,11 @@ export class AccommodationService{
 
     getAll(){
         return this.http.get(this.apiUrl);
-      }
+    }
 
-      makeReservation(request: Request): Observable<Accommodation> {
+    makeReservation(request: Request): Observable<Accommodation> {
         return this.http.put<Accommodation>(this.apiUrl + "/reservation", request, httpOptions);
+
       }
 
       getReservationsByGuest(email: string): Observable<ReservationByGuest[]> {
@@ -38,4 +40,9 @@ export class AccommodationService{
       getRequestsByGuest(email: string): Observable<RequestByGuest[]> {
         return this.http.get<RequestByGuest[]>(this.apiUrl + "/"+ email + "/requests");
       }
+
+    getBenefits(){
+      return this.http.get(this.apiUrl + "/benefits");
+    }
+
 }

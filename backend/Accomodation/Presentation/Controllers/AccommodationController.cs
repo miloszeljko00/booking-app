@@ -4,6 +4,7 @@ using AccomodationApplication.Accommodation.Commands;
 using AccomodationApplication.Accommodation.Queries;
 using AccomodationApplication.Dtos;
 using AccomodationDomain.Entities;
+using AccomodationDomain.Primitives.Enums;
 using AccomodationDomain.ValueObjects;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -99,5 +100,20 @@ namespace AccomodationPresentation.Controllers
 
             return Created("neki uri", result);
         }
+
+        [HttpGet]
+        [Route("benefits")]
+        public ActionResult<Benefit> GetBenefits()
+        {
+            List<string> benefitList = new List<string>();
+
+            foreach (Benefit benefit in Enum.GetValues(typeof(Benefit)))
+            {
+                benefitList.Add(benefit.ToString());
+            }
+            
+            return Ok(benefitList);
+        }
+
     }
 }

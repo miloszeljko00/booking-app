@@ -18,6 +18,7 @@ import { NavbarButtonComponent } from './components/navbar-button/navbar-button.
 import { DialogComponent } from './components/dialog/dialog.component';
 import { ReservationsReviewComponent } from './components/reservations-review/reservations-review.component';
 import { RequestsReviewComponent } from './components/requests-review/requests-review.component';
+import { AddAccommodationComponent } from '../pages/add-accommodation/add-accommodation.component';
 
 
 @NgModule({
@@ -26,7 +27,9 @@ import { RequestsReviewComponent } from './components/requests-review/requests-r
     NavbarButtonComponent,
     DialogComponent,
     ReservationsReviewComponent,
-    RequestsReviewComponent
+    RequestsReviewComponent,
+    AddAccommodationComponent,
+
   ],
   imports:[
     MatButtonModule,
@@ -51,7 +54,8 @@ import { RequestsReviewComponent } from './components/requests-review/requests-r
 
   ],
   exports:[
-    NavbarComponent
+    NavbarComponent,
+    
   ]
 })
 export class CoreModule { }
