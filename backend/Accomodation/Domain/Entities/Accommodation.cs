@@ -20,10 +20,11 @@ namespace AccomodationDomain.Entities
         public List<Reservation> Reservations { get; init;} = new List<Reservation> { };
         public List<ReservationRequest> ReservationRequests { get; init; } = new List<ReservationRequest> { };
         public bool ReserveAutomatically { get; init; }
+        public Email HostEmail { get; init; }
         
         private Accommodation(Guid id, string name, Address address, PriceCalculation priceCalculation,
             List<Price> prices, List<Benefit> benefits,List<Picture> pictures, Capacity capacity,
-            List<Reservation> reservations, List<ReservationRequest> reservationRequests, bool reserveAutomatically) : base(id)
+            List<Reservation> reservations, List<ReservationRequest> reservationRequests, bool reserveAutomatically, Email hostEmail) : base(id)
         {
             Name = name;
             Address = address;
@@ -35,15 +36,16 @@ namespace AccomodationDomain.Entities
             PriceCalculation = priceCalculation;
             ReservationRequests = reservationRequests;
             ReserveAutomatically = reserveAutomatically;
+            HostEmail = hostEmail;
         }
         public static Accommodation Create(Guid id, string name, Address address, PriceCalculation priceCalculation,
             List<Price> prices, List<Benefit> benefits, List<Picture> pictures,
             Capacity capacity, List<Reservation> reservations,
-            List<ReservationRequest> reservationRequests, bool reserveAutomatically)
+            List<ReservationRequest> reservationRequests, bool reserveAutomatically, Email hostEmail)
         {
             var accommodation = new Accommodation(id, name, address, priceCalculation, prices,
                 benefits, pictures, capacity, reservations,
-                reservationRequests, reserveAutomatically);
+                reservationRequests, reserveAutomatically, hostEmail);
             var validationResult = CheckIfAccommodationIsValid(accommodation);
             if (validationResult.IsValid)
             {
@@ -168,6 +170,7 @@ namespace AccomodationDomain.Entities
         public List<Reservation> Reservations { get; set; } = new List<Reservation> { };
         public List<ReservationRequest> ReservationRequests { get; set; } = new List<ReservationRequest> { };
         public bool ReserveAutomatically { get; set; }
+        public Email HostEmail{ get; set; }
 
         public AccommodationBuilder withName(string name)
         {
@@ -209,9 +212,9 @@ namespace AccomodationDomain.Entities
             this.Benefits = benefits;
             return this;
         }
-        public AccommodationBuilder withPicture(string fileName)
+        public AccommodationBuilder withPicture(string fileName, string base64)
         {
-            Pictures.Add(Picture.Create(Guid.NewGuid(), fileName));
+            Pictures.Add(Picture.Create(Guid.NewGuid(), fileName, base64));
             return this;
         }
         public AccommodationBuilder withPicture(List<Picture> pictures)
@@ -229,10 +232,15 @@ namespace AccomodationDomain.Entities
             ReserveAutomatically = reserveAutomatically;
             return this;
         }
+        public AccommodationBuilder withHostEmail(string hostEmail)
+        {
+            HostEmail = Email.Create(hostEmail);
+            return this;
+        }
         public Accommodation build()
         {
             return Accommodation.Create(Guid.NewGuid(), Name, Address, PriceCalculation, PricePerGuest, Benefits,
-                Pictures, Capacity, Reservations, ReservationRequests, ReserveAutomatically);
+                Pictures, Capacity, Reservations, ReservationRequests, ReserveAutomatically, HostEmail);
         }
     }
     internal class AccommodationValidator : AbstractValidator<Accommodation>

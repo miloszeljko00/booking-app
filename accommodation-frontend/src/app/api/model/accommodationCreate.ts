@@ -4,7 +4,8 @@ export interface AccommodationCreate{
     address: {city: string, street:string, number:string, country:string};
     benefits: number[];
     reserveAutomatically: boolean;
-    pictures: {filename: string}[];
+    pictures: {filename: string, base64: string}[];
     priceCalculation: number;
-    pricePerGuest: number[]
+    pricePerGuest: number[];
+    hostEmail: string;
 }

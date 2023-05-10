@@ -20,5 +20,6 @@ namespace AccomodationApplication.Dtos
         public List<Picture> Pictures { get; set; }
         public Capacity Capacity { get; set; }
         public bool ReserveAutomatically { get; set; }
+        public string HostEmail { get; set; }
     }
 }

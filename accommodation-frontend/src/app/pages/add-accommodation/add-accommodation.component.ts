@@ -4,7 +4,8 @@ import { ToastrService } from 'ngx-toastr';
 import { DatePipe } from '@angular/common';
 import { AccommodationService } from 'src/app/api/api/accommodation.service';
 import { AccommodationCreate } from 'src/app/api/model/accommodationCreate';
-
+import { AuthService } from 'src/app/core/keycloak/auth.service'; 
+import { User } from 'src/app/core/keycloak/model/user';
 @Component({
   selector: 'app-add-accommodation',
   templateUrl: './add-accommodation.component.html',
@@ -27,9 +28,12 @@ export class AddAccommodationComponent implements OnInit {
   country: string = "";
   benefits = new FormControl('');
   selectedIndexes: number[] = [];
+  user!: User | null;
   
   benefitList: string[] = [];
-  constructor(private datepipe: DatePipe, private toastr : ToastrService, private accommodationService: AccommodationService){}
+  constructor(private authService: AuthService, private toastr : ToastrService, private accommodationService: AccommodationService){
+    this.user = this.authService.getUser()
+  }
 
   ngOnInit(): void {
     this.formGroup1 = new FormGroup({
@@ -54,7 +58,7 @@ export class AddAccommodationComponent implements OnInit {
     console.log(this.selectedIndexes)
     this.accommodation = {name: this.name, address: {street: this.street, number: this.num, city: this.city, country: this.country}, pricePerGuest: [],
                           capacity: {min: this.min, max: this.max}, benefits:this.selectedIndexes, priceCalculation: perGuest, reserveAutomatically: this.isChecked,
-                        pictures: this.getPictureList()};
+                        pictures:this.getPictureList(), hostEmail: this.user?.email ?? ''}; 
     this.accommodationService.createAccomodation(this.accommodation).subscribe({
       next: (acc) => {
         this.showSuccess('Successfully created flight');
@@ -71,7 +75,7 @@ export class AddAccommodationComponent implements OnInit {
     if (this.selectedFiles && this.selectedFiles[0]) {
       const numberOfFiles = this.selectedFiles.length;
       for (let i = 0; i < numberOfFiles; i++) {
-          returnList.push({filename: this.selectedFiles[i].name})
+          returnList.push({filename: this.selectedFiles[i].name, base64: this.previews[i]})
       }
     }
     return returnList
@@ -98,6 +102,7 @@ export class AddAccommodationComponent implements OnInit {
           console.log(e.target.result);
           
           this.previews.push(e.target.result);
+          console.log(this.previews)
         };
   
         reader.readAsDataURL(this.selectedFiles[i]);
