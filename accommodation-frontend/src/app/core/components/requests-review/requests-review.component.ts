@@ -27,6 +27,10 @@ export class RequestsReviewComponent {
   ngOnInit() {
     this.accService.getRequestsByGuest(this.user?.email ?? '').subscribe((response: any) => {
       this.requestsList = response;
+      this.requestsList.forEach(el => {
+        if(new Date(el.start) < new Date() && el.status === 'PENDING')
+          el.status = 'EXPIRED'
+      })
       this.dataSourceRequests.data = this.requestsList
     })
   }
