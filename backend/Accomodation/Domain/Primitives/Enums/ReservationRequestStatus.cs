@@ -10,6 +10,7 @@ namespace Accomodation.Domain.Primitives.Enums
     {
         PENDING,
         ACCEPTED,
-        REJECTED
+        REJECTED,
+        CANCELED
     }
 }

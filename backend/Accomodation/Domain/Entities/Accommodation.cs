@@ -58,9 +58,9 @@ namespace AccomodationDomain.Entities
         {
             return PricePerGuest.Value * Capacity.Max;
         }*/
-        public void CreateReservation(string email, DateTime start, DateTime end, int numberOfGuests, bool isPerPerson, int price)
+        public void CreateReservation(string email, DateTime start, DateTime end, int numberOfGuests, bool isPerPerson, int price, bool isCanceled)
         {
-            Reservations.Add(Reservation.Create(Guid.NewGuid(), email, start, end, numberOfGuests, isPerPerson, price));
+            Reservations.Add(Reservation.Create(Guid.NewGuid(), email, start, end, numberOfGuests, isPerPerson, price, isCanceled));
         }
         public void CreateReservationRequest(string email, DateTime start, DateTime end, int numberOfGuests, ReservationRequestStatus status)
         {
@@ -103,6 +103,8 @@ namespace AccomodationDomain.Entities
         {
             foreach (Reservation r in Reservations)
             {
+                if (r.IsCanceled)
+                    continue;
                 if (r.ReservationDate.Start.CompareTo(dateRange.Start) >= 0 && r.ReservationDate.Start.CompareTo(dateRange.End) <= 0)
                 {
                     return true;
@@ -128,7 +130,7 @@ namespace AccomodationDomain.Entities
             }
             else
             {
-                if (dateRange.End.CompareTo(p.DateRange.End) > 0)
+                if (dateRange.End.CompareTo(p.DateRange.End) >= 0)
                 {
                     return false;
                 }

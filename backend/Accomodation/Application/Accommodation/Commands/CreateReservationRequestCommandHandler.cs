@@ -40,9 +40,18 @@ namespace AccomodationApplication.Accommodation.Commands
             }
             if (accommodation.IsReservationDateRangeTaken(DateRange.Create(request.ReservationRequestDTO.Start, request.ReservationRequestDTO.End)))
             {
-                throw new Exception("This date range is already taken");
+                throw new Exception("This date range is already reserved");
             }
-            accommodation.CreateReservationRequest(request.ReservationRequestDTO.GuestEmail, request.ReservationRequestDTO.Start, request.ReservationRequestDTO.End, request.ReservationRequestDTO.numberOfGuests, ReservationRequestStatus.PENDING);
+            if (accommodation.ReserveAutomatically)
+            {
+                bool isPerPerson = accommodation.PriceCalculation == PriceCalculation.PER_PERSON ? true : false;
+                accommodation.CreateReservationRequest(request.ReservationRequestDTO.GuestEmail, request.ReservationRequestDTO.Start, request.ReservationRequestDTO.End, request.ReservationRequestDTO.numberOfGuests, ReservationRequestStatus.ACCEPTED);
+                accommodation.CreateReservation(request.ReservationRequestDTO.GuestEmail, request.ReservationRequestDTO.Start, request.ReservationRequestDTO.End, request.ReservationRequestDTO.numberOfGuests, isPerPerson, (int)accommodation.GetPriceForSpecificDate(request.ReservationRequestDTO.Start).Value, false);
+            }
+            else
+            {
+                accommodation.CreateReservationRequest(request.ReservationRequestDTO.GuestEmail, request.ReservationRequestDTO.Start, request.ReservationRequestDTO.End, request.ReservationRequestDTO.numberOfGuests, ReservationRequestStatus.PENDING);
+            }
             _repository.UpdateAsync(accommodation.Id, accommodation);
             return Task.FromResult(accommodation);
         }

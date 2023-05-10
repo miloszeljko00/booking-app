@@ -14,6 +14,8 @@ namespace AccomodationDomain.Entities
         public Email GuestEmail { get; init; }
         public DateRange ReservationDate { get; init; }
         public int TotalPrice { get; init; }
+        public bool IsCanceled { get; init; }
+
         private int guestNumber;
         public int GuestNumber
         {
@@ -27,14 +29,15 @@ namespace AccomodationDomain.Entities
                 {
                     throw new NumberIsLessOrEqualToZeroException("Guest number must be greater than 0.");
                 }
-                GuestNumber = guestNumber;
+                guestNumber = value;
             }
         }
 
-        private Reservation(Guid id, Email questEmail, DateRange reservationDate, int guestNumber, bool isPerPerson, int price) : base(id)
+        private Reservation(Guid id, Email questEmail, DateRange reservationDate, int guestNumber, bool isPerPerson, int price, bool isCanceled) : base(id)
         {
             GuestEmail = questEmail;
             ReservationDate = reservationDate;
+            IsCanceled = isCanceled;
             GuestNumber = guestNumber;
             if (isPerPerson)
             {
@@ -46,9 +49,9 @@ namespace AccomodationDomain.Entities
             }
         }
 
-        public static Reservation Create(Guid id, string email, DateTime start, DateTime end, int guestNumber, bool isPerPerson, int price)
+        public static Reservation Create(Guid id, string email, DateTime start, DateTime end, int guestNumber, bool isPerPerson, int price, bool isCanceled)
         {
-            return new Reservation(id, Email.Create(email), DateRange.Create(start, end), guestNumber, isPerPerson, price);
+            return new Reservation(id, Email.Create(email), DateRange.Create(start, end), guestNumber, isPerPerson, price, isCanceled);
         }
     }
 }

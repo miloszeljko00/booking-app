@@ -1,4 +1,5 @@
-﻿using Accomodation.Infrastructure.Accommodation;
+﻿using Accomodation.Application.Dtos;
+using Accomodation.Infrastructure.Accommodation;
 using AccomodationApplication.Accommodation.Commands;
 using AccomodationApplication.Accommodation.Queries;
 using AccomodationDomain.Entities;
@@ -19,6 +20,8 @@ namespace Accomodation.Configuration
         public static IServiceCollection AddHandlers(this IServiceCollection services)
         {
             services.AddScoped<IRequestHandler<GetAllAccommodationsQuery, ICollection<Accommodation>>, GetAllAccommodationsQueryHandler>();
+            services.AddScoped<IRequestHandler<GetAllReservationsByGuestQuery, ICollection<ReservationByGuestDTO>>, GetAllReservationsByGuestQueryHandler>();
+            services.AddScoped<IRequestHandler<GetAllRequestsByGuestQuery, ICollection<ReservationRequestByGuestDTO>>, GetAllRequestsByGuestQueryHandler>();
             services.AddScoped<IRequestHandler<CreateReservationRequestCommand, Accommodation>, CreateReservationRequestCommandHandler>();
             services.AddScoped<IRequestHandler<CreateAccommodationCommand, Accommodation>, CreateAccommodationCommandHandler>();
             return services;

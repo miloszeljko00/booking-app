@@ -9,6 +9,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -65,6 +66,26 @@ namespace AccomodationPresentation.Controllers
             {
                 return BadRequest(e.Message);
             }
+        }
+
+        [HttpGet]
+        [Route("{guestEmail}/reservations")]
+        public async Task<ActionResult<List<ReservationByGuestDTO>>> GetReservationsByGuest([FromRoute(Name = "guestEmail"), Required] string guestEmail)
+        {
+            var query = new GetAllReservationsByGuestQuery(guestEmail);
+            var result = await _mediator.Send(query);
+
+            return Ok(result.ToList());
+        }
+
+        [HttpGet]
+        [Route("{guestEmail}/requests")]
+        public async Task<ActionResult<List<ReservationRequestByGuestDTO>>> GetRequestsByGuest([FromRoute(Name = "guestEmail"), Required] string guestEmail)
+        {
+            var query = new GetAllRequestsByGuestQuery(guestEmail);
+            var result = await _mediator.Send(query);
+
+            return Ok(result.ToList());
         }
 
         [HttpPost]

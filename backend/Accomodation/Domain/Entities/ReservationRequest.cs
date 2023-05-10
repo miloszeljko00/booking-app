@@ -15,6 +15,7 @@ namespace AccomodationDomain.Entities
         public Email GuestEmail { get; init; }
         public DateRange ReservationDate { get; init; }
         public ReservationRequestStatus Status { get; init; }
+
         private int guestNumber;
         public int GuestNumber
         {

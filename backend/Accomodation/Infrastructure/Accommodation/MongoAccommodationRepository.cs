@@ -38,5 +38,8 @@ namespace Accomodation.Infrastructure.Accommodation
 
         public async Task UpdateAsync(Guid id, AccomodationDomain.Entities.Accommodation updatedAccommodation) =>
             await _accommodationCollection.ReplaceOneAsync(x => x.Id == id, updatedAccommodation);
+
+        public async Task RemoveAsync(Guid id) =>
+            await _accommodationCollection.DeleteOneAsync(x => x.Id == id);
     }
 }
