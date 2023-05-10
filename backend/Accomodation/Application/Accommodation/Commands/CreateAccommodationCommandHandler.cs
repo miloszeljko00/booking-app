@@ -24,13 +24,15 @@ namespace AccomodationApplication.Accommodation.Commands
             var accommodationBuilder = AccommodationBuilder.withAddress(request.AccommodationDto.Address.Country,
                 request.AccommodationDto.Address.City, request.AccommodationDto.Address.Street, request.AccommodationDto.Address.Number)
                                 .withPriceCalculation(request.AccommodationDto.PriceCalculation)
-                                .withPricePerGuest(request.AccommodationDto.PricePerGuest.Value, request.AccommodationDto.PricePerGuest.DateRange)
+                                .withPricePerGuest(request.AccommodationDto.PricePerGuest)
                                 .withName(request.AccommodationDto.Name)
                                 .withCapacity(request.AccommodationDto.Capacity.Max, request.AccommodationDto.Capacity.Min)
-                                .withAutomaticallyReservation(request.AccommodationDto.ReserveAutomatically);
+                                .withAutomaticallyReservation(request.AccommodationDto.ReserveAutomatically)
+                                .withHostEmail(request.AccommodationDto.HostEmail);
+            
             foreach (var picture in request.AccommodationDto.Pictures)
             {
-                accommodationBuilder.withPicture(picture.FileName, picture.Description);
+                accommodationBuilder.withPicture(picture.FileName, picture.Base64);
             }
             //var benefits = request.AccommodationDto.Benefits
             //    .Select(b => (Benefit)Enum.Parse(typeof(Benefit), b))

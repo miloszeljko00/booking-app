@@ -12,17 +12,17 @@ namespace AccomodationDomain.Entities
     public class Picture : Entity
     {
         public string FileName { get; init; }
-        public string Description { get; init; }
+        public string Base64 { get; init; }
 
         public Picture(Guid id): base(id) { } //obrisati kad se kreiraju dtovi
-        private Picture(Guid id, string fileName, string description) : base(id)
+        private Picture(Guid id, string fileName, string base64) : base(id)
         {
             FileName = fileName;
-            Description = description;
+            Base64 = base64;
         }
-        public static Picture Create(Guid id, string filename, string description)
+        public static Picture Create(Guid id, string filename, string base64)
         {
-            Picture picture = new Picture(id, filename, description);
+            Picture picture = new Picture(id, filename, base64);
             var validationResult = CheckIfPictureIsValid(picture);
             if (validationResult.IsValid)
             {
@@ -45,7 +45,7 @@ namespace AccomodationDomain.Entities
         public PictureValidator()
         {
             RuleFor(x => x.FileName).NotEmpty().MaximumLength(100).Must(x => x.EndsWith(".jpg") || x.EndsWith(".png")).WithMessage("File name must end with '.jpg' or '.png'");
-            RuleFor(x => x.Description).NotEmpty().MaximumLength(1000);
+            
         }
     }
 }

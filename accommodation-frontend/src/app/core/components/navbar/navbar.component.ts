@@ -36,14 +36,7 @@ export class NavbarComponent implements OnDestroy{
     const externalUrl = 'http://localhost:28080/realms/booking-app/account/#/personal-info';
     window.open(externalUrl, '_blank');
   }
-  goToCreateFlight(): void {
-    this.router.navigate(['create-flight']);
-  }
-
-  goToReviewFlights(): void {
-    this.router.navigate(['review-flights']);
-  }
-
+  
   goToSearchAccommodations():void{
     this.router.navigate(['search-accommodations']);
   }
@@ -59,4 +52,10 @@ export class NavbarComponent implements OnDestroy{
   goToRequestsReview():void{
     this.router.navigate(['requests-review']);
   }
+
+  goToAddAccomodation():void{
+    this.router.navigate(['add-accomodation'])
+  }
+  
+
 }

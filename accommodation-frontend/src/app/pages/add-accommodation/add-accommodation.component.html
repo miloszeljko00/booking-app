@@ -1,0 +1,55 @@
+
+<div class="create-acc-div">
+    <div>
+        <div class="column">
+            <form class="create-acc-form" [formGroup]="formGroup1">
+                <mat-form-field appearance="outline" color="primary">
+                    <mat-label>Name</mat-label>
+                    <input matInput type="text" name="name" formControlName="name" [(ngModel)]="name">
+                </mat-form-field><br/>
+                <mat-form-field appearance="outline" color="primary">
+                    <mat-label>Street</mat-label>
+                    <input matInput type="text" name="street" formControlName="street" [(ngModel)]="street">
+                </mat-form-field><br/>
+                <mat-form-field appearance="outline" color="primary">
+                    <mat-label>Number</mat-label>
+                    <input matInput type="text" name="num" formControlName="num" [(ngModel)]="num">
+                </mat-form-field><br/>
+                <mat-form-field appearance="outline" color="primary">
+                    <mat-label>City</mat-label>
+                    <input matInput type="text" name="city" formControlName="city" [(ngModel)]="city">
+                </mat-form-field><br/>
+                <mat-form-field appearance="outline" color="primary">
+                    <mat-label>Country</mat-label>
+                    <input matInput type="text" name="country" formControlName="country" [(ngModel)]="country">
+                </mat-form-field><br/>
+                <mat-form-field appearance="outline" color="primary">
+                    <mat-label>Minimal number of guests</mat-label>
+                    <input matInput type="number" name="min" formControlName="min" [(ngModel)]="min">
+                </mat-form-field><br/>
+                <mat-form-field appearance="outline" color="primary">
+                    <mat-label>Maximal number of guests</mat-label>
+                    <input matInput type="number" name="max" formControlName="max" [(ngModel)]="max">
+                </mat-form-field><br/>
+            </form>
+        </div>
+        
+    </div>
+   
+    <form class="create-acc-form">
+        
+        <mat-slide-toggle color="primary" [(ngModel)]="isChecked" name="result">Reserve Autimatically</mat-slide-toggle><br/><br/>
+        <mat-slide-toggle color="primary" [(ngModel)]="isCheckedPrice" name="priceResult">Count price per guest</mat-slide-toggle><br/><br/>
+         <mat-form-field appearance="fill">
+            <mat-label>Benefits</mat-label>
+            <mat-select [formControl]="benefits" [(value)]="selectedIndexes" multiple>
+                <mat-option *ngFor="let benefit of benefitList; let i = index" [value]="i">{{benefit}}</mat-option>
+              </mat-select>
+          </mat-form-field>
+          <input class="upload" type="file" name="images" accept="image/*" multiple (change)="selectFiles($event)">
+          <div>
+            <img *ngFor='let preview of previews' [src]="preview" class="preview">
+          </div>
+    </form>
+    <button class="button" mat-raised-button color="primary" (click)="create()" [disabled]="!formGroup1.valid">Create Accommodation</button>
+</div>
