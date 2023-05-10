@@ -37,12 +37,14 @@
     </div>
    
     <form class="create-acc-form">
-         
+        
+        <mat-slide-toggle color="primary" [(ngModel)]="isChecked" name="result">Reserve Autimatically</mat-slide-toggle><br/><br/>
+        <mat-slide-toggle color="primary" [(ngModel)]="isCheckedPrice" name="priceResult">Count price per guest</mat-slide-toggle><br/><br/>
          <mat-form-field appearance="fill">
             <mat-label>Benefits</mat-label>
-            <mat-select [formControl]="benefits" multiple>
-              <mat-option *ngFor="let benefit of benefitList" [value]="benefit">{{benefit}}</mat-option>
-            </mat-select>
+            <mat-select [formControl]="benefits" [(value)]="selectedIndexes" multiple>
+                <mat-option *ngFor="let benefit of benefitList; let i = index" [value]="i">{{benefit}}</mat-option>
+              </mat-select>
           </mat-form-field>
           <input class="upload" type="file" name="images" accept="image/*" multiple (change)="selectFiles($event)">
           <div>

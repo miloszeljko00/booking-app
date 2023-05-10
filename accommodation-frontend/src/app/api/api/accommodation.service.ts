@@ -6,6 +6,7 @@ import { Accommodation } from '../model/accommodation';
 import { Request } from '../model/request';
 import { ReservationByGuest } from '../model/reservationByGuest';
 import { RequestByGuest } from '../model/requestByGuest';
+import { AccommodationCreate } from '../model/accommodationCreate';
 
 
 const httpOptions = {
@@ -30,6 +31,10 @@ export class AccommodationService{
 
     makeReservation(request: Request): Observable<Accommodation> {
         return this.http.put<Accommodation>(this.apiUrl + "/reservation", request, httpOptions);
+
+      }
+      createAccomodation(accomodationCreate: AccommodationCreate): Observable<AccommodationCreate> {
+        return this.http.post<AccommodationCreate>(this.apiUrl, accomodationCreate, httpOptions);
 
       }
 

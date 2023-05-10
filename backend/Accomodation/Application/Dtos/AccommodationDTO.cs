@@ -15,7 +15,7 @@ namespace AccomodationApplication.Dtos
         public string Name { get; set; }
         public Address Address { get; set; }
         public PriceCalculation PriceCalculation { get; set; }
-        public Price PricePerGuest { get; set; }
+        public List<Price> PricePerGuest { get; set; }
         public List<Benefit> Benefits { get; set; }
         public List<Picture> Pictures { get; set; }
         public Capacity Capacity { get; set; }

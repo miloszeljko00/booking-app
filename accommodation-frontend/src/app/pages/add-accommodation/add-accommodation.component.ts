@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { DatePipe } from '@angular/common';
 import { AccommodationService } from 'src/app/api/api/accommodation.service';
+import { AccommodationCreate } from 'src/app/api/model/accommodationCreate';
 
 @Component({
   selector: 'app-add-accommodation',
@@ -10,10 +11,13 @@ import { AccommodationService } from 'src/app/api/api/accommodation.service';
   styleUrls: ['./add-accommodation.component.scss']
 })
 export class AddAccommodationComponent implements OnInit {
-
+  accommodation!: AccommodationCreate;
+  isChecked: boolean = false;
+  isCheckedPrice: boolean = false;
   selectedFiles?: FileList;
   previews: string[] = [];
   formGroup1!: FormGroup;
+  reserveAutomatically: boolean=false;
   name: string = "";
   min: number = 1;
   max: number = 1;
@@ -22,7 +26,9 @@ export class AddAccommodationComponent implements OnInit {
   city: string = "";
   country: string = "";
   benefits = new FormControl('');
-  benefitList: string[] = ['Extra cheese', 'Mushroom', 'Onion', 'Pepperoni', 'Sausage', 'Tomato'];
+  selectedIndexes: number[] = [];
+  
+  benefitList: string[] = [];
   constructor(private datepipe: DatePipe, private toastr : ToastrService, private accommodationService: AccommodationService){}
 
   ngOnInit(): void {
@@ -37,11 +43,38 @@ export class AddAccommodationComponent implements OnInit {
     });
     this.accommodationService.getBenefits().subscribe((response: any) => {
       this.benefitList = response;
-      console.log(response)
+      
     })
   }
 
   create(){
+    var perGuest = 1
+    if(this.isCheckedPrice)
+      perGuest=0;
+    console.log(this.selectedIndexes)
+    this.accommodation = {name: this.name, address: {street: this.street, number: this.num, city: this.city, country: this.country}, pricePerGuest: [],
+                          capacity: {min: this.min, max: this.max}, benefits:this.selectedIndexes, priceCalculation: perGuest, reserveAutomatically: this.isChecked,
+                        pictures: this.getPictureList()};
+    this.accommodationService.createAccomodation(this.accommodation).subscribe({
+      next: (acc) => {
+        this.showSuccess('Successfully created flight');
+        this.formGroup1.reset();
+        
+      },
+      error: (e) => this.showError('Error happened while creating flight')
+    })
+
+  }
+
+  getPictureList(){
+    var returnList = []
+    if (this.selectedFiles && this.selectedFiles[0]) {
+      const numberOfFiles = this.selectedFiles.length;
+      for (let i = 0; i < numberOfFiles; i++) {
+          returnList.push({filename: this.selectedFiles[i].name})
+      }
+    }
+    return returnList
 
   }
   showSuccess(message: string) {
@@ -60,9 +93,10 @@ export class AddAccommodationComponent implements OnInit {
       const numberOfFiles = this.selectedFiles.length;
       for (let i = 0; i < numberOfFiles; i++) {
         const reader = new FileReader();
-  
+        console.log(this.selectedFiles[i].name);
         reader.onload = (e: any) => {
           console.log(e.target.result);
+          
           this.previews.push(e.target.result);
         };
   

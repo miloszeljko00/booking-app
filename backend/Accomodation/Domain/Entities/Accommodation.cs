@@ -209,9 +209,9 @@ namespace AccomodationDomain.Entities
             this.Benefits = benefits;
             return this;
         }
-        public AccommodationBuilder withPicture(string fileName, string description)
+        public AccommodationBuilder withPicture(string fileName)
         {
-            Pictures.Add(Picture.Create(Guid.NewGuid(), fileName, description));
+            Pictures.Add(Picture.Create(Guid.NewGuid(), fileName));
             return this;
         }
         public AccommodationBuilder withPicture(List<Picture> pictures)
