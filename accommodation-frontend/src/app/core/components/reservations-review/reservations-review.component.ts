@@ -6,6 +6,8 @@ import { DatePipe } from '@angular/common';
 import { AccommodationService } from 'src/app/api/api/accommodation.service';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../keycloak/auth.service';
+import { ConfirmDialogComponent, ConfirmDialogModel } from '../confirm-dialog/confirm-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-reservations-review',
@@ -20,7 +22,7 @@ export class ReservationsReviewComponent {
   res!: ReservationByGuest;
   user!: User | null;
 
-  constructor(private datepipe: DatePipe,private accService: AccommodationService, private toastr : ToastrService, private authService: AuthService) {
+  constructor(public dialog: MatDialog,private accService: AccommodationService, private toastr : ToastrService, private authService: AuthService) {
     this.user = this.authService.getUser()
   }
 
@@ -41,16 +43,29 @@ export class ReservationsReviewComponent {
   }
 
   cancelReservation(res:ReservationByGuest){
-    let parameter = {accommodationId: res.accommodationId, reservationId: res.id}
-    this.accService.cancelReservation(parameter).subscribe({
-      next: () => {
-        this.showSuccess('Successfully canceled reservation');
-        this.reservationList = this.reservationList.filter(item => item.id !== res.id);
-        this.dataSourceReservations.data = this.reservationList
-      },
-      error: (e) => {
-        this.showError(e.error);
-      }
+    const message = `Are you sure you want to cancel this reservation?`;
+    const dialogData = new ConfirmDialogModel("Confirm Action", message);
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      maxWidth: "400px",
+      data: dialogData
+    });
+
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      if(dialogResult == 'false')
+        return
+      else if(dialogResult == 'true'){
+        let parameter = {accommodationId: res.accommodationId, reservationId: res.id}
+        this.accService.cancelReservation(parameter).subscribe({
+        next: () => {
+          this.showSuccess('Successfully canceled reservation');
+          this.reservationList = this.reservationList.filter(item => item.id !== res.id);
+          this.dataSourceReservations.data = this.reservationList
+        },
+        error: (e) => {
+          this.showError(e.error);
+        }
+      });
+      } 
     });
   }
 

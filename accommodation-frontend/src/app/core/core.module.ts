@@ -19,6 +19,7 @@ import { DialogComponent } from './components/dialog/dialog.component';
 import { ReservationsReviewComponent } from './components/reservations-review/reservations-review.component';
 import { RequestsReviewComponent } from './components/requests-review/requests-review.component';
 import { AddAccommodationComponent } from '../pages/add-accommodation/add-accommodation.component';
+import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 
 
 @NgModule({
@@ -29,6 +30,7 @@ import { AddAccommodationComponent } from '../pages/add-accommodation/add-accomm
     ReservationsReviewComponent,
     RequestsReviewComponent,
     AddAccommodationComponent,
+    ConfirmDialogComponent,
 
   ],
   imports:[
