@@ -157,6 +157,19 @@ namespace AccomodationDomain.Entities
             }
             return benefitString.Substring(0, benefitString.Length - 2); 
         }
+
+        public int GetCancellationNumber(string guestEmail)
+        {
+            int cancellationNumber = 0;
+            foreach (Reservation res in Reservations)
+            {
+                if(res.IsCanceled && res.GuestEmail.EmailAddress.Equals(guestEmail))
+                {
+                    cancellationNumber++;
+                }
+            }
+            return cancellationNumber;
+        }
     }
     public class AccommodationBuilder
     {

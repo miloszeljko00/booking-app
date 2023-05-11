@@ -53,6 +53,10 @@ export class NavbarComponent implements OnDestroy{
     this.router.navigate(['requests-review']);
   }
 
+  goToAdminRequestsReview():void{
+    this.router.navigate(['admin-requests-review']);
+  }
+
   goToAddAccomodation():void{
     this.router.navigate(['add-accomodation'])
   }

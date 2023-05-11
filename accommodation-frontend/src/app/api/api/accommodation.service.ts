@@ -8,6 +8,7 @@ import { ReservationByGuest } from '../model/reservationByGuest';
 import { RequestByGuest } from '../model/requestByGuest';
 import { AccommodationCreate } from '../model/accommodationCreate';
 import { ReservationCancellation } from '../model/reservationCancellation';
+import { RequestByAdmin } from '../model/requestByAdmin';
 
 
 const httpOptions = {
@@ -46,6 +47,10 @@ export class AccommodationService{
 
     getRequestsByGuest(email: string): Observable<RequestByGuest[]> {
       return this.http.get<RequestByGuest[]>(this.apiUrl + "/"+ email + "/requests");
+    }
+
+    getRequestsByAdmin(email: string): Observable<RequestByAdmin[]> {
+      return this.http.get<RequestByAdmin[]>(this.apiUrl + "/"+ email + "/admin-requests");
     }
 
     getBenefits(){

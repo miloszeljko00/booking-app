@@ -127,6 +127,16 @@ namespace AccomodationPresentation.Controllers
             return Ok(result.ToList());
         }
 
+        [HttpGet]
+        [Route("{adminEmail}/admin-requests")]
+        public async Task<ActionResult<List<ReservationRequestByAdminDTO>>> GetRequestsByAdmin([FromRoute(Name = "adminEmail"), Required] string adminEmail)
+        {
+            var query = new GetAllRequestsByAdminQuery(adminEmail);
+            var result = await _mediator.Send(query);
+
+            return Ok(result.ToList());
+        }
+
         [HttpPost]
         public async Task<ActionResult<Accommodation>> CreateAccommodation([FromBody] AccommodationDTO createAccommodationDto)
         {
