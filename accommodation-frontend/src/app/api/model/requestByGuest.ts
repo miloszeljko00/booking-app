@@ -5,4 +5,5 @@ export interface RequestByGuest{
     guestNumber: number;
     status: string;
     accommodationName: string;
+    accommodationId: string;
 }

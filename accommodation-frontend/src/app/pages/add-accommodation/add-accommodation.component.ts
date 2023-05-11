@@ -6,6 +6,7 @@ import { AccommodationService } from 'src/app/api/api/accommodation.service';
 import { AccommodationCreate } from 'src/app/api/model/accommodationCreate';
 import { AuthService } from 'src/app/core/keycloak/auth.service'; 
 import { User } from 'src/app/core/keycloak/model/user';
+
 @Component({
   selector: 'app-add-accommodation',
   templateUrl: './add-accommodation.component.html',
@@ -63,7 +64,9 @@ export class AddAccommodationComponent implements OnInit {
       next: (acc) => {
         this.showSuccess('Successfully created flight');
         this.formGroup1.reset();
-        
+        this.isChecked = false;
+        this.isCheckedPrice = false;
+        this.selectedIndexes = [];
       },
       error: (e) => this.showError('Error happened while creating flight')
     })

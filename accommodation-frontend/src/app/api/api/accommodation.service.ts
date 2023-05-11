@@ -7,6 +7,7 @@ import { Request } from '../model/request';
 import { ReservationByGuest } from '../model/reservationByGuest';
 import { RequestByGuest } from '../model/requestByGuest';
 import { AccommodationCreate } from '../model/accommodationCreate';
+import { ReservationCancellation } from '../model/reservationCancellation';
 
 
 const httpOptions = {
@@ -30,24 +31,33 @@ export class AccommodationService{
     }
 
     makeReservation(request: Request): Observable<Accommodation> {
-        return this.http.put<Accommodation>(this.apiUrl + "/reservation", request, httpOptions);
+      return this.http.put<Accommodation>(this.apiUrl + "/reservation", request, httpOptions);
 
-      }
-      createAccomodation(accomodationCreate: AccommodationCreate): Observable<AccommodationCreate> {
-        return this.http.post<AccommodationCreate>(this.apiUrl, accomodationCreate, httpOptions);
+    }
 
-      }
+    createAccomodation(accomodationCreate: AccommodationCreate): Observable<AccommodationCreate> {
+      return this.http.post<AccommodationCreate>(this.apiUrl, accomodationCreate, httpOptions);
 
-      getReservationsByGuest(email: string): Observable<ReservationByGuest[]> {
-        return this.http.get<ReservationByGuest[]>(this.apiUrl + "/"+ email + "/reservations");
-      }
+    }
 
-      getRequestsByGuest(email: string): Observable<RequestByGuest[]> {
-        return this.http.get<RequestByGuest[]>(this.apiUrl + "/"+ email + "/requests");
-      }
+    getReservationsByGuest(email: string): Observable<ReservationByGuest[]> {
+      return this.http.get<ReservationByGuest[]>(this.apiUrl + "/"+ email + "/reservations");
+    }
+
+    getRequestsByGuest(email: string): Observable<RequestByGuest[]> {
+      return this.http.get<RequestByGuest[]>(this.apiUrl + "/"+ email + "/requests");
+    }
 
     getBenefits(){
       return this.http.get(this.apiUrl + "/benefits");
+    }
+
+    cancelReservation(reservation: ReservationCancellation){
+      return this.http.delete(this.apiUrl + "/reservation", { body : reservation, headers: httpOptions.headers});
+    }
+
+    cancelReservationRequest(reservationRequest: ReservationCancellation){
+      return this.http.delete(this.apiUrl + "/request", { body : reservationRequest, headers: httpOptions.headers});
     }
 
 }

@@ -38,7 +38,8 @@ namespace AccomodationApplication.Accommodation.Queries
                             GuestNumber = res.GuestNumber,
                             TotalPrice = res.TotalPrice,
                             IsCanceled = res.IsCanceled == true ? "CANCELED" : "ACTIVE",
-                            AccommodationName = acc.Name
+                            AccommodationName = acc.Name,
+                            AccommodationId = acc.Id.ToString()
                         });
                 }
             }

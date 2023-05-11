@@ -38,7 +38,8 @@ namespace AccomodationApplication.Accommodation.Queries
                             End = req.ReservationDate.End,
                             GuestNumber = req.GuestNumber,
                             Status = req.Status.ToString(),
-                            AccommodationName = acc.Name
+                            AccommodationName = acc.Name,
+                            AccommodationId = acc.Id.ToString()
                         });
                 }
             }

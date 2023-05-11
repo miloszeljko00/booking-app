@@ -48,7 +48,6 @@ export class AccommodationsComponent implements OnInit {
           let endingDateString = this.dateConversion(result.endingDate, result.endingTime)
           let request = {accommodationId: accommodation.id, guestEmail: this.user?.email ?? '',
           start: startingDateString, end: endingDateString, numberOfGuests: result.numberOfGuests}
-          console.log(request)
           this.accService.makeReservation(request).subscribe({
             next: (res) => {
               this.showSuccess('Successfully made reservation');

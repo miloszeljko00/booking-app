@@ -35,4 +35,25 @@ export class RequestsReviewComponent {
     })
   }
 
+  cancelRequest(req:RequestByGuest){
+    let parameter = {accommodationId: req.accommodationId, reservationId: req.id}
+    this.accService.cancelReservationRequest(parameter).subscribe({
+      next: () => {
+        this.showSuccess('Successfully canceled reservation request');
+        this.requestsList = this.requestsList.filter(item => item.id !== req.id);
+        this.dataSourceRequests.data = this.requestsList
+      },
+      error: (e) => {
+        this.showError(e.error);
+      }
+    });
+  }
+
+  showSuccess(message: string) {
+    this.toastr.success(message, 'Booking application');
+  }
+  showError(message: string) {
+    this.toastr.error(message, 'Booking application');
+  }
+
 }

@@ -69,6 +69,44 @@ namespace AccomodationPresentation.Controllers
             }
         }
 
+        [HttpDelete]
+        [Route("request")]
+        public async Task<ActionResult<Accommodation>> CancelReservationRequest([FromBody] ReservationCancellationDTO reservationRequestCancellationDTO)
+        {
+            var command = new CancelReservationRequestCommand(
+               reservationRequestCancellationDTO
+               );
+
+            try
+            {
+                var result = await _mediator.Send(command);
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpDelete]
+        [Route("reservation")]
+        public async Task<ActionResult<Accommodation>> CancelReservation([FromBody] ReservationCancellationDTO reservationCancellationDTO)
+        {
+            var command = new CancelReservationCommand(
+               reservationCancellationDTO
+               );
+
+            try
+            {
+                var result = await _mediator.Send(command);
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
         [HttpGet]
         [Route("{guestEmail}/reservations")]
         public async Task<ActionResult<List<ReservationByGuestDTO>>> GetReservationsByGuest([FromRoute(Name = "guestEmail"), Required] string guestEmail)

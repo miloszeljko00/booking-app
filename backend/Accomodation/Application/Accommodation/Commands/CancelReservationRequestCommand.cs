@@ -1,4 +1,5 @@
-﻿using AccomodationApplication.Abstractions.Messaging;
+﻿using Accomodation.Application.Dtos;
+using AccomodationApplication.Abstractions.Messaging;
 using AccomodationApplication.Dtos;
 using AccomodationDomain.Entities;
 using AccomodationDomain.Primitives.Enums;
@@ -11,8 +12,8 @@ using System.Threading.Tasks;
 
 namespace AccomodationApplication.Accommodation.Commands
 {
-    public sealed record CreateReservationRequestCommand(
-        ReservationRequestDTO reservationRequestDTO
+    public sealed record CancelReservationRequestCommand(
+        ReservationCancellationDTO reservationRequestCancellationDTO
         ) : ICommand<AccomodationDomain.Entities.Accommodation>
     {
     }

@@ -39,4 +39,25 @@ export class ReservationsReviewComponent {
       return true
     return false
   }
+
+  cancelReservation(res:ReservationByGuest){
+    let parameter = {accommodationId: res.accommodationId, reservationId: res.id}
+    this.accService.cancelReservation(parameter).subscribe({
+      next: () => {
+        this.showSuccess('Successfully canceled reservation');
+        this.reservationList = this.reservationList.filter(item => item.id !== res.id);
+        this.dataSourceReservations.data = this.reservationList
+      },
+      error: (e) => {
+        this.showError(e.error);
+      }
+    });
+  }
+
+  showSuccess(message: string) {
+    this.toastr.success(message, 'Booking application');
+  }
+  showError(message: string) {
+    this.toastr.error(message, 'Booking application');
+  }
 }
