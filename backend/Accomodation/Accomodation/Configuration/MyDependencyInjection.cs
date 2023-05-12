@@ -29,6 +29,7 @@ namespace Accomodation.Configuration
             services.AddScoped<IRequestHandler<CancelReservationCommand, Accommodation>, CancelReservationCommandHandler>();
             services.AddScoped<IRequestHandler<CreateAccommodationCommand, Accommodation>, CreateAccommodationCommandHandler>();
             services.AddScoped<IRequestHandler<SearchAccommodationQuery, ICollection<AccommodationGetAllDTO>>, SearchAccommodationQueryHandler>();
+            services.AddScoped<IRequestHandler<GetAllAccommodationByAdminQuery, ICollection<AccommodationGetAllDTO>>, GetAllAccommodationByAdminQueryHandler>();
             return services;
         }
     }

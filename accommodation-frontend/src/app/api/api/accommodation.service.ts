@@ -74,4 +74,8 @@ export class AccommodationService{
       return this.http.get(this.apiUrl + "/search", {params});
     }
 
+    getAllAccommodationByAdmin(adminEmail: string){
+      return this.http.get(this.apiUrl + "/" + adminEmail + "/admin-accommodation" );
+    }
+
 }

@@ -1,0 +1,34 @@
+<h1 mat-dialog-title>Add new price</h1>
+<br/>
+<div mat-dialog-content>
+  <form class="create-flight-form" [formGroup]="formGroup">
+    <table>
+      <tr>
+        <mat-form-field appearance="outline" color="primary">
+          <mat-label>Price</mat-label>
+          <input matInput type="number" min="0" name="price" formControlName="price" [(ngModel)]="price">
+        </mat-form-field>
+      </tr>
+      <tr>
+        <mat-form-field appearance="outline" color="primary">
+          <mat-label>Start date (mm/dd/yyyy)</mat-label>
+          <input matInput [matDatepicker]="startingDate" name="startingDate" formControlName="startingDate" (ngModelChange)="getStartingDate($event)">
+          <mat-datepicker #startingDate></mat-datepicker>
+      </mat-form-field>
+      </tr>
+      
+      <tr>
+        <mat-form-field appearance="outline" color="primary">
+          <mat-label>End date (mm/dd/yyyy)</mat-label>
+          <input matInput [matDatepicker]="endingDate" name="endingDate" formControlName="endingDate" (ngModelChange)="getEndingDate($event)">
+          <mat-datepicker #endingDate></mat-datepicker>
+      </mat-form-field>
+      </tr>
+      
+    </table>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button [mat-dialog-close]="{startingDate: startDate, endingDate: endDate, price: price}" [disabled]="!formGroup.valid">OK</button>
+</div>
