@@ -58,7 +58,11 @@ export class NavbarComponent implements OnDestroy{
   }
 
   goToAddAccomodation():void{
-    this.router.navigate(['add-accomodation'])
+    this.router.navigate(['add-accommodation'])
+  }
+
+  goToAdminAccommodation():void{
+    this.router.navigate(['admin-accommodation'])
   }
   
 

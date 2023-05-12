@@ -1,4 +1,5 @@
-﻿using Accomodation.Application.Dtos;
+﻿using Accomodation.Application.Accommodation.Queries;
+using Accomodation.Application.Dtos;
 using Accomodation.Infrastructure.Accommodation;
 using AccomodationApplication.Accommodation.Commands;
 using AccomodationApplication.Accommodation.Queries;
@@ -27,6 +28,8 @@ namespace Accomodation.Configuration
             services.AddScoped<IRequestHandler<CancelReservationRequestCommand, Accommodation>, CancelReservationRequestCommandHandler>();
             services.AddScoped<IRequestHandler<CancelReservationCommand, Accommodation>, CancelReservationCommandHandler>();
             services.AddScoped<IRequestHandler<CreateAccommodationCommand, Accommodation>, CreateAccommodationCommandHandler>();
+            services.AddScoped<IRequestHandler<SearchAccommodationQuery, ICollection<AccommodationGetAllDTO>>, SearchAccommodationQueryHandler>();
+            services.AddScoped<IRequestHandler<GetAllAccommodationByAdminQuery, ICollection<AccommodationGetAllDTO>>, GetAllAccommodationByAdminQueryHandler>();
             return services;
         }
     }

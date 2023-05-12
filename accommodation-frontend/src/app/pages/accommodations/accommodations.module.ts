@@ -3,12 +3,13 @@ import { CommonModule } from '@angular/common';
 import { AccommodationsComponent } from './accommodations.component';
 import { AccommodationRoutingModule } from './accommodation-routing.module';
 import { MatTableModule } from '@angular/material/table';
-
+import { MaterialModule } from 'src/app/core/material/material.module';
 @NgModule({
   imports: [
     CommonModule,
     AccommodationRoutingModule,
-    MatTableModule
+    MatTableModule,
+    MaterialModule
   ],
   declarations: [AccommodationsComponent]
 })

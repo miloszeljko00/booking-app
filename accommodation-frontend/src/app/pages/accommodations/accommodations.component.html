@@ -1,6 +1,33 @@
 
 
 <div class="container">
+  <form [formGroup]="formGroup1">
+    <mat-form-field>
+      <mat-label>Location</mat-label>
+      <input matInput  name="Location" formControlName="address" [(ngModel)]="address">
+    </mat-form-field>
+  
+    <mat-form-field>
+      <mat-label>Number of guests</mat-label>
+      <input matInput  type="number" min="1"   name="numberOfGuests" formControlName="numberOfGuests" [(ngModel)]="numberOfGuests">
+    </mat-form-field>
+  
+    <mat-form-field>
+      <mat-label>Start date</mat-label>
+      <input matInput [matDatepicker]="picker1"  name="start-date" formControlName="startDate" [(ngModel)]="startDate">
+      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+      <mat-datepicker #picker1></mat-datepicker>
+    </mat-form-field>
+  
+    <mat-form-field>
+      <mat-label>End date</mat-label>
+      <input matInput [matDatepicker]="picker2"  name="end-date" formControlName="endDate" [(ngModel)]="endDate">
+      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+      <mat-datepicker #picker2></mat-datepicker>
+    </mat-form-field>
+  
+    <button class="button" mat-raised-button color="primary" (click)="search()" [disabled]="!formGroup1.valid">Search</button>
+  </form>
   <table mat-table [dataSource]="dataSourceAcc">
       <ng-container matColumnDef="name">
           <th mat-header-cell *matHeaderCellDef class="cell-center"> Name </th>

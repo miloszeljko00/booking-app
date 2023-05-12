@@ -21,6 +21,8 @@ import { RequestsReviewComponent } from './components/requests-review/requests-r
 import { AddAccommodationComponent } from '../pages/add-accommodation/add-accommodation.component';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { AdminRequestsReviewComponent } from './components/admin-requests-review/admin-requests-review.component';
+import { AdminAccommodationComponent } from './components/admin-accommodation/admin-accommodation.component';
+import { AddPriceDialogComponent } from './components/add-price-dialog/add-price-dialog.component';
 
 
 @NgModule({
@@ -33,6 +35,8 @@ import { AdminRequestsReviewComponent } from './components/admin-requests-review
     AddAccommodationComponent,
     ConfirmDialogComponent,
     AdminRequestsReviewComponent,
+    AdminAccommodationComponent,
+    AddPriceDialogComponent,
 
   ],
   imports:[

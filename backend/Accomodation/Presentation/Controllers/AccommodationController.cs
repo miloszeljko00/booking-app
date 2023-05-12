@@ -1,4 +1,5 @@
-﻿using Accomodation.Application.Dtos;
+﻿using Accomodation.Application.Accommodation.Queries;
+using Accomodation.Application.Dtos;
 using Accomodation.Domain.Primitives.Enums;
 using AccomodationApplication.Accommodation.Commands;
 using AccomodationApplication.Accommodation.Queries;
@@ -162,6 +163,28 @@ namespace AccomodationPresentation.Controllers
             
             return Ok(benefitList);
         }
+
+        [HttpGet]
+        [Route("search")]
+        public async Task<ActionResult<List<AccommodationGetAllDTO>>> SearchAccommodationAsync([FromQuery(Name = "address")] string address, [FromQuery(Name = "numberOfGuests")] int numberOfGuests, [FromQuery(Name = "startDate")] string startDate, [FromQuery(Name = "endDate")] string endDate )
+        {
+            var query = new SearchAccommodationQuery(address, numberOfGuests, startDate, endDate);
+            var result = await _mediator.Send(query);
+
+            return Ok(result.ToList());
+        }
+
+        [HttpGet]
+        [Route("{adminEmail}/admin-accommodation")]
+        public async Task<ActionResult<List<AccommodationGetAllDTO>>> GetAccommodationByAdmin([FromRoute(Name = "adminEmail"), Required] string adminEmail)
+        {
+            var query = new GetAllAccommodationByAdminQuery(adminEmail);
+            var result = await _mediator.Send(query);
+
+            return Ok(result.ToList());
+        }
+
+
 
     }
 }

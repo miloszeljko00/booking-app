@@ -65,4 +65,17 @@ export class AccommodationService{
       return this.http.delete(this.apiUrl + "/request", { body : reservationRequest, headers: httpOptions.headers});
     }
 
+    searchAccommodation(address: string, numberOfGuests: number, startDate: string, endDate: string){
+      const params = new HttpParams()
+      .set('address', address)
+      .set('numberOfGuests', numberOfGuests)
+      .set('startDate', startDate)
+      .set('endDate', endDate);
+      return this.http.get(this.apiUrl + "/search", {params});
+    }
+
+    getAllAccommodationByAdmin(adminEmail: string){
+      return this.http.get(this.apiUrl + "/" + adminEmail + "/admin-accommodation" );
+    }
+
 }

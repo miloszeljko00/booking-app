@@ -1,0 +1,43 @@
+<div class="container">
+    
+    <table mat-table [dataSource]="dataSourceAcc">
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef class="cell-center"> Name </th>
+            <td mat-cell *matCellDef="let acc" class="cell-center">{{acc.name}}</td>
+        </ng-container>
+        <ng-container matColumnDef="address">
+          <th mat-header-cell *matHeaderCellDef class="cell-center"> Address </th>
+          <td mat-cell *matCellDef="let acc" class="cell-center">{{acc.address}}</td>
+        </ng-container>
+        <ng-container matColumnDef="price">
+            <th mat-header-cell *matHeaderCellDef class="cell-center"> Price </th>
+            <td mat-cell *matCellDef="let acc" class="cell-center">{{acc.price}}</td>
+        </ng-container>
+        <ng-container matColumnDef="priceCalculation">
+          <th mat-header-cell *matHeaderCellDef class="cell-center"> Price calculation </th>
+          <td mat-cell *matCellDef="let acc" class="cell-center">{{acc.priceCalculation}}</td>
+      </ng-container>
+        <ng-container matColumnDef="benefits">
+          <th mat-header-cell *matHeaderCellDef class="cell-center"> Benefits </th>
+          <td mat-cell *matCellDef="let acc" class="cell-center">{{acc.benefits}}</td>
+        </ng-container>
+        <ng-container matColumnDef="min">
+            <th mat-header-cell *matHeaderCellDef class="cell-center"> Minimal number of guests </th>
+            <td mat-cell *matCellDef="let acc" class="cell-center">{{acc.min}}</td>
+        </ng-container>
+        <ng-container matColumnDef="max">
+            <th mat-header-cell *matHeaderCellDef class="cell-center"> Maximal number of guests </th>
+            <td mat-cell *matCellDef="let acc" class="cell-center">{{acc.max}}</td>
+        </ng-container>
+        <ng-container matColumnDef="reservation">
+          <th mat-header-cell *matHeaderCellDef class="cell-center"></th>
+          <td mat-cell *matCellDef="let acc" class="cell-center">
+            <button mat-raised-button color="primary"  (click)="openDialog(acc)" >Add Price</button>
+          </td>
+        <!--(click)="openDialog(acc)-->
+      </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsFlights; sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumnsFlights;"></tr>
+    </table>
+  </div>
+  

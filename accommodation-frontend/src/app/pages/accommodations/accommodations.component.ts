@@ -8,6 +8,7 @@ import { User } from 'src/app/core/keycloak/model/user';
 import { AuthService } from 'src/app/core/keycloak/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from 'src/app/core/components/dialog/dialog.component';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-accommodations',
@@ -15,6 +16,12 @@ import { DialogComponent } from 'src/app/core/components/dialog/dialog.component
   styleUrls: ['./accommodations.component.scss']
 })
 export class AccommodationsComponent implements OnInit {
+
+  address: string = "";
+  numberOfGuests: number = 1;
+  startDate: string = "";
+  endDate: string = "";
+  formGroup1!: FormGroup;
 
   dataSourceAcc = new MatTableDataSource<Accommodation>();
   displayedColumnsFlights = ['name', 'address', 'price', 'priceCalculation' ,'benefits', 'min', 'max', 'reservation'];
@@ -32,6 +39,12 @@ export class AccommodationsComponent implements OnInit {
       
       this.dataSourceAcc.data = this.accomodationList
     })
+    this.formGroup1 = new FormGroup({
+      startDate: new FormControl('', [Validators.required]),
+      endDate: new FormControl('', [Validators.required]),
+      address: new FormControl('', [Validators.required]),
+      numberOfGuests: new FormControl('',[Validators.min(1), Validators.required]),
+    });
   }
 
   openDialog(accommodation:Accommodation){
@@ -130,6 +143,22 @@ export class AccommodationsComponent implements OnInit {
   }
   showError(message: string) {
     this.toastr.error(message, 'Booking application');
+  }
+
+  search(){
+    if(this.endDateBeforeStartDate(this.startDate, this.endDate) || this.dateInPast(this.startDate) ){
+
+      return
+    }
+    var sd =  this.datepipe.transform(this.startDate, 'MM/dd/yyyy')??''
+    var ed = this.datepipe.transform(this.endDate, 'MM/dd/yyyy')??''
+      
+
+      this.accService.searchAccommodation(this.address, this.numberOfGuests, sd, ed).subscribe((response: any) => {
+          this.accomodationList = response;
+          this.dataSourceAcc.data = this.accomodationList;
+      })
+
   }
 
 }
