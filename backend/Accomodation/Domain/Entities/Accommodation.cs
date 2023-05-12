@@ -170,6 +170,11 @@ namespace AccomodationDomain.Entities
             }
             return cancellationNumber;
         }
+
+        public bool IsValidNumberOfGuests(int numberOfGuest)
+        {
+            return numberOfGuest >= Capacity.Min && numberOfGuest <= Capacity.Max;
+        }
     }
     public class AccommodationBuilder
     {

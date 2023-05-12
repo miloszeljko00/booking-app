@@ -8,8 +8,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-
-
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [],
@@ -24,6 +24,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     FormsModule,
     ReactiveFormsModule,
     MatSlideToggleModule,
+    MatDatepickerModule,
+    MatInputModule,
   ],
   exports:[
     MatButtonModule,
@@ -35,6 +37,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     FormsModule,
     ReactiveFormsModule,
     MatSlideToggleModule,
+    MatDatepickerModule,
+    MatInputModule
   ]
 })
 export class MaterialModule { }
