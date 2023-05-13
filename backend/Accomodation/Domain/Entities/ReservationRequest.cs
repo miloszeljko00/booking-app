@@ -34,9 +34,9 @@ namespace AccomodationDomain.Entities
         }
 
 
-        private ReservationRequest(Guid id, Email questEmail, DateRange reservationDate, int guestNumber, ReservationRequestStatus status) : base(id)
+        private ReservationRequest(Guid id, Email guestEmail, DateRange reservationDate, int guestNumber, ReservationRequestStatus status) : base(id)
         {
-            GuestEmail = questEmail;
+            GuestEmail = guestEmail;
             ReservationDate = reservationDate;
             GuestNumber = guestNumber;
             Status = status;

@@ -9,9 +9,13 @@
 		<PackageReference Include="MediatR" Version="12.0.1" />
 		<PackageReference Include="MongoDB.Driver" Version="2.19.1" />
 	</ItemGroup>
+	 <ItemGroup>
+    <ProjectReference Include="..\Notification.Domain\Notification.Domain.csproj" />
+  </ItemGroup>
   <ItemGroup>
-    <Folder Include="Dtos\" />
     <Folder Include="Mappers\" />
+    <Folder Include="Notification\Commands\" />
+    <Folder Include="Notification\Queries\" />
   </ItemGroup>
 
 </Project>

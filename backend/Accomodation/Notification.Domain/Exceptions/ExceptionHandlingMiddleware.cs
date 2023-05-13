@@ -1,10 +1,10 @@
-﻿using AccomodationDomain.Exceptions.CustomExceptions;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Net;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using Notification.Domain.Exceptions.CustomExceptions;
 
-namespace AccomodationDomain.Exceptions
+namespace Notification.Domain.Exceptions
 {
     public class ExceptionHandlingMiddleware
     {
@@ -30,36 +30,8 @@ namespace AccomodationDomain.Exceptions
             var statusCode = (int)HttpStatusCode.InternalServerError;
             switch (ex)
             {
-                case InvalidDateRangeException:
-                    errorMessageObject.Message = "Da l' sam dos'o il' sam pos'o";
-                    statusCode = (int)HttpStatusCode.InternalServerError;
-                    break;
-                case InvalidAddressException:
-                    errorMessageObject.Message = "Nevalidna adresa, proverite jos jednom unete podatke";
-                    statusCode = (int)HttpStatusCode.InternalServerError;
-                    break;
-                case InvalidPriceException:
-                    errorMessageObject.Message = "Cena mora biti pozitivan broj";
-                    statusCode = (int)HttpStatusCode.InternalServerError;
-                    break;
-                case InvalidAccommodationException:
-                    errorMessageObject.Message = "Smestaj nije validan, proverite naziv.";
-                    statusCode = (int)HttpStatusCode.InternalServerError;
-                    break;
-                case InvalidPictureException:
-                    errorMessageObject.Message = "Nevalidan naziv slike i/ili opis, proverite ekstenziju naziva slike kao i duzinu opisa";
-                    statusCode = (int)HttpStatusCode.InternalServerError;
-                    break;
                 case InvalidEmailException:
                     errorMessageObject.Message = "Nevalidan format email adrese.";
-                    statusCode = (int)HttpStatusCode.InternalServerError;
-                    break;
-                case NumberIsLessOrEqualToZeroException:
-                    errorMessageObject.Message = ex.Message;
-                    statusCode = (int)HttpStatusCode.InternalServerError;
-                    break;
-                case DuplicateAccommodationException:
-                    errorMessageObject.Message = "Ovaj smestaj vec postoji u nasem sistemu...";
                     statusCode = (int)HttpStatusCode.InternalServerError;
                     break;
                 default:

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AccomodationApplication.Abstractions.Messaging
+namespace Notification.Application.Abstractions.Messaging
 {
     public interface IQuery<TResponse> : IRequest<TResponse>
     {

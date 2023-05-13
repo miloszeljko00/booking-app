@@ -13,5 +13,7 @@ namespace AccomodationDomain.Interfaces
         Task UpdateAsync(Guid id, Accommodation updatedAccommodation);
         Task<Accommodation> GetAsync(Guid id);
         Task<Accommodation> Create(Accommodation accommodation);
+        Task RemoveAsync(Guid id);
+
     }
 }

@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Notification.Domain.Exceptions.CustomExceptions
 {
-    public class Error
+    public sealed class InvalidEmailException : Exception
     {
-        public string? Message { get; set; }
-        public string? Title { get; set; }
+        public InvalidEmailException() : base() { }
     }
 }

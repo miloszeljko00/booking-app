@@ -33,9 +33,9 @@ namespace AccomodationDomain.Entities
             }
         }
 
-        private Reservation(Guid id, Email questEmail, DateRange reservationDate, int guestNumber, bool isPerPerson, int price, bool isCanceled) : base(id)
+        private Reservation(Guid id, Email guestEmail, DateRange reservationDate, int guestNumber, bool isPerPerson, int price, bool isCanceled) : base(id)
         {
-            GuestEmail = questEmail;
+            GuestEmail = guestEmail;
             ReservationDate = reservationDate;
             IsCanceled = isCanceled;
             GuestNumber = guestNumber;

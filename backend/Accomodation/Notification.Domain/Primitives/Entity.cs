@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AccomodationDomain.Primitives
+namespace Notification.Domain.Primitives
 {
     public abstract class Entity : IEquatable<Entity>
     {
