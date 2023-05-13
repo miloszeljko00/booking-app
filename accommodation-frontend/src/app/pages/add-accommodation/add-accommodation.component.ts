@@ -61,14 +61,14 @@ export class AddAccommodationComponent implements OnInit {
                           capacity: {min: this.min, max: this.max}, benefits:this.selectedIndexes, priceCalculation: perGuest, reserveAutomatically: this.isChecked,
                         pictures:this.getPictureList(), hostEmail: this.user?.email ?? ''}; 
     this.accommodationService.createAccomodation(this.accommodation).subscribe({
-      next: (acc) => {
+      next: (acc:any) => {
         this.showSuccess('Successfully created flight');
         this.formGroup1.reset();
         this.isChecked = false;
         this.isCheckedPrice = false;
         this.selectedIndexes = [];
       },
-      error: (e) => this.showError('Error happened while creating flight')
+      error: (e:any) => this.showError('Error happened while creating flight')
     })
 
   }

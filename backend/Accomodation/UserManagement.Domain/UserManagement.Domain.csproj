@@ -11,10 +11,7 @@
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 	</ItemGroup>
   <ItemGroup>
-    <Folder Include="Entities\" />
-    <Folder Include="Interfaces\" />
     <Folder Include="Primitives\Enums\" />
-    <Folder Include="ValueObjects\" />
   </ItemGroup>
 
 </Project>

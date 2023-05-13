@@ -8,11 +8,7 @@ import { FlightService } from './api';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'booking-app';
-
-  authenticated = false;
-  isUser = false;
-  isAdmin = false;
+  title = 'booking-app'
 
   constructor() {}
 

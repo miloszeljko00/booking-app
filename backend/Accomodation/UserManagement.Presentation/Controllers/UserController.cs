@@ -20,6 +20,14 @@ public class UserController : ControllerBase
         _mediator = mediator;
     }
 
+    [HttpPost]
+    public async Task<ActionResult> CreateUser(CreateUserCommand createUserCommand)
+    {
+        var result = await _mediator.Send(createUserCommand);
+        if (result is null) return BadRequest();
+        return Ok(result);
+    }
+
     [HttpDelete]
     [Route("/{userId}")]
     public async Task<ActionResult> DeleteUser(string userId)

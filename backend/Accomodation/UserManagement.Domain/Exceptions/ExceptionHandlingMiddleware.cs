@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Net;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using UserManagement.Domain.Exceptions.CustomExceptions;
 
 namespace UserManagementDomain.Exceptions
 {
@@ -30,6 +31,14 @@ namespace UserManagementDomain.Exceptions
             var statusCode = (int)HttpStatusCode.InternalServerError;
             switch (ex)
             {
+                case InvalidAddressException:
+                    errorMessageObject.Message = "Nevalidna adresa, proverite jos jednom unete podatke";
+                    statusCode = (int)HttpStatusCode.InternalServerError;
+                    break;
+                case InvalidEmailException:
+                    errorMessageObject.Message = "Nevalidan format email adrese.";
+                    statusCode = (int)HttpStatusCode.InternalServerError;
+                    break;
                 default:
                     errorMessageObject.Message = ex.Message;
                     statusCode = (int)HttpStatusCode.InternalServerError;

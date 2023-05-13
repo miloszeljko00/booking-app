@@ -8,14 +8,14 @@
             <app-navbar-button (click)="goToSearchAccommodations()">Accommodation</app-navbar-button>
         </div>
         <div *ngIf="(user$ | async); let user">
-            <ng-container class="user-pages" *ngIf="user.roles.includes('user')">
+            <ng-container class="user-pages" *ngIf="user.roles.includes('guest')">
                 <!-- TODO: Ovde dodavati dugmad za obicnog korisnika -->
                 <app-navbar-button (click)="goToSearchAccommodations()">Accommodation</app-navbar-button>
                 <app-navbar-button (click)="goToReservationsReview()">Reservations</app-navbar-button>
                 <app-navbar-button (click)="goToRequestsReview()">Requests</app-navbar-button>
 
             </ng-container>
-            <ng-container class="admin-pages" *ngIf="user.roles.includes('admin')">
+            <ng-container class="admin-pages" *ngIf="user.roles.includes('host')">
                 <!-- TODO: Ovde dodavati dugmad za administratora -->
                 <app-navbar-button (click)="goToAdminAccommodation()">My Accommodation</app-navbar-button>
                 <app-navbar-button (click)="goToAddAccomodation()">Add Accommodation</app-navbar-button>

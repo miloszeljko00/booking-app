@@ -1,8 +1,8 @@
 export const environment = {
     production: false,
     keycloak: {
-      url: 'http://localhost:8080/auth',
-      realm: 'your-realm',
-      clientId: 'your-client-id'
+      url: 'http://localhost:28080',
+      realm: 'booking-app',
+      clientId: 'booking-app-client'
     }
   };
