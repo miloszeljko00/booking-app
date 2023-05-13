@@ -31,31 +31,35 @@
   <table mat-table [dataSource]="dataSourceAcc">
       <ng-container matColumnDef="name">
           <th mat-header-cell *matHeaderCellDef class="cell-center"> Name </th>
-          <td mat-cell *matCellDef="let acc" class="cell-center">{{acc.name}}</td>
+          <td mat-cell *matCellDef="let acc" class="cell-center  clickable-cell" (click)="showPictures(acc)">{{acc.name}}</td>
       </ng-container>
       <ng-container matColumnDef="address">
         <th mat-header-cell *matHeaderCellDef class="cell-center"> Address </th>
-        <td mat-cell *matCellDef="let acc" class="cell-center">{{acc.address}}</td>
+        <td mat-cell *matCellDef="let acc" class="cell-center clickable-cell" (click)="showPictures(acc)">{{acc.address}}</td>
       </ng-container>
       <ng-container matColumnDef="price">
           <th mat-header-cell *matHeaderCellDef class="cell-center"> Price </th>
-          <td mat-cell *matCellDef="let acc" class="cell-center">{{acc.price}}</td>
+          <td mat-cell *matCellDef="let acc" class="cell-center clickable-cell" (click)="showPictures(acc)">{{acc.price}}</td>
       </ng-container>
       <ng-container matColumnDef="priceCalculation">
         <th mat-header-cell *matHeaderCellDef class="cell-center"> Price calculation </th>
-        <td mat-cell *matCellDef="let acc" class="cell-center">{{acc.priceCalculation}}</td>
+        <td mat-cell *matCellDef="let acc" class="cell-center clickable-cell" (click)="showPictures(acc)">{{acc.priceCalculation}}</td>
     </ng-container>
+    <ng-container matColumnDef="totalPrice">
+      <th mat-header-cell *matHeaderCellDef class="cell-center"> Total price </th>
+      <td mat-cell *matCellDef="let acc" class="cell-center clickable-cell" (click)="showPictures(acc)">{{acc.price * numOfDays}}</td>
+  </ng-container>
       <ng-container matColumnDef="benefits">
         <th mat-header-cell *matHeaderCellDef class="cell-center"> Benefits </th>
-        <td mat-cell *matCellDef="let acc" class="cell-center">{{acc.benefits}}</td>
+        <td mat-cell *matCellDef="let acc" class="cell-center clickable-cell" (click)="showPictures(acc)">{{acc.benefits}}</td>
       </ng-container>
       <ng-container matColumnDef="min">
           <th mat-header-cell *matHeaderCellDef class="cell-center"> Minimal number of guests </th>
-          <td mat-cell *matCellDef="let acc" class="cell-center">{{acc.min}}</td>
+          <td mat-cell *matCellDef="let acc" class="cell-center clickable-cell" (click)="showPictures(acc)">{{acc.min}}</td>
       </ng-container>
       <ng-container matColumnDef="max">
           <th mat-header-cell *matHeaderCellDef class="cell-center"> Maximal number of guests </th>
-          <td mat-cell *matCellDef="let acc" class="cell-center">{{acc.max}}</td>
+          <td mat-cell *matCellDef="let acc" class="cell-center clickable-cell" (click)="showPictures(acc)">{{acc.max}}</td>
       </ng-container>
       <ng-container matColumnDef="reservation">
         <th mat-header-cell *matHeaderCellDef class="cell-center"></th>
@@ -66,4 +70,7 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumnsFlights; sticky: true"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumnsFlights;"></tr>
   </table>
+  <div>
+    <img *ngFor='let preview of previews' [src]="preview.base64" class="preview">
+  </div>
 </div>

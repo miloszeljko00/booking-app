@@ -44,7 +44,7 @@ namespace AccomodationPresentation.Controllers
                     continue;
                 string address = acc.GetAddressAsString();
                 string benefits = acc.GetBenefitsAsString();
-                AccommodationGetAllDTO dto = new AccommodationGetAllDTO { Name = acc.Name, Address = address, Min = acc.Capacity.Min, Max = acc.Capacity.Max, Price = p.Value, PriceCalculation = acc.PriceCalculation.ToString(), Benefits = benefits, Id = acc.Id.ToString() };
+                AccommodationGetAllDTO dto = new AccommodationGetAllDTO { Name = acc.Name, Address = address, Min = acc.Capacity.Min, Max = acc.Capacity.Max, Price = p.Value, PriceCalculation = acc.PriceCalculation.ToString(), Benefits = benefits, Id = acc.Id.ToString(), Pictures = acc.Pictures };
                 
      
                 resultList.Add(dto);

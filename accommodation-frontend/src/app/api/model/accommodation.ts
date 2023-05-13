@@ -7,4 +7,5 @@ export interface Accommodation{
     address: string;
     benefits: string;
     id: string;
+    pictures: {fileName: string, base64: string}[]
 }

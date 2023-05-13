@@ -1,4 +1,5 @@
-﻿using AccomodationDomain.ValueObjects;
+﻿using AccomodationDomain.Entities;
+using AccomodationDomain.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,7 @@ namespace Accomodation.Application.Dtos
         public string PriceCalculation { get; set; }
         public string Id { get; set; }
         public double Price { get; set; }
+        public List<Picture> Pictures { get; set; }
 
     }
 }

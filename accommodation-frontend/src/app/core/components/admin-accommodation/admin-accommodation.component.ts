@@ -115,7 +115,7 @@ export class AdminAccommodationComponent {
     dialogRef.afterClosed().subscribe(result => {
       if(result){
         if( !this.validDate(result.startingDate) || !this.validDate(result.endingDate) ||
-        this.dateInPast(result.startingDate) || this.dateInPast(result.endingDate) || this.endDateBeforeStartDate(result.startingDate, result.endingDate)) {
+         this.endDateBeforeStartDate(result.startingDate, result.endingDate)) {
           this.openDialog(accommodation)
         }
         else {
