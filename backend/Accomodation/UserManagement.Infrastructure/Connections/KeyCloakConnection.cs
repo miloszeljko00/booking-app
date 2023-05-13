@@ -66,6 +66,7 @@ public class KeyCloakConnection : IKeyCloakConnection
             }
         )};
         var response = await _httpClient.SendAsync(request);
+        var responseBody = await response.Content.ReadAsStringAsync();
         if (response.IsSuccessStatusCode) return true;
         return false;
     }
