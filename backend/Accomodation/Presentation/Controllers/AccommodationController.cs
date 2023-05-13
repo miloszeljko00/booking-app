@@ -1,4 +1,5 @@
-﻿using Accomodation.Application.Accommodation.Queries;
+﻿using Accomodation.Application.Accommodation.Commands;
+using Accomodation.Application.Accommodation.Queries;
 using Accomodation.Application.Dtos;
 using Accomodation.Domain.Primitives.Enums;
 using AccomodationApplication.Accommodation.Commands;
@@ -201,6 +202,14 @@ namespace AccomodationPresentation.Controllers
             var result = await _mediator.Send(query);
 
             return Ok(result.ToList());
+        }
+        [HttpPost]
+        [Route("add-price")]
+        public async Task<ActionResult<Accommodation>> AddNewPriceAsync(PriceDTO priceDTO)
+        {
+            var command= new AddPriceCommand(priceDTO);
+            var result = await _mediator.Send(command);
+            return Ok(result);
         }
 
 

@@ -10,6 +10,7 @@ import { AccommodationCreate } from '../model/accommodationCreate';
 import { ReservationCancellation } from '../model/reservationCancellation';
 import { RequestByAdmin } from '../model/requestByAdmin';
 import { RequestManagement } from '../model/requestManagement';
+import { Price } from '../model/price';
 
 
 const httpOptions = {
@@ -81,6 +82,10 @@ export class AccommodationService{
 
     getAllAccommodationByAdmin(adminEmail: string){
       return this.http.get(this.apiUrl + "/" + adminEmail + "/admin-accommodation" );
+    }
+
+    AddPrice(price: Price){
+      return this.http.post<Price>(this.apiUrl+"/add-price", price, httpOptions);
     }
 
 }

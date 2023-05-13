@@ -5,6 +5,7 @@ using AccomodationDomain.Primitives.Enums;
 using AccomodationDomain.ValueObjects;
 using FluentValidation;
 using System;
+using System.Diagnostics;
 
 namespace AccomodationDomain.Entities
 {
@@ -198,6 +199,54 @@ namespace AccomodationDomain.Entities
         {
             return numberOfGuest >= Capacity.Min && numberOfGuest <= Capacity.Max;
         }
+
+        public void AddNewPrice(Price price)
+        {
+            List<Price> pricesToRemove = new List<Price>();
+            List<Price> pricesToAdd = new List<Price>();
+            DateTime priceStartFixedYear = new DateTime(2023, price.DateRange.Start.Month, price.DateRange.Start.Day);
+            DateTime priceEndFixedYear = new DateTime(2023, price.DateRange.End.Month, price.DateRange.End.Day);
+            foreach (Price p in PricePerGuest)
+            {
+                DateTime pStartFixedYear = new DateTime(2023, p.DateRange.Start.Month, p.DateRange.Start.Day);
+                DateTime pEndFixedYear = new DateTime(2023, p.DateRange.End.Month, p.DateRange.End.Day);
+                if (pStartFixedYear >= priceStartFixedYear && pEndFixedYear <= priceEndFixedYear)
+                {
+                    //PricePerGuest.Remove(p);
+                    pricesToRemove.Add(p);
+                    continue;
+                }
+                if(pStartFixedYear < priceStartFixedYear && pEndFixedYear >= priceStartFixedYear && pEndFixedYear <= priceEndFixedYear)
+                {
+                    p.DateRange = DateRange.Create(p.DateRange.Start, price.DateRange.End.AddDays(-1));
+                    
+                }
+                else if (pStartFixedYear >= priceStartFixedYear && pStartFixedYear <= priceEndFixedYear && pEndFixedYear > priceEndFixedYear)
+                {
+                    p.DateRange = DateRange.Create(price.DateRange.End.AddDays(1), p.DateRange.End);
+                }
+                else if(pStartFixedYear < priceStartFixedYear && pEndFixedYear > priceEndFixedYear)
+                {
+                    Price newPrice = Price.Create(p.Value, DateRange.Create(price.DateRange.End.AddDays(1), p.DateRange.End));
+                    p.DateRange = DateRange.Create(p.DateRange.Start, price.DateRange.Start.AddDays(-1));
+                    pricesToAdd.Add(newPrice);
+                    //PricePerGuest.Add(newPrice);
+                }
+            }
+
+            foreach(Price p in pricesToRemove)
+            {
+                PricePerGuest.Remove(p);
+            }
+            foreach (Price p in pricesToAdd)
+            {
+                PricePerGuest.Add(p);
+            }
+            PricePerGuest.Add(price);
+
+        }
+
+        
     }
     public class AccommodationBuilder
     {
