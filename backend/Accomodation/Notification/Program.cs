@@ -2,6 +2,11 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 using Accomodation.Configuration;
+using Grpc.Core;
+using Notification.Application.Notification.Support.Grpc.Protos;
+using Notification.Application.Notification.Support.Grpc;
+using Rs.Ac.Uns.Ftn.Grpc;
+using Notification.Domain.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +19,13 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.G
 builder.Services
     .AddRepositories()
     .AddHandlers();
+IServiceProvider serviceProvider = builder.Services.BuildServiceProvider();
+Server server = new Server
+{
+    Services = { GuestNotificationGrpcService.BindService(new ServerGrpcServiceImpl(serviceProvider.GetService<INotificationRepository>())) },
+    Ports = { new ServerPort("localhost", 8787, ServerCredentials.Insecure) }
+};
+server.Start();
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -84,7 +96,7 @@ builder.Services
                               .AllowAnyHeader()
                               .AllowAnyMethod());
     });
-
+builder.Services.AddGrpc();
 
 var app = builder.Build();
 
@@ -108,6 +120,11 @@ app.UseCors("AllowOrigin");
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseRouting();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapGrpcService<ServerGrpcServiceImpl>();
+});
 
 app.MapControllers();
 
