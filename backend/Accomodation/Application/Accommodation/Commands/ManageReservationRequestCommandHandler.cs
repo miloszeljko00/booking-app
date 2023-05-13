@@ -46,17 +46,16 @@ namespace AccomodationApplication.Accommodation.Commands
                 }
             }
 
-            List<ReservationRequest> reqs = accommodation.GetReservationRequestsOverlappingDateRange(req.ReservationDate);
-            foreach (ReservationRequest reservationRequest in reqs)
-            {
-                reservationRequests.Remove(reservationRequest);
-                accommodation.CreateReservationRequest(reservationRequest.GuestEmail.EmailAddress, reservationRequest.ReservationDate.Start, reservationRequest.ReservationDate.End, reservationRequest.GuestNumber, ReservationRequestStatus.REJECTED);
-            }
-
             if (req is not null)
             {
                 if (request.reservationRequestManagementDTO.Operation.Equals("ACCEPT"))
                 {
+                    List<ReservationRequest> reqs = accommodation.GetReservationRequestsOverlappingDateRange(req.ReservationDate);
+                    foreach (ReservationRequest reservationRequest in reqs)
+                    {
+                        reservationRequests.Remove(reservationRequest);
+                        accommodation.CreateReservationRequest(reservationRequest.GuestEmail.EmailAddress, reservationRequest.ReservationDate.Start, reservationRequest.ReservationDate.End, reservationRequest.GuestNumber, ReservationRequestStatus.REJECTED);
+                    }
                     accommodation.CreateReservationRequest(req.GuestEmail.EmailAddress, req.ReservationDate.Start, req.ReservationDate.End, req.GuestNumber, ReservationRequestStatus.ACCEPTED);
                     accommodation.CreateReservation(req.GuestEmail.EmailAddress, req.ReservationDate.Start, req.ReservationDate.End, req.GuestNumber, accommodation.PriceCalculation == PriceCalculation.PER_PERSON ? true : false, (int)accommodation.GetPriceForSpecificDate(req.ReservationDate.Start).Value, false);
                 }
