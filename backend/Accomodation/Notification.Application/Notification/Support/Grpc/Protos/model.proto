@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package rs.ac.uns.ftn.grpc;
+option csharp_namespace = "Notification.Application.Notification.Support.Grpc.Protos";
+
+message MessageProto {
+  string email = 1;
+  string startDate = 2;
+  string endDate = 3;
+  string accommodation = 4;
+  string operation = 5;
+}
+
+message MessageResponseProto {
+  string status = 1;
+}
+
+
