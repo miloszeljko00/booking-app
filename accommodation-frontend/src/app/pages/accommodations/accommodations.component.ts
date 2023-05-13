@@ -22,9 +22,11 @@ export class AccommodationsComponent implements OnInit {
   startDate: string = "";
   endDate: string = "";
   formGroup1!: FormGroup;
+  previews:{fileName: string, base64: string}[] = [];
+  numOfDays: number = 1;
 
   dataSourceAcc = new MatTableDataSource<Accommodation>();
-  displayedColumnsFlights = ['name', 'address', 'price', 'priceCalculation' ,'benefits', 'min', 'max', 'reservation'];
+  displayedColumnsFlights = ['name', 'address', 'price', 'priceCalculation' , 'totalPrice','benefits', 'min', 'max', 'reservation'];
                             
   accomodationList!: Accommodation[];
   acc!: Accommodation;
@@ -150,9 +152,11 @@ export class AccommodationsComponent implements OnInit {
 
       return
     }
+    
     var sd =  this.datepipe.transform(this.startDate, 'MM/dd/yyyy')??''
     var ed = this.datepipe.transform(this.endDate, 'MM/dd/yyyy')??''
-      
+   
+    this.numOfDays = this.getNumberOfDays(this.startDate, this.endDate)
 
       this.accService.searchAccommodation(this.address, this.numberOfGuests, sd, ed).subscribe((response: any) => {
           this.accomodationList = response;
@@ -160,5 +164,22 @@ export class AccommodationsComponent implements OnInit {
       })
 
   }
+
+  showPictures(acc: Accommodation){
+      
+      this.previews = acc.pictures;
+  }
+  getNumberOfDays(startDateStr: string, endDateStr: string): number {
+    const startDate = new Date(startDateStr);
+    const endDate = new Date(endDateStr);
+    
+    if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+      return 0;
+    }
+    const timeDiff = endDate.getTime() - startDate.getTime();
+    const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+    return days;
+  }
+  
 
 }

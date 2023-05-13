@@ -17,9 +17,10 @@
             </ng-container>
             <ng-container class="admin-pages" *ngIf="user.roles.includes('admin')">
                 <!-- TODO: Ovde dodavati dugmad za administratora -->
-                <app-navbar-button (click)="goToAdminAccommodation()">Accommodation</app-navbar-button>
+                <app-navbar-button (click)="goToAdminAccommodation()">My Accommodation</app-navbar-button>
                 <app-navbar-button (click)="goToAddAccomodation()">Add Accommodation</app-navbar-button>
                 <app-navbar-button (click)="goToAdminRequestsReview()">Requests</app-navbar-button>
+                <app-navbar-button (click)="goToSearchAccommodations()">All Accommodation</app-navbar-button>
 
             </ng-container>
         </div>
