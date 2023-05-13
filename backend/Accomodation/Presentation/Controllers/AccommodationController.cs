@@ -70,6 +70,25 @@ namespace AccomodationPresentation.Controllers
             }
         }
 
+        [HttpPut]
+        [Route("manage-request")]
+        public async Task<ActionResult<Accommodation>> ManageReservationRequest([FromBody] ReservationManagementDTO reservationRequestManagementDTO)
+        {
+            var command = new ManageReservationRequestCommand(
+               reservationRequestManagementDTO
+               );
+
+            try
+            {
+                var result = await _mediator.Send(command);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
         [HttpDelete]
         [Route("request")]
         public async Task<ActionResult<Accommodation>> CancelReservationRequest([FromBody] ReservationCancellationDTO reservationRequestCancellationDTO)

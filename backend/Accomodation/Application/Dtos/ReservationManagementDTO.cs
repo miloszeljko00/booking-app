@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace Accomodation.Application.Dtos
 {
-    public class ReservationManagementDTO
+    public class ReservationCancellationDTO
     {
         public Guid AccommodationId { get; set; }
         public Guid ReservationId { get; set; }
-        public string Operation { get; set; }
     }
 }

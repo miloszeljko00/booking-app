@@ -9,6 +9,7 @@ import { RequestByGuest } from '../model/requestByGuest';
 import { AccommodationCreate } from '../model/accommodationCreate';
 import { ReservationCancellation } from '../model/reservationCancellation';
 import { RequestByAdmin } from '../model/requestByAdmin';
+import { RequestManagement } from '../model/requestManagement';
 
 
 const httpOptions = {
@@ -63,6 +64,10 @@ export class AccommodationService{
 
     cancelReservationRequest(reservationRequest: ReservationCancellation){
       return this.http.delete(this.apiUrl + "/request", { body : reservationRequest, headers: httpOptions.headers});
+    }
+
+    manageReservationRequest(reservationRequest: RequestManagement): Observable<Accommodation>{
+      return this.http.put<Accommodation>(this.apiUrl + "/manage-request", reservationRequest, httpOptions);
     }
 
     searchAccommodation(address: string, numberOfGuests: number, startDate: string, endDate: string){

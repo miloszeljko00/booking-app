@@ -123,6 +123,29 @@ namespace AccomodationDomain.Entities
             return false;
         }
 
+        public List<ReservationRequest> GetReservationRequestsOverlappingDateRange(DateRange dateRange)
+        {
+            List<ReservationRequest> reservationRequests = new List<ReservationRequest>();
+            foreach (ReservationRequest r in ReservationRequests)
+            {
+                if (r.Status.Equals(ReservationRequestStatus.CANCELED))
+                    continue;
+                if (r.ReservationDate.Start.CompareTo(dateRange.Start) >= 0 && r.ReservationDate.Start.CompareTo(dateRange.End) <= 0)
+                {
+                    reservationRequests.Add(r);
+                }
+                else if (r.ReservationDate.End.CompareTo(dateRange.Start) >= 0 && r.ReservationDate.End.CompareTo(dateRange.End) <= 0)
+                {
+                    reservationRequests.Add(r);
+                }
+                else if (r.ReservationDate.Start.CompareTo(dateRange.Start) <= 0 && r.ReservationDate.End.CompareTo(dateRange.End) >= 0)
+                {
+                    reservationRequests.Add(r);
+                }
+            }
+            return reservationRequests;
+        }
+
         public bool IsDateRangeOfReservationValid(DateRange dateRange)
         {
             Price? p = GetPriceForSpecificDate(dateRange.Start);

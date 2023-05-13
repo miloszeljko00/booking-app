@@ -26,6 +26,7 @@ namespace Accomodation.Configuration
             services.AddScoped<IRequestHandler<GetAllRequestsByAdminQuery, ICollection<ReservationRequestByAdminDTO>>, GetAllRequestsByAdminQueryHandler>();
             services.AddScoped<IRequestHandler<CreateReservationRequestCommand, Accommodation>, CreateReservationRequestCommandHandler>();
             services.AddScoped<IRequestHandler<CancelReservationRequestCommand, Accommodation>, CancelReservationRequestCommandHandler>();
+            services.AddScoped<IRequestHandler<ManageReservationRequestCommand, Accommodation>, ManageReservationRequestCommandHandler>();
             services.AddScoped<IRequestHandler<CancelReservationCommand, Accommodation>, CancelReservationCommandHandler>();
             services.AddScoped<IRequestHandler<CreateAccommodationCommand, Accommodation>, CreateAccommodationCommandHandler>();
             services.AddScoped<IRequestHandler<SearchAccommodationQuery, ICollection<AccommodationGetAllDTO>>, SearchAccommodationQueryHandler>();
