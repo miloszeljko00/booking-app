@@ -19,11 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Accommodation\Support\Grpc\Protos\guestNotificationGrpcService.proto" />
-    <None Remove="Accommodation\Support\Grpc\Protos\model.proto" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Google.Protobuf" Version="3.23.0" />
     <PackageReference Include="Grpc.AspNetCore" Version="2.53.0" />
     <PackageReference Include="Grpc.AspNetCore.Server" Version="2.53.0" />
@@ -43,14 +38,10 @@
   <ItemGroup>
     <Folder Include="Mappers\" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Protobuf Include="Accommodation\Support\Grpc\Protos\model.proto">
-      <GrpcService>None</GrpcService>
-    </Protobuf>
-    <Protobuf Include="Accommodation\Support\Grpc\Protos\guestNotificationGrpcService.proto">
-      <GrpcService>Client</GrpcService>
-    </Protobuf>
-  </ItemGroup>
+	
+    <ItemGroup>
+		<Protobuf Include="Accommodation\Support\Grpc\Protos\model.proto" GrpcService="None" />
+		<Protobuf Include="Accommodation\Support\Grpc\Protos\guestNotificationGrpcService.proto" GrpcService="Client" />
+	</ItemGroup>
 
 </Project>
