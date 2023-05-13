@@ -31,7 +31,7 @@ namespace AccomodationApplication.Accommodation.Commands
                                 .withHostEmail(request.AccommodationDto.HostEmail);
             
             foreach (var picture in request.AccommodationDto.Pictures)
-            {
+            { 
                 accommodationBuilder.withPicture(picture.FileName, picture.Base64);
             }
             //var benefits = request.AccommodationDto.Benefits

@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
 import { AccommodationService } from 'src/app/api/api/accommodation.service';
 import { Accommodation } from 'src/app/api/model/accommodation';
+import { Price } from 'src/app/api/model/price';
 import { AuthService } from '../../keycloak/auth.service';
 import { User } from '../../keycloak/model/user';
 import { AddPriceDialogComponent } from '../add-price-dialog/add-price-dialog.component';
@@ -23,6 +24,7 @@ export class AdminAccommodationComponent {
   accomodationList!: Accommodation[];
   acc!: Accommodation;
   user!: User | null;
+  price!: Price;
   constructor(private datepipe: DatePipe,public dialog: MatDialog, private accService: AccommodationService, private toastr : ToastrService, private authService: AuthService) {
     this.user = this.authService.getUser()
   }
@@ -31,6 +33,7 @@ export class AdminAccommodationComponent {
     this.accService.getAllAccommodationByAdmin(this.user?.email??'').subscribe((response: any) => {
       this.accomodationList = response;
       this.dataSourceAcc.data = this.accomodationList
+      console.log(response)
     })
     
   }
@@ -109,6 +112,30 @@ export class AdminAccommodationComponent {
 
   openDialog(accommodation:Accommodation){
     const dialogRef = this.dialog.open(AddPriceDialogComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        if( !this.validDate(result.startingDate) || !this.validDate(result.endingDate) ||
+        this.dateInPast(result.startingDate) || this.dateInPast(result.endingDate) || this.endDateBeforeStartDate(result.startingDate, result.endingDate)) {
+          this.openDialog(accommodation)
+        }
+        else {
+   
+          let startingDateString = this.datepipe.transform(result.startingDate, 'MM/dd/yyyy')??''
+          let endingDateString = this.datepipe.transform(result.endingDate, 'MM/dd/yyyy')??''
+          this.price = {accommodationId : accommodation.id, startDate: startingDateString, endDate: endingDateString, value: result.price } 
+          console.log(this.price)
+          this.accService.AddPrice(this.price).subscribe({
+            next: (res) => {
+              this.showSuccess('Successfully added price');
+            },
+            error: (e) => {
+              this.showError(e.error);
+              this.openDialog(accommodation)
+            }
+          });
+        }
+      }
+    });
 
   }
 
