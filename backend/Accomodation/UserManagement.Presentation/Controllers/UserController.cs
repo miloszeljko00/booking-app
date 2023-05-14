@@ -28,8 +28,26 @@ public class UserController : ControllerBase
         return Ok(result);
     }
 
+    [HttpPut]
+    [Route("{userId}")]
+    public async Task<ActionResult> UpdateUser(string userId, UpdateUserCommand updateUserCommand)
+    {
+        if (userId != updateUserCommand.UserId) return BadRequest();
+        var result = await _mediator.Send(updateUserCommand);
+        if (result is null) return BadRequest();
+        return Ok(result);
+    }
+    [HttpGet]
+    [Route("{userId}")]
+    public async Task<ActionResult> GetUser(string userId)
+    {
+        var result = await _mediator.Send(new GetUserByIdQuery(userId));
+        if (result is null) return BadRequest();
+        return Ok(result);
+    }
+
     [HttpDelete]
-    [Route("/{userId}")]
+    [Route("{userId}")]
     public async Task<ActionResult> DeleteUser(string userId)
     {
         var command = new DeleteUserCommand(userId);

@@ -55,6 +55,8 @@ public class KeyCloakConnection : IKeyCloakConnection
             Content = JsonContent.Create(new {
                 email = createUserCommand.Email,
                 enabled = true,
+                firstName = createUserCommand.Name,
+                lastName = createUserCommand.Surname,
                 credentials = new List<object> {
                         new {
                             Type = "password",

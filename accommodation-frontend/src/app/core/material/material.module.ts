@@ -10,6 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
+import {MatRadioModule} from '@angular/material/radio';
 
 @NgModule({
   declarations: [],
@@ -26,6 +27,7 @@ import { MatInputModule } from '@angular/material/input';
     MatSlideToggleModule,
     MatDatepickerModule,
     MatInputModule,
+    MatRadioModule,
   ],
   exports:[
     MatButtonModule,
@@ -38,7 +40,8 @@ import { MatInputModule } from '@angular/material/input';
     ReactiveFormsModule,
     MatSlideToggleModule,
     MatDatepickerModule,
-    MatInputModule
+    MatInputModule,
+    MatRadioModule,
   ]
 })
 export class MaterialModule { }

@@ -10,10 +10,12 @@ const routes: Routes =
   { path: '', loadChildren: () => import('./pages/home/home.module').then(m => m.HomeModule) },
   { path: 'search-accommodations', loadChildren: () => import('./pages/accommodations/accommodations.module').then(m => m.AccommodationsModule) },
   { path: 'reservations-review', component: ReservationsReviewComponent},
-  { path: 'requests-review', component: RequestsReviewComponent},
-  {path: 'admin-requests-review', component: AdminRequestsReviewComponent},
-  {path: 'add-accommodation', component: AddAccommodationComponent},
-  {path: 'admin-accommodation', component: AdminAccommodationComponent},
+  { path: 'registration', loadChildren: () => import('./pages/registration/registration.module').then(m => m.RegistrationModule) },
+  { path: 'account', loadChildren: () => import('./pages/account/account.module').then(m => m.AccountModule) },
+  { path: 'requests-review', component: RequestsReviewComponent },
+  { path: 'admin-requests-review', component: AdminRequestsReviewComponent },
+  { path: 'add-accommodation', component: AddAccommodationComponent },
+  { path: 'admin-accommodation', component: AdminAccommodationComponent },
 
 ];
 

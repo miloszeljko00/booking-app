@@ -20,6 +20,8 @@ namespace UserManagement.Configuration
         public static IServiceCollection AddHandlers(this IServiceCollection services)
         {
             services.AddScoped<IRequestHandler<DeleteUserCommand, bool>, DeleteUserCommandHandler>();
+            services.AddScoped<IRequestHandler<UpdateUserCommand, User?>, UpdateUserCommandHandler>();
+            services.AddScoped<IRequestHandler<GetUserByIdQuery, User?>, GetUserByIdQueryHandler>();
             services.AddScoped<IRequestHandler<CreateUserCommand, User?>, CreateUserCommandHandler>();
             return services;
         }

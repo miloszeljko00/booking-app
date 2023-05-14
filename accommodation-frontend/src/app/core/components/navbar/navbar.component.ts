@@ -27,14 +27,15 @@ export class NavbarComponent implements OnDestroy{
 
   logout(): void {
     this.authService.logout();
-   }
-
+  }
+  goToRegistrationPage() {
+    this.router.navigate(['registration'])
+  }
   goToHomePage(): void {
     this.router.navigate(['']);
   }
   goToAccountPage(): void {
-    const externalUrl = 'http://localhost:28080/realms/booking-app/account/#/personal-info';
-    window.open(externalUrl, '_blank');
+    this.router.navigate(['account']);
   }
   
   goToSearchAccommodations():void{
