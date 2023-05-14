@@ -1,0 +1,44 @@
+<h1 mat-dialog-title>Make reservation</h1>
+<br/>
+<div mat-dialog-content>
+  <form class="create-flight-form" [formGroup]="formGroup">
+    <table>
+      <tr>
+        <mat-form-field appearance="outline" color="primary">
+          <mat-label>Number of guests</mat-label>
+          <input matInput type="number" min="1" name="numberOfGuests" formControlName="numberOfGuests" [(ngModel)]="numberOfGuests">
+        </mat-form-field>
+      </tr>
+      <tr>
+        <mat-form-field appearance="outline" color="primary">
+          <mat-label>Start date (mm/dd/yyyy)</mat-label>
+          <input matInput [matDatepicker]="startingDate" name="startingDate" formControlName="startingDate" (ngModelChange)="getStartingDate($event)">
+          <mat-datepicker #startingDate></mat-datepicker>
+      </mat-form-field>
+      </tr>
+      <tr>
+        <mat-form-field appearance="outline" color="primary">
+          <mat-label>Start time (hh:mm)</mat-label>
+          <input matInput type="text" name="startingTime" formControlName="startingTime" [(ngModel)]="startTime">
+      </mat-form-field>
+      </tr>
+      <tr>
+        <mat-form-field appearance="outline" color="primary">
+          <mat-label>End date (mm/dd/yyyy)</mat-label>
+          <input matInput [matDatepicker]="endingDate" name="endingDate" formControlName="endingDate" (ngModelChange)="getEndingDate($event)">
+          <mat-datepicker #endingDate></mat-datepicker>
+      </mat-form-field>
+      </tr>
+      <tr>
+        <mat-form-field appearance="outline" color="primary">
+          <mat-label>End time (hh:mm)</mat-label>
+          <input matInput type="text" name="endingTime" formControlName="endingTime" [(ngModel)]="endTime">
+      </mat-form-field>
+      </tr>
+    </table>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button [mat-dialog-close]="{startingDate: startDate, startingTime: startTime, endingDate: endDate, endingTime: endTime, numberOfGuests: numberOfGuests}" [disabled]="!formGroup.valid">OK</button>
+</div>

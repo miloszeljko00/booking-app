@@ -4,7 +4,7 @@ export function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
     keycloak.init({
       config: {
-        url: 'http://localhost:28080/auth',
+        url: 'https://login-booking-app.azurewebsites.net/auth',
         realm: 'booking-app',
         clientId: 'booking-app-client',
       },

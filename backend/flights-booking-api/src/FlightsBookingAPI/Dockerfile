@@ -8,7 +8,7 @@ EXPOSE 443
 
 # Build container
 FROM mcr.microsoft.com/dotnet/core/sdk:6.0-buster AS build
-
+	
 # Copy the code into the container
 WORKDIR /src
 COPY ["src/FlightsBookingAPI/FlightsBookingAPI.csproj", "FlightsBookingAPI/"]

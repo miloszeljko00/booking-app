@@ -1,4 +1,7 @@
 img {
-    height: 88%;
+    position: absolute;
+    z-index: -1;
+    top: 72px;
+    height: calc(100vh - 72px);
     width: 100%
 }

@@ -1,0 +1,73 @@
+<div style="display: flex; justify-content: center;">
+  <div>
+    <div style="display: flex; justify-content: center; margin-top: 100px;">
+      <h1 mat-dialog-title>Registration</h1>
+    <br/>
+    </div>
+    <div mat-dialog-content>
+      <form class="create-flight-form" [formGroup]="formGroup">
+        <table>
+          <tr>
+            <td colspan="2">
+              <mat-form-field appearance="outline" color="primary" style="margin-right: 10px;">
+                <mat-label>Email</mat-label>
+                <input matInput type="email" name="email" formControlName="email">
+              </mat-form-field>
+              <mat-form-field appearance="outline" color="primary" style="margin-left: 10px;">
+                <mat-label>Password</mat-label>
+                <input matInput type="password" name="password" formControlName="password">
+              </mat-form-field>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <mat-radio-group style="margin-right: 15px; margin-bottom: 10px; display: flex; justify-content: center;" aria-label="Select a role" name="roles" formControlName="roles">
+                <mat-radio-button value="guest">Guest</mat-radio-button>
+                <mat-radio-button value="host">Host</mat-radio-button>
+              </mat-radio-group>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <mat-form-field appearance="outline" color="primary" style="margin-right: 10px;">
+                <mat-label>First Name</mat-label>
+                <input matInput type="text" name="name" formControlName="name">
+              </mat-form-field>
+              <mat-form-field appearance="outline" color="primary" style="margin-left: 10px;">
+                <mat-label>Last Name</mat-label>
+                <input matInput type="text" name="surname" formControlName="surname">
+              </mat-form-field>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <mat-form-field appearance="outline" color="primary" style="margin-right: 10px;">
+                <mat-label>Country</mat-label>
+                <input matInput type="text" name="country" formControlName="country">
+              </mat-form-field>
+              <mat-form-field appearance="outline" color="primary" style="margin-left: 10px;">
+                <mat-label>City</mat-label>
+                <input matInput type="text" name="city" formControlName="city">
+              </mat-form-field>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <mat-form-field appearance="outline" color="primary" style="margin-right: 10px;">
+                <mat-label>Street</mat-label>
+                <input matInput type="text" name="street" formControlName="street">
+              </mat-form-field>
+              <mat-form-field appearance="outline" color="primary" style="margin-left: 10px;">
+                <mat-label>Number</mat-label>
+                <input matInput type="text" name="number" formControlName="number">
+              </mat-form-field>
+            </td>
+          </tr>
+        </table>
+      </form>
+    </div>
+    <div mat-dialog-actions style="display: flex; justify-content: center;">
+      <button mat-button (click)="register()" [disabled]="!formGroup.valid">Register</button>
+    </div>
+  </div>
+</div>

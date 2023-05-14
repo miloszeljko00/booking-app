@@ -1,34 +1,14 @@
 version: "3.8"
 services:
-  #----------------------------------------------------------------
-  keycloak_db_xws:
-    image: postgres
-    container_name: keycloak_db_xws
-    restart: on-failure
-    volumes:
-      - keycloak_xws_data:/var/lib/postgresql/data
+#----------------------------------------------------------------
+  keycloak:
+    image: quay.io/keycloak/keycloak:21.0.1
     environment:
-      POSTGRES_DB: keycloak
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: user
-  keycloak_xws:
-    image: quay.io/keycloak/keycloak:legacy
-    container_name: keycloak_xws
-    restart: on-failure
-    environment:
-      DB_VENDOR: POSTGRES
-      DB_ADDR: keycloak_db_xws
-      DB_DATABASE: keycloak
-      DB_USER: user
-      DB_SCHEMA: public
-      DB_PASSWORD: user
-      KEYCLOAK_USER: admin
-      KEYCLOAK_PASSWORD: admin
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    entrypoint: ["/opt/keycloak/bin/kc.sh", "start-dev"]
     ports:
       - 28080:8080
-    depends_on:
-      - keycloak_db_xws
-#----------------------------------------------------------------
   mongo:
     image: mongo:5.0
     container_name: mongo
@@ -39,6 +19,8 @@ services:
       - "27017:27017"
     volumes:
       - mongo_data:/var/lib/mongo/data
+    networks:
+      - docker-network
   mongo-express:
     image: mongo-express
     container_name: mexpress
@@ -54,8 +36,32 @@ services:
       - mongo
     ports:
       - "5050:8081"
+    networks:
+      - docker-network
+#----------------------------------------------------------------
+#   booking-service:
+#     build: ./../backend/flights-booking-api
+#     container_name: booking-service
+#     environment:
+#       ASPNETCORE_ENVIRONMENT: Development
+#       ENABLE_CORS: true
+#     depends_on:
+#       - mongo
+#     expose:
+#       - 5000
+#     ports:
+#       - "5000:5000"
+#     networks:
+#       - docker-network
+# #----------------------------------------------------------------
+#   booking-app:
+#     build: ./../frontend
+#     container_name: booking-app
+#     ports:
+#       - 4200:80
 #----------------------------------------------------------------
 volumes:
-  keycloak_xws_data:
   mongo_data:
 #----------------------------------------------------------------
+networks:
+  docker-network:

@@ -1,0 +1,36 @@
+<mat-toolbar color="primary" class="container">
+    <div class="logo" (click)="goToHomePage()">
+        <img class="logo-img" src="./../../../../assets/logo.png">
+    </div>
+    <div class="pages">
+        <div class="guest-pages" *ngIf="!(user$ | async)">
+            <!-- TODO: Ovde dodavati dugmad za neulogovanog korisnika -->
+            <app-navbar-button (click)="goToSearchAccommodations()">Accommodation</app-navbar-button>
+        </div>
+        <div *ngIf="(user$ | async); let user">
+            <ng-container class="user-pages" *ngIf="user.roles.includes('guest')">
+                <!-- TODO: Ovde dodavati dugmad za obicnog korisnika -->
+                <app-navbar-button (click)="goToSearchAccommodations()">Accommodation</app-navbar-button>
+                <app-navbar-button (click)="goToReservationsReview()">Reservations</app-navbar-button>
+                <app-navbar-button (click)="goToRequestsReview()">Requests</app-navbar-button>
+
+            </ng-container>
+            <ng-container class="admin-pages" *ngIf="user.roles.includes('host')">
+                <!-- TODO: Ovde dodavati dugmad za administratora -->
+                <app-navbar-button (click)="goToAdminAccommodation()">My Accommodation</app-navbar-button>
+                <app-navbar-button (click)="goToAddAccomodation()">Add Accommodation</app-navbar-button>
+                <app-navbar-button (click)="goToAdminRequestsReview()">Requests</app-navbar-button>
+                <app-navbar-button (click)="goToSearchAccommodations()">All Accommodation</app-navbar-button>
+
+            </ng-container>
+        </div>
+    </div>
+
+    <div>
+        <app-navbar-button *ngIf="(user$ | async)" (click)="goToAccountPage()">Account</app-navbar-button>
+        <app-navbar-button *ngIf="!(user$ | async)" (click)="goToRegistrationPage()">Register</app-navbar-button>
+        <app-navbar-button *ngIf="!(user$ | async)" (click)="login()">Login</app-navbar-button>
+        <app-navbar-button *ngIf="(user$ | async)" (click)="logout()">Logout</app-navbar-button>
+    </div>
+</mat-toolbar>
+

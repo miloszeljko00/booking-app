@@ -19,7 +19,7 @@ namespace FlightsBookingAPI.ControllersImpl
         {
             this.flightService = flightService;
         }
-
+        [Authorize(Roles = "admin")]
         public override async Task<IActionResult> DeleteFlightsId([FromRoute(Name = "FlightId"), Required] Guid flightId)
         {
             var flight = await this.flightService.GetAsync(flightId);
@@ -133,7 +133,7 @@ namespace FlightsBookingAPI.ControllersImpl
             } ;
             return Ok(new FlightGetResponse { Flight = f});
         }
-
+        [Authorize(Roles = "admin")]
         public override async Task<IActionResult> PostFlights([FromBody] FlightCreateRequest flightCreateRequest)
         {
             FlightsBooking.Models.Flight flight = new FlightsBooking.Models.Flight(
@@ -143,10 +143,10 @@ namespace FlightsBookingAPI.ControllersImpl
                 flightCreateRequest.TicketPrice, 
                 new List<FlightsBooking.Models.SoldTicket>());
             await this.flightService.CreateAsync(flight);
-            return Ok(flightCreateRequest);
+            return NoContent();
         }
 
-       
+        [Authorize(Roles = "user")]
         public override async Task<IActionResult> PostFlightsIdActionsBuyTicket([FromRoute(Name = "FlightId"), Required] string flightId, [FromBody] FlightBuyTicketsRequest flightBuyTicketsRequest)
         {
             FlightsBooking.Models.Flight flight = await this.flightService.GetAsync(new Guid(flightId));

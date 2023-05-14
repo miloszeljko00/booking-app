@@ -32,7 +32,10 @@ export class NavbarComponent implements OnDestroy{
   goToHomePage(): void {
     this.router.navigate(['']);
   }
-
+  goToAccountPage(): void {
+    const externalUrl = 'https://login-booking-app.azurewebsites.net/auth/realms/booking-app/account/#/personal-info';
+    window.open(externalUrl, '_blank');
+  }
   goToCreateFlight(): void {
     this.router.navigate(['create-flight']);
   }

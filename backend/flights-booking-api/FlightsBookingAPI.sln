@@ -5,7 +5,12 @@ VisualStudioVersion = 17.3.32922.545
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlightsBookingAPI", "src\FlightsBookingAPI\FlightsBookingAPI.csproj", "{4EB44128-FB6E-4A28-807F-1B549CFF2DF7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlightsBooking", "FlightsBooking\FlightsBooking.csproj", "{EFA5D8D5-2500-4239-AADE-3DB652A347FD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlightsBooking", "FlightsBooking\FlightsBooking.csproj", "{EFA5D8D5-2500-4239-AADE-3DB652A347FD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{345C025A-B5E5-46FB-9187-113DB90D9FC2}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
