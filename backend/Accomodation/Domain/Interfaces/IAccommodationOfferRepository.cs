@@ -1,11 +1,11 @@
-﻿using AccomodationDomain.Entities;
+﻿using AccomodationSuggestionDomain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AccomodationDomain.Interfaces
+namespace AccomodationSuggestionDomain.Interfaces
 {
     public interface IAccommodationOfferRepository
     {

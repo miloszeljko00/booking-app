@@ -1,5 +1,5 @@
-﻿using AccomodationDomain.Exceptions.CustomExceptions;
-using AccomodationDomain.Primitives;
+﻿using AccomodationSuggestionDomain.Exceptions.CustomExceptions;
+using AccomodationSuggestionDomain.Primitives;
 using FluentValidation;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AccomodationDomain.Entities
+namespace AccomodationSuggestionDomain.Entities
 {
     public class Picture : Entity
     {

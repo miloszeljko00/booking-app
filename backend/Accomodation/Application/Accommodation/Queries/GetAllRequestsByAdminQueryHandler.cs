@@ -1,8 +1,8 @@
 ﻿using Accomodation.Application.Dtos;
 using Accomodation.Domain.Primitives.Enums;
 using AccomodationApplication.Abstractions.Messaging;
-using AccomodationDomain.Entities;
-using AccomodationDomain.Interfaces;
+using AccomodationSuggestionDomain.Entities;
+using AccomodationSuggestionDomain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -23,9 +23,9 @@ namespace AccomodationApplication.Accommodation.Queries
         public async Task<ICollection<ReservationRequestByAdminDTO>> Handle(GetAllRequestsByAdminQuery request, CancellationToken cancellationToken)
         {
             var accs = await _repository.GetAllAsync();
-            List<AccomodationDomain.Entities.Accommodation> accommodationList = accs.ToList();
-            List<AccomodationDomain.Entities.Accommodation> accommodations = new List<AccomodationDomain.Entities.Accommodation>();
-            foreach(AccomodationDomain.Entities.Accommodation acc in accommodationList)
+            List<AccomodationSuggestionDomain.Entities.Accommodation> accommodationList = accs.ToList();
+            List<AccomodationSuggestionDomain.Entities.Accommodation> accommodations = new List<AccomodationSuggestionDomain.Entities.Accommodation>();
+            foreach(AccomodationSuggestionDomain.Entities.Accommodation acc in accommodationList)
             {
                 if (acc.HostEmail.EmailAddress.Equals(request.adminEmail))
                 {
@@ -34,7 +34,7 @@ namespace AccomodationApplication.Accommodation.Queries
             }
 
             ICollection<ReservationRequestByAdminDTO> response = new Collection<ReservationRequestByAdminDTO>();
-            foreach (AccomodationDomain.Entities.Accommodation acc in accommodations)
+            foreach (AccomodationSuggestionDomain.Entities.Accommodation acc in accommodations)
             {
                 List<ReservationRequest> requests = acc.ReservationRequests;
                 foreach (ReservationRequest req in requests)
@@ -58,7 +58,7 @@ namespace AccomodationApplication.Accommodation.Queries
             int totalCancellationNumber = 0;
             foreach (ReservationRequestByAdminDTO req in response)
             {
-                foreach (AccomodationDomain.Entities.Accommodation acc in accs)
+                foreach (AccomodationSuggestionDomain.Entities.Accommodation acc in accs)
                 {
                     totalCancellationNumber += acc.GetCancellationNumber(req.GuestEmail);
                 }

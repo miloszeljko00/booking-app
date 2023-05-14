@@ -36,7 +36,8 @@ public sealed class CreateUserCommandHandler : ICommandHandler<CreateUserCommand
             request.Email,
             request.Name,
             request.Surname,
-            Address.Create(request.Country, request.City, request.Street, request.Number));
+            Address.Create(request.Country, request.City, request.Street, request.Number),
+            request.Roles[0]);
 
         return await _userRepository.CreateAsync(user);    
     }

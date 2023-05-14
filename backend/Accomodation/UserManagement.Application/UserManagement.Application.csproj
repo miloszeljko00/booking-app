@@ -10,10 +10,21 @@
     <Folder Include="Mappers\" />
   </ItemGroup>
 	<ItemGroup>
+		<PackageReference Include="Google.Protobuf" Version="3.23.0" />
+		<PackageReference Include="Grpc.AspNetCore" Version="2.53.0" />
+		<PackageReference Include="Grpc.AspNetCore.Server" Version="2.53.0" />
+		<PackageReference Include="Grpc.Core" Version="2.46.6" />
+		<PackageReference Include="Grpc.Tools" Version="2.54.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
 		<PackageReference Include="MediatR" Version="12.0.1" />
 	</ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\UserManagement.Domain\UserManagement.Domain.csproj" />
   </ItemGroup>
-
+	<ItemGroup>
+		<Protobuf Include="Users\Support\Grpc\Protos\model.proto" GrpcService="None" />
+		<Protobuf Include="Users\Support\Grpc\Protos\accomodationGrpcService.proto" GrpcService="Client" />
+	</ItemGroup>
 </Project>

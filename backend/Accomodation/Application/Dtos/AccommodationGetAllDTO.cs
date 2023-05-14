@@ -1,5 +1,5 @@
-﻿using AccomodationDomain.Entities;
-using AccomodationDomain.ValueObjects;
+﻿using AccomodationSuggestionDomain.Entities;
+using AccomodationSuggestionDomain.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;

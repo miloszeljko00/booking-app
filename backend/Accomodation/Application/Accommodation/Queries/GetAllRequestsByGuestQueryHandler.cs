@@ -1,8 +1,8 @@
 ﻿using Accomodation.Application.Dtos;
 using Accomodation.Domain.Primitives.Enums;
 using AccomodationApplication.Abstractions.Messaging;
-using AccomodationDomain.Entities;
-using AccomodationDomain.Interfaces;
+using AccomodationSuggestionDomain.Entities;
+using AccomodationSuggestionDomain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -23,9 +23,9 @@ namespace AccomodationApplication.Accommodation.Queries
         public async Task<ICollection<ReservationRequestByGuestDTO>> Handle(GetAllRequestsByGuestQuery request, CancellationToken cancellationToken)
         {
             var accs = await _repository.GetAllAsync();
-            List<AccomodationDomain.Entities.Accommodation> accommodations = accs.ToList();
+            List<AccomodationSuggestionDomain.Entities.Accommodation> accommodations = accs.ToList();
             ICollection<ReservationRequestByGuestDTO> response = new Collection<ReservationRequestByGuestDTO>();
-            foreach (AccomodationDomain.Entities.Accommodation acc in accommodations)
+            foreach (AccomodationSuggestionDomain.Entities.Accommodation acc in accommodations)
             {
                 List<ReservationRequest> requests = acc.ReservationRequests;
                 foreach (ReservationRequest req in requests)

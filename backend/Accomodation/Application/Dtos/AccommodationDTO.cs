@@ -1,7 +1,7 @@
 ﻿using Accomodation.Domain.Primitives.Enums;
-using AccomodationDomain.Entities;
-using AccomodationDomain.Primitives.Enums;
-using AccomodationDomain.ValueObjects;
+using AccomodationSuggestionDomain.Entities;
+using AccomodationSuggestionDomain.Primitives.Enums;
+using AccomodationSuggestionDomain.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;

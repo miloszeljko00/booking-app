@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AccomodationDomain.Primitives
+namespace AccomodationSuggestionDomain.Primitives
 {
     public abstract class Entity : IEquatable<Entity>
     {

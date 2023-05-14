@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AccomodationDomain.Exceptions.CustomExceptions
+namespace AccomodationSuggestionDomain.Exceptions.CustomExceptions
 {
     public sealed class DuplicateAccommodationException : Exception
     {

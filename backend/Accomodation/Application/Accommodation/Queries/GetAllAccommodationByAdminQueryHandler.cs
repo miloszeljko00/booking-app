@@ -1,6 +1,6 @@
 ﻿using Accomodation.Application.Dtos;
 using AccomodationApplication.Abstractions.Messaging;
-using AccomodationDomain.Interfaces;
+using AccomodationSuggestionDomain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,9 +20,9 @@ namespace Accomodation.Application.Accommodation.Queries
         public async Task<ICollection<AccommodationGetAllDTO>> Handle(GetAllAccommodationByAdminQuery request, CancellationToken cancellationToken)
         {
             var accList = await _repository.GetAllAsync();
-            List<AccomodationDomain.Entities.Accommodation> accommodationList = accList.ToList();
+            List<AccomodationSuggestionDomain.Entities.Accommodation> accommodationList = accList.ToList();
             List<AccommodationGetAllDTO> result = new List<AccommodationGetAllDTO>();
-            foreach (AccomodationDomain.Entities.Accommodation acc in accommodationList)
+            foreach (AccomodationSuggestionDomain.Entities.Accommodation acc in accommodationList)
             {
                 if (acc.HostEmail.EmailAddress.Equals(request.adminEmail))
                 {

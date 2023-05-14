@@ -1,0 +1,16 @@
+﻿syntax = "proto3";
+
+package rs.ac.uns.ftn.grpc;
+option csharp_namespace = "UserManagement.Application.Users.Support.Grpc.Protos";
+
+
+message MessageProto2 {
+  string userEmail = 1;
+  string userRole = 2;
+}
+
+message MessageResponseProto2 {
+  bool canDelete = 1;
+}
+
+

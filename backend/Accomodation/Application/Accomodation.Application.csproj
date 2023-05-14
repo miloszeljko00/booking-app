@@ -19,6 +19,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Accommodation\Support\Grpc\Protos\accomodationGrpcService.proto" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Google.Protobuf" Version="3.23.0" />
     <PackageReference Include="Grpc.AspNetCore" Version="2.53.0" />
     <PackageReference Include="Grpc.AspNetCore.Server" Version="2.53.0" />
@@ -40,6 +44,7 @@
   </ItemGroup>
 	
     <ItemGroup>
+		<Protobuf Include="Accommodation\Support\Grpc\Protos\accomodationGrpcService.proto" GrpcServices="Server" />
 		<Protobuf Include="Accommodation\Support\Grpc\Protos\model.proto" GrpcService="None" />
 		<Protobuf Include="Accommodation\Support\Grpc\Protos\guestNotificationGrpcService.proto" GrpcService="Client" />
 	</ItemGroup>

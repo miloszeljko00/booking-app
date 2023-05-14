@@ -1,9 +1,9 @@
 ﻿using Accomodation.Domain.Primitives.Enums;
 using AccomodationApplication.Abstractions.Messaging;
-using AccomodationDomain.Entities;
-using AccomodationDomain.Interfaces;
-using AccomodationDomain.Primitives.Enums;
-using AccomodationDomain.ValueObjects;
+using AccomodationSuggestionDomain.Entities;
+using AccomodationSuggestionDomain.Interfaces;
+using AccomodationSuggestionDomain.Primitives.Enums;
+using AccomodationSuggestionDomain.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace AccomodationApplication.Accommodation.Commands
 {
-    public sealed class CancelReservationRequestCommandHandler : ICommandHandler<CancelReservationRequestCommand, AccomodationDomain.Entities.Accommodation>
+    public sealed class CancelReservationRequestCommandHandler : ICommandHandler<CancelReservationRequestCommand, AccomodationSuggestionDomain.Entities.Accommodation>
     {
         private readonly IAccommodationRepository _repository;
         public AccommodationBuilder AccommodationBuilder { get; set; } = new AccommodationBuilder();
@@ -26,10 +26,10 @@ namespace AccomodationApplication.Accommodation.Commands
             return _repository;
         }
 
-        public Task<AccomodationDomain.Entities.Accommodation> Handle(CancelReservationRequestCommand request, CancellationToken cancellationToken)
+        public Task<AccomodationSuggestionDomain.Entities.Accommodation> Handle(CancelReservationRequestCommand request, CancellationToken cancellationToken)
         {
             var acc = _repository.GetAsync(request.reservationRequestCancellationDTO.AccommodationId);
-            AccomodationDomain.Entities.Accommodation accommodation = acc.Result;
+            AccomodationSuggestionDomain.Entities.Accommodation accommodation = acc.Result;
             if(accommodation is null) 
             {
                 throw new Exception("Accommodation does not exist");

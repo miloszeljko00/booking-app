@@ -16,4 +16,12 @@ message MessageResponseProto {
   string status = 1;
 }
 
+message MessageProto2 {
+  string userEmail = 1;
+  string userRole = 2;
+}
+
+message MessageResponseProto2 {
+  bool canDelete = 1;
+}
 

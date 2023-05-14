@@ -1,13 +1,13 @@
 ﻿using Accomodation.Domain.Primitives.Enums;
-using AccomodationDomain.Exceptions.CustomExceptions;
-using AccomodationDomain.Primitives;
-using AccomodationDomain.Primitives.Enums;
-using AccomodationDomain.ValueObjects;
+using AccomodationSuggestionDomain.Exceptions.CustomExceptions;
+using AccomodationSuggestionDomain.Primitives;
+using AccomodationSuggestionDomain.Primitives.Enums;
+using AccomodationSuggestionDomain.ValueObjects;
 using FluentValidation;
 using System;
 using System.Diagnostics;
 
-namespace AccomodationDomain.Entities
+namespace AccomodationSuggestionDomain.Entities
 {
     public class Accommodation : AggregateRoot
     {
@@ -85,7 +85,10 @@ namespace AccomodationDomain.Entities
             var accommodationValidator = new AccommodationValidator();
             return accommodationValidator.Validate(accommodation);
         }
-
+        public int GetReservationCountAfterDate(DateTime date)
+        {
+            return Reservations.Where(reservation => reservation.ReservationDate.End > date && reservation.IsCanceled is false).ToList().Count;
+        }
         public Price? GetPriceForSpecificDate(DateTime date)
         {
             foreach(Price p in PricePerGuest)

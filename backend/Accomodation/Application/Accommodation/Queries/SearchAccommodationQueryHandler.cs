@@ -2,9 +2,9 @@
 using AccomodationApplication.Abstractions.Messaging;
 using AccomodationApplication.Accommodation.Queries;
 using AccomodationApplication.Dtos;
-using AccomodationDomain.Interfaces;
-using AccomodationDomain.Primitives.Enums;
-using AccomodationDomain.ValueObjects;
+using AccomodationSuggestionDomain.Interfaces;
+using AccomodationSuggestionDomain.Primitives.Enums;
+using AccomodationSuggestionDomain.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

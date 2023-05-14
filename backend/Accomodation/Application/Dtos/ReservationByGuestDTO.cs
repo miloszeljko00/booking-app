@@ -1,4 +1,4 @@
-﻿using AccomodationDomain.ValueObjects;
+﻿using AccomodationSuggestionDomain.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;

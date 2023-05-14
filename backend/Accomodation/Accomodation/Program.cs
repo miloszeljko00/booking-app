@@ -2,6 +2,11 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 using Accomodation.Configuration;
+using Grpc.Core;
+using AccommodationApplication.Accommodation.Support.Grpc.Protos;
+using Accomodation.Application.Accommodation;
+using MediatR;
+using AccomodationSuggestionDomain.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +19,13 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.G
 builder.Services
     .AddRepositories()
     .AddHandlers();
+IServiceProvider serviceProvider = builder.Services.BuildServiceProvider();
+Server server = new Server
+{
+    Services = { AccomodationGrpcService.BindService(new ServerGrpcServiceImpl(serviceProvider.GetRequiredService<IMediator>(), serviceProvider.GetRequiredService<IAccommodationRepository>())) },
+    Ports = { new ServerPort("localhost", 8797, ServerCredentials.Insecure) }
+};
+server.Start();
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -84,7 +96,7 @@ builder.Services
                               .AllowAnyHeader()
                               .AllowAnyMethod());
     });
-
+builder.Services.AddGrpc();
 
 var app = builder.Build();
 
@@ -108,7 +120,11 @@ app.UseCors("AllowOrigin");
 
 app.UseAuthentication();
 app.UseAuthorization();
-
+app.UseRouting();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapGrpcService<ServerGrpcServiceImpl>();
+});
 app.MapControllers();
 
 app.Run();

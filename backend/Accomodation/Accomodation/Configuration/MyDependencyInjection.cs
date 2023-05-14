@@ -4,8 +4,8 @@ using Accomodation.Application.Dtos;
 using Accomodation.Infrastructure.Accommodation;
 using AccomodationApplication.Accommodation.Commands;
 using AccomodationApplication.Accommodation.Queries;
-using AccomodationDomain.Entities;
-using AccomodationDomain.Interfaces;
+using AccomodationSuggestionDomain.Entities;
+using AccomodationSuggestionDomain.Interfaces;
 using MediatR;
 
 namespace Accomodation.Configuration

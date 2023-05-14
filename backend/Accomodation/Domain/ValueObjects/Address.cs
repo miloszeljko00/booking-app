@@ -1,5 +1,5 @@
-﻿using AccomodationDomain.Exceptions.CustomExceptions;
-using AccomodationDomain.Primitives;
+﻿using AccomodationSuggestionDomain.Exceptions.CustomExceptions;
+using AccomodationSuggestionDomain.Primitives;
 using FluentValidation;
 using FluentValidation.Results;
 using System;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AccomodationDomain.ValueObjects
+namespace AccomodationSuggestionDomain.ValueObjects
 {
     public class Address : ValueObject
     {

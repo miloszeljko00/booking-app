@@ -1,6 +1,6 @@
 ﻿using AccomodationApplication.Abstractions.Messaging;
-using AccomodationDomain.Interfaces;
-using AccomodationDomain.ValueObjects;
+using AccomodationSuggestionDomain.Interfaces;
+using AccomodationSuggestionDomain.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Accomodation.Application.Accommodation.Commands
 {
-    public sealed class AddPriceCommandHandler : ICommandHandler<AddPriceCommand, AccomodationDomain.Entities.Accommodation>
+    public sealed class AddPriceCommandHandler : ICommandHandler<AddPriceCommand, AccomodationSuggestionDomain.Entities.Accommodation>
     {
         private readonly IAccommodationRepository _repository;
         public AddPriceCommandHandler(IAccommodationRepository repository) 
@@ -18,10 +18,10 @@ namespace Accomodation.Application.Accommodation.Commands
             _repository = repository;
         }
 
-        public Task<AccomodationDomain.Entities.Accommodation> Handle(AddPriceCommand request, CancellationToken cancellationToken)
+        public Task<AccomodationSuggestionDomain.Entities.Accommodation> Handle(AddPriceCommand request, CancellationToken cancellationToken)
         {
             var acc = _repository.GetAsync(request.priceDTO.AccommodationId);
-            AccomodationDomain.Entities.Accommodation accommodation = acc.Result;
+            AccomodationSuggestionDomain.Entities.Accommodation accommodation = acc.Result;
             if (accommodation is null)
             {
                 throw new Exception("Accommodation does not exist");

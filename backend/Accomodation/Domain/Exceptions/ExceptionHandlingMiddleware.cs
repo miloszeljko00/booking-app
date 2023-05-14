@@ -1,10 +1,10 @@
-﻿using AccomodationDomain.Exceptions.CustomExceptions;
+﻿using AccomodationSuggestionDomain.Exceptions.CustomExceptions;
 using System.Net.Http;
 using System.Net;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 
-namespace AccomodationDomain.Exceptions
+namespace AccomodationSuggestionDomain.Exceptions
 {
     public class ExceptionHandlingMiddleware
     {

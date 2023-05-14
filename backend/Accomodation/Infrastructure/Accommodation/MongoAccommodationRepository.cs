@@ -1,4 +1,4 @@
-﻿using AccomodationDomain.Interfaces;
+﻿using AccomodationSuggestionDomain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +10,7 @@ namespace Accomodation.Infrastructure.Accommodation
 {
     public class MongoAccommodationRepository : IAccommodationRepository
     {
-        private readonly IMongoCollection<AccomodationDomain.Entities.Accommodation> _accommodationCollection;
+        private readonly IMongoCollection<AccomodationSuggestionDomain.Entities.Accommodation> _accommodationCollection;
 
         public MongoAccommodationRepository()
         {
@@ -18,25 +18,25 @@ namespace Accomodation.Infrastructure.Accommodation
 
             var mongoDatabase = mongoClient.GetDatabase("BookingApp");
 
-            _accommodationCollection = mongoDatabase.GetCollection<AccomodationDomain.Entities.Accommodation>("Accommodation");
+            _accommodationCollection = mongoDatabase.GetCollection<AccomodationSuggestionDomain.Entities.Accommodation>("Accommodation");
         }
 
 
-        public async Task<AccomodationDomain.Entities.Accommodation> Create(AccomodationDomain.Entities.Accommodation accommodation)
+        public async Task<AccomodationSuggestionDomain.Entities.Accommodation> Create(AccomodationSuggestionDomain.Entities.Accommodation accommodation)
         {
             await _accommodationCollection.InsertOneAsync(accommodation);
             return accommodation;
         }
         
-        public async Task<ICollection<AccomodationDomain.Entities.Accommodation>> GetAllAsync()
+        public async Task<ICollection<AccomodationSuggestionDomain.Entities.Accommodation>> GetAllAsync()
         {
             return await _accommodationCollection.Find(_ => true).ToListAsync();
         }
 
-        public async Task<AccomodationDomain.Entities.Accommodation> GetAsync(Guid id) =>
+        public async Task<AccomodationSuggestionDomain.Entities.Accommodation> GetAsync(Guid id) =>
             await _accommodationCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
 
-        public async Task UpdateAsync(Guid id, AccomodationDomain.Entities.Accommodation updatedAccommodation) =>
+        public async Task UpdateAsync(Guid id, AccomodationSuggestionDomain.Entities.Accommodation updatedAccommodation) =>
             await _accommodationCollection.ReplaceOneAsync(x => x.Id == id, updatedAccommodation);
 
         public async Task RemoveAsync(Guid id) =>

@@ -1,10 +1,10 @@
 ﻿using AccommodationApplication.Accommodation.Support.Grpc.Protos;
 using Accomodation.Domain.Primitives.Enums;
 using AccomodationApplication.Abstractions.Messaging;
-using AccomodationDomain.Entities;
-using AccomodationDomain.Interfaces;
-using AccomodationDomain.Primitives.Enums;
-using AccomodationDomain.ValueObjects;
+using AccomodationSuggestionDomain.Entities;
+using AccomodationSuggestionDomain.Interfaces;
+using AccomodationSuggestionDomain.Primitives.Enums;
+using AccomodationSuggestionDomain.ValueObjects;
 using Grpc.Core;
 using System;
 using System.Collections.Generic;
@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace AccomodationApplication.Accommodation.Commands
 {
-    public sealed class ManageReservationRequestCommandHandler : ICommandHandler<ManageReservationRequestCommand, AccomodationDomain.Entities.Accommodation>
+    public sealed class ManageReservationRequestCommandHandler : ICommandHandler<ManageReservationRequestCommand, AccomodationSuggestionDomain.Entities.Accommodation>
     {
         private readonly IAccommodationRepository _repository;
 
@@ -33,10 +33,10 @@ namespace AccomodationApplication.Accommodation.Commands
             return _repository;
         }
 
-        public async Task<AccomodationDomain.Entities.Accommodation> Handle(ManageReservationRequestCommand request, CancellationToken cancellationToken)
+        public async Task<AccomodationSuggestionDomain.Entities.Accommodation> Handle(ManageReservationRequestCommand request, CancellationToken cancellationToken)
         {
             var acc = _repository.GetAsync(request.reservationRequestManagementDTO.AccommodationId);
-            AccomodationDomain.Entities.Accommodation accommodation = acc.Result;
+            AccomodationSuggestionDomain.Entities.Accommodation accommodation = acc.Result;
             if(accommodation is null) 
             {
                 throw new Exception("Accommodation does not exist");

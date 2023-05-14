@@ -84,11 +84,29 @@ export class AccountPage {
               this.toastr.success("Successfully deleted account!")
               setTimeout(() =>  this.authService.logout(), 2000);
             }else{
-              this.toastr.success("Error has occurred while deleting account!")
+              const user = this.authService.getUser()
+              if(!user){
+                this.toastr.error("Error has occurred while deleting account!")
+              }else{
+                if(user.roles.includes("host")){
+                  this.toastr.error("Can't delete account while your accommodations have active reservations!")
+                }else{
+                  this.toastr.error("Can't delete account while you have active reservations!")
+                }
+              }
             }
           },
           error: (err: HttpErrorResponse) => {
-            this.toastr.success("Error has occurred while deleting account!")
+            const user = this.authService.getUser()
+              if(!user){
+                this.toastr.error("Error has occurred while deleting account!")
+              }else{
+                if(user.roles.includes("host")){
+                  this.toastr.error("Can't delete account while your accommodations have active reservations!")
+                }else{
+                  this.toastr.error("Can't delete account while you have active reservations!")
+                }
+              }
           }
         });
       }
