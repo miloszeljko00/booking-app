@@ -14,8 +14,8 @@ namespace Notification.Application.Notification.Queries
 {
     public sealed class GetNotificationsByGuestQueryHandler : IQueryHandler<GetNotificationsByGuestQuery, GuestNotificationDTO>
     {
-        private readonly INotificationRepository _repository;
-        public GetNotificationsByGuestQueryHandler(INotificationRepository repository)
+        private readonly IGuestNotificationRepository _repository;
+        public GetNotificationsByGuestQueryHandler(IGuestNotificationRepository repository)
         {
             _repository = repository;
         }

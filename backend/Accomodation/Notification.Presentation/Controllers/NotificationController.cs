@@ -42,6 +42,7 @@ namespace Notification.Presentation.Controllers
         }
 
         [HttpPut]
+        [Route("guest-notifications")]
         public async Task<ActionResult<GuestNotification>> SetGuestNotification([FromBody] CreateGuestNotificationDTO createGuestNotificationDTO)
         {
             var query = new SetGuestNotificationCommand(createGuestNotificationDTO);
@@ -49,5 +50,30 @@ namespace Notification.Presentation.Controllers
             return Ok(result);
         }
 
+        [HttpGet]
+        [Route("{hostEmail}/host-notifications")]
+        public async Task<ActionResult<HostNotificationDTO>> GetNotificationsByHost([FromRoute(Name = "hostEmail"), Required] string hostEmail)
+        {
+            var query = new GetNotificationsByHostQuery(hostEmail);
+            try
+            {
+                var result = await _mediator.Send(query);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpPut]
+        [Route("host-notifications")]
+
+        public async Task<ActionResult<HostNotification>> SetHostNotification([FromBody] CreateHostNotificationDTO createHostNotificationDTO)
+        {
+            var query = new SetHostNotificationCommand(createHostNotificationDTO);
+            var result = await _mediator.Send(query);
+            return Ok(result);
+        }
     }
 }

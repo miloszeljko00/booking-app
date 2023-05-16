@@ -18,7 +18,8 @@ namespace Accomodation.Configuration
     {
         public static IServiceCollection AddRepositories(this IServiceCollection services)
         {
-            services.AddScoped<INotificationRepository, MongoNotificationRepository>();
+            services.AddScoped<IGuestNotificationRepository, MongoGuestNotificationRepository>();
+            services.AddScoped<IHostNotificationRepository, MongoHostNotificationRepository>();
             services.AddScoped<IEmailService, EmailService>();
             return services;
         }
@@ -27,6 +28,8 @@ namespace Accomodation.Configuration
         {
             services.AddScoped<IRequestHandler<GetNotificationsByGuestQuery, GuestNotificationDTO>, GetNotificationsByGuestQueryHandler>();
             services.AddScoped<IRequestHandler<SetGuestNotificationCommand, GuestNotification>, SetGuestNotificationCommandHandler>();
+            services.AddScoped<IRequestHandler<GetNotificationsByHostQuery, HostNotificationDTO>, GetNotificationsByHostQueryHandler>();
+            services.AddScoped<IRequestHandler<SetHostNotificationCommand, HostNotification>, SetHostNotificationCommandHandler>();
             return services;
         }
     }

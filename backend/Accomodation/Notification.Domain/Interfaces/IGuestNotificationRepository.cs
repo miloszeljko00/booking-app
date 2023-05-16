@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Notification.Domain.Interfaces
 {
-    public interface INotificationRepository
+    public interface IGuestNotificationRepository
     {
         Task<ICollection<GuestNotification>> GetAllAsync();
         Task UpdateAsync(Guid id, GuestNotification updatedGuestNotification);

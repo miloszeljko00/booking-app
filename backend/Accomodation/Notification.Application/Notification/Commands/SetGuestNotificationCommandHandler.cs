@@ -12,13 +12,13 @@ namespace Notification.Application.Notification.Commands
 {
     public sealed class SetGuestNotificationCommandHandler : ICommandHandler<SetGuestNotificationCommand, GuestNotification>
     {
-        private readonly INotificationRepository _repository;
-        public SetGuestNotificationCommandHandler(INotificationRepository repository)
+        private readonly IGuestNotificationRepository _repository;
+        public SetGuestNotificationCommandHandler(IGuestNotificationRepository repository)
         {
             _repository = repository;
         }
 
-        public INotificationRepository Get_repository()
+        public IGuestNotificationRepository Get_repository()
         {
             return _repository;
         }

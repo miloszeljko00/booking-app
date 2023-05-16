@@ -11,7 +11,21 @@
     vertical-align: middle;
 }
 
-.logo:hover {
+.logo-img:hover {
+    cursor: pointer;
+    transition: all .2s ease-in-out;
+    transform: scale(1.1);
+    opacity: 0.75;
+}
+
+.notification-img {
+    width: 50px;
+    height: 50px;
+    margin-left: 2px;
+    vertical-align: middle;
+}
+
+.notification-img:hover {
     cursor: pointer;
     transition: all .2s ease-in-out;
     transform: scale(1.1);

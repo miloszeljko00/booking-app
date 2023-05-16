@@ -22,7 +22,7 @@ builder.Services
 IServiceProvider serviceProvider = builder.Services.BuildServiceProvider();
 Server server = new Server
 {
-    Services = { GuestNotificationGrpcService.BindService(new ServerGrpcServiceImpl(serviceProvider.GetService<INotificationRepository>())) },
+    Services = { GuestNotificationGrpcService.BindService(new ServerGrpcServiceImpl(serviceProvider.GetService<IGuestNotificationRepository>())) },
     Ports = { new ServerPort("localhost", 8787, ServerCredentials.Insecure) }
 };
 server.Start();

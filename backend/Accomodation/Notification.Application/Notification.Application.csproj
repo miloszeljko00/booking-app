@@ -22,8 +22,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Mappers\" />
-    <Folder Include="Notification\Commands\" />
-    <Folder Include="Notification\Queries\" />
   </ItemGroup>
 
 	<ItemGroup>

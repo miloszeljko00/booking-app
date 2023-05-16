@@ -23,6 +23,7 @@ import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dial
 import { AdminRequestsReviewComponent } from './components/admin-requests-review/admin-requests-review.component';
 import { AdminAccommodationComponent } from './components/admin-accommodation/admin-accommodation.component';
 import { AddPriceDialogComponent } from './components/add-price-dialog/add-price-dialog.component';
+import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 
 
 @NgModule({
@@ -40,6 +41,7 @@ import { AddPriceDialogComponent } from './components/add-price-dialog/add-price
 
   ],
   imports:[
+    MatSidenavModule,
     MatButtonModule,
     MatRippleModule,
     BrowserModule,

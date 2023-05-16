@@ -12,6 +12,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 export function apiConfigFactory(): Configuration {
   const params: ConfigurationParameters = {
@@ -25,6 +26,7 @@ export function apiConfigFactory(): Configuration {
     AppComponent,
   ],
   imports: [
+    MatSidenavModule,
     BrowserModule,
     AppRoutingModule,
     CoreModule,

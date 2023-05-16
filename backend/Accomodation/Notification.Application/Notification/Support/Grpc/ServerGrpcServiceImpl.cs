@@ -15,8 +15,8 @@ namespace Notification.Application.Notification.Support.Grpc
     public class ServerGrpcServiceImpl : GuestNotificationGrpcService.GuestNotificationGrpcServiceBase
     {
         private readonly IEmailService _emailService;
-        private readonly INotificationRepository _repository;
-        public ServerGrpcServiceImpl(INotificationRepository repository)
+        private readonly IGuestNotificationRepository _repository;
+        public ServerGrpcServiceImpl(IGuestNotificationRepository repository)
         {
             _emailService = new EmailService();
             _repository = repository;
