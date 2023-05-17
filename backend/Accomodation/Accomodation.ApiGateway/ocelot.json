@@ -1,0 +1,82 @@
+﻿{
+  //After dockerization host will be container name, port will be 80
+  "Routes": [
+    {
+      "UpstreamPathTemplate": "/Accommodation",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE"
+      ],
+      "DownstreamPathTemplate": "/Accommodation",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5000
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/Accommodation/{anyPath}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE"
+      ],
+      "DownstreamPathTemplate": "/Accommodation/{anyPath}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5000
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/User",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE"
+      ],
+      "DownstreamPathTemplate": "/User",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7294
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/User/{anyPath}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE"
+      ],
+      "DownstreamPathTemplate": "/User/{anyPath}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7294
+        }
+      ]
+    }
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:5294"
+  },
+  "HttpHandlerOptions": {
+    "AllowAutoRedirect": true,
+    "UseCookieContainer": true,
+    "UseTracing": true,
+    "MaxConnectionsPerServer": 100
+  }
+}

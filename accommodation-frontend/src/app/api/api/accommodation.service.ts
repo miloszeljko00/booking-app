@@ -1,6 +1,5 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { TitleStrategy } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Accommodation } from '../model/accommodation';
 import { Request } from '../model/request';
@@ -25,7 +24,7 @@ const httpOptions = {
 
 
 export class AccommodationService{
-    private apiUrl = 'https://localhost:5000/Accommodation'
+    private apiUrl = 'https://localhost:7060/Accommodation'
 
     constructor(private http: HttpClient) { }
 

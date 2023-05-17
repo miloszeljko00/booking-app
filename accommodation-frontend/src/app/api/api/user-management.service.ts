@@ -1,16 +1,5 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { TitleStrategy } from '@angular/router';
-import { Observable } from 'rxjs';
-import { Accommodation } from '../model/accommodation';
-import { Request } from '../model/request';
-import { ReservationByGuest } from '../model/reservationByGuest';
-import { RequestByGuest } from '../model/requestByGuest';
-import { AccommodationCreate } from '../model/accommodationCreate';
-import { ReservationCancellation } from '../model/reservationCancellation';
-import { RequestByAdmin } from '../model/requestByAdmin';
-import { RequestManagement } from '../model/requestManagement';
-import { Price } from '../model/price';
 
 
 const httpOptions = {
@@ -25,7 +14,7 @@ const httpOptions = {
 
 
 export class UserManagementService{
-    private apiUrl = 'https://localhost:7294/User'
+    private apiUrl = 'https://localhost:7060/User'
 
     constructor(private http: HttpClient) { }
 
