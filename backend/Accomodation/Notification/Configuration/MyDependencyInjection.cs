@@ -10,6 +10,7 @@ using Notification.Domain.Entities;
 using Notification.Domain.Interfaces;
 using Notification.Infrastructure.Notification;
 using Rs.Ac.Uns.Ftn.Grpc;
+using Notification.Infrastructure.Persistance.Settings;
 
 namespace Accomodation.Configuration
 {
@@ -30,6 +31,12 @@ namespace Accomodation.Configuration
             services.AddScoped<IRequestHandler<SetGuestNotificationCommand, GuestNotification>, SetGuestNotificationCommandHandler>();
             services.AddScoped<IRequestHandler<GetNotificationsByHostQuery, HostNotificationDTO>, GetNotificationsByHostQueryHandler>();
             services.AddScoped<IRequestHandler<SetHostNotificationCommand, HostNotification>, SetHostNotificationCommandHandler>();
+            return services;
+        }
+        public static IServiceCollection AddInfrastructure(this IServiceCollection services,
+        ConfigurationManager builderConfiguration)
+        {
+            services.Configure<DatabaseSettings>(builderConfiguration.GetSection(DatabaseSettings.OptionName));
             return services;
         }
     }

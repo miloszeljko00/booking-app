@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver;
+﻿using Microsoft.Extensions.Options;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UserManagement.Domain.Entities;
 using UserManagement.Domain.Interfaces;
+using UserManagement.Infrastructure.Persistance.Settings;
 
 namespace UserManagement.Infrastructure.Repositories
 {
@@ -13,13 +15,13 @@ namespace UserManagement.Infrastructure.Repositories
     {
         private readonly IMongoCollection<User> _users;
 
-        public UserRepository()
+        public UserRepository(IOptions<DatabaseSettings> dbSettings)
         {
-            var mongoClient = new MongoClient("mongodb://user:user@localhost:27017/?authSource=admin");
+            var mongoClient = new MongoClient(dbSettings.Value.ConnectionString);
 
-            var mongoDatabase = mongoClient.GetDatabase("BookingApp");
+            var mongoDatabase = mongoClient.GetDatabase(dbSettings.Value.DatabaseName);
 
-            _users = mongoDatabase.GetCollection<User>("User");
+            _users = mongoDatabase.GetCollection<User>(dbSettings.Value.CollectionName);
         }
 
 

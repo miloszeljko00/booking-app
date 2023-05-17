@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MongoDB.Driver;
+using Microsoft.Extensions.Options;
+using Accomodation.Infrastructure.Persistance.Settings;
 
 namespace Accomodation.Infrastructure.Accommodation
 {
@@ -12,13 +14,13 @@ namespace Accomodation.Infrastructure.Accommodation
     {
         private readonly IMongoCollection<AccomodationSuggestionDomain.Entities.Accommodation> _accommodationCollection;
 
-        public MongoAccommodationRepository()
+        public MongoAccommodationRepository(IOptions<DatabaseSettings> dbSettings)
         {
-            var mongoClient = new MongoClient("mongodb://user:user@localhost:27017/?authSource=admin");
+            var mongoClient = new MongoClient(dbSettings.Value.ConnectionString);
 
-            var mongoDatabase = mongoClient.GetDatabase("BookingApp");
+            var mongoDatabase = mongoClient.GetDatabase(dbSettings.Value.DatabaseName);
 
-            _accommodationCollection = mongoDatabase.GetCollection<AccomodationSuggestionDomain.Entities.Accommodation>("Accommodation");
+            _accommodationCollection = mongoDatabase.GetCollection<AccomodationSuggestionDomain.Entities.Accommodation>(dbSettings.Value.AccommodationCollectionName);
         }
 
 

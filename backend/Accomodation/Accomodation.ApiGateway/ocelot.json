@@ -68,7 +68,7 @@
           "Port": 7294
         }
       ]
-    }
+    }//Dodati sve rute
   ],
   "GlobalConfiguration": {
     "BaseUrl": "http://localhost:5294"

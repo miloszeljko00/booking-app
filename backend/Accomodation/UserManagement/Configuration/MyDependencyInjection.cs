@@ -4,6 +4,7 @@ using UserManagement.Application.Users.Commands;
 using UserManagement.Domain.Entities;
 using UserManagement.Domain.Interfaces;
 using UserManagement.Infrastructure.Connections;
+using UserManagement.Infrastructure.Persistance.Settings;
 using UserManagement.Infrastructure.Repositories;
 
 namespace UserManagement.Configuration
@@ -29,6 +30,11 @@ namespace UserManagement.Configuration
         public static IServiceCollection AddHttpClients(this IServiceCollection services)
         {
             services.AddScoped<IKeyCloakConnection, KeyCloakConnection>();
+            return services;
+        }
+        public static IServiceCollection AddInfrastructure(this IServiceCollection services, ConfigurationManager builderConfiguration)
+        {
+            services.Configure<DatabaseSettings>(builderConfiguration.GetSection(DatabaseSettings.OptionName));
             return services;
         }
     }

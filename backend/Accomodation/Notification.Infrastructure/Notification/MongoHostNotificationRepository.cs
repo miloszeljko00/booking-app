@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using MongoDB.Driver;
 using Notification.Domain.Interfaces;
 using Notification.Domain.Entities;
+using Microsoft.Extensions.Options;
+using Notification.Infrastructure.Persistance.Settings;
 
 namespace Notification.Infrastructure.Notification
 {
@@ -13,13 +15,13 @@ namespace Notification.Infrastructure.Notification
     {
         private readonly IMongoCollection<HostNotification> _notificationCollection;
 
-        public MongoHostNotificationRepository()
+        public MongoHostNotificationRepository(IOptions<DatabaseSettings> dbSettings)
         {
-            var mongoClient = new MongoClient("mongodb://user:user@localhost:27017/?authSource=admin");
+            var mongoClient = new MongoClient(dbSettings.Value.ConnectionString);
 
-            var mongoDatabase = mongoClient.GetDatabase("BookingApp");
+            var mongoDatabase = mongoClient.GetDatabase(dbSettings.Value.DatabaseName);
 
-            _notificationCollection = mongoDatabase.GetCollection<HostNotification>("HostNotification");
+            _notificationCollection = mongoDatabase.GetCollection<HostNotification>(dbSettings.Value.CollectionName);
         }
 
 
