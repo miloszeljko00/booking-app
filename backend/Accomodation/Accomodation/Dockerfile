@@ -1,4 +1,6 @@
-﻿FROM mcr.microsoft.com/dotnet/sdk:6.0 AS base
+#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
+
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
@@ -6,18 +8,17 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["Accomodation/Accomodation.csproj", "Accomodation/"]
-COPY ["Accomodation.Application/Accomodation.Application.csproj", "Accomodation.Application/"]
-COPY ["Accomodation.Domain/Accomodation.Domain.csproj", "Accomodation.Domain/"]
-COPY ["Accomodation.Infrastructure/Accomodation.Infrastructure.csproj", "Accomodation.Infrastructure/"]
-COPY ["Accomodation.Presentation/Accomodation.Presentation.csproj", "Accomodation.Presentation/"]
-
+COPY ["Infrastructure/Accomodation.Infrastructure.csproj", "Infrastructure/"]
+COPY ["Domain/Accomodation.Domain.csproj", "Domain/"]
+COPY ["Presentation/Accomodation.Presentation.csproj", "Presentation/"]
+COPY ["Application/Accomodation.Application.csproj", "Application/"]
 RUN dotnet restore "Accomodation/Accomodation.csproj"
 COPY . .
 WORKDIR "/src/Accomodation"
 RUN dotnet build "Accomodation.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "Accomodation.csproj" -c Release -o /app/publish
+RUN dotnet publish "Accomodation.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app

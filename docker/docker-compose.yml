@@ -41,27 +41,31 @@ services:
     networks:
       - docker-network
   #----------------------------------------------------------------
-  # accommodation-service:
-  #   image: ${YOUR_REGISTRY-}accommodation-service:1.0.0
-  #   container_name: accommodation-service
-  #   build: ../backend/Accomodation/Accomodation
-  #   ports:
-  #     - "5000:443"
-  #     - "23725:80"
-  #   environment:
-  #     MongoDatabaseSettings:ConnectionString: mongodb://user:user@mongo:27017/?authSource=admin
-  #     Jwt:Authority: http://keycloak:8080/realms/booking-app
-  #     Jwt:AuthorizationUrl: http://keycloak:8080/realms/booking-app/protocol/openid-connect/auth
-  #     Jwt:TokenUrl: http://keycloak:8080/realms/booking-app/protocol/openid-connect/token
-  #   networks:
-  #     - docker-network
-  #   depends_on:
-  #     - mongo
+  accommodation-service:
+    image: ${YOUR_REGISTRY-}accommodation-service:1.0.0
+    container_name: accommodation-service
+    build:
+      context: ../backend/Accomodation
+      dockerfile: ./Accomodation/Dockerfile 
+    ports:
+      - "5000:443"
+      - "23725:80"
+    environment:
+      MongoDatabaseSettings:ConnectionString: mongodb://user:user@mongo:27017/?authSource=admin
+      Jwt:Authority: http://keycloak:8080/realms/booking-app
+      Jwt:AuthorizationUrl: http://keycloak:8080/realms/booking-app/protocol/openid-connect/auth
+      Jwt:TokenUrl: http://keycloak:8080/realms/booking-app/protocol/openid-connect/token
+    networks:
+      - docker-network
+    depends_on:
+      - mongo
   #----------------------------------------------------------------
   user-management-service:
     image: ${YOUR_REGISTRY-}user-management-service:1.0.0
     container_name: user-management-service
-    build: ../backend/Accomodation/UserManagement
+    build:
+      context: ../backend/Accomodation
+      dockerfile: ./UserManagement/Dockerfile
     ports:
       - "7294:443"
       - "5294:80"
@@ -78,7 +82,9 @@ services:
   notification-service:
     image: ${YOUR_REGISTRY-}notification-service:1.0.0
     container_name: notification-service
-    build: ../backend/Accomodation/Notification
+    build:
+      context: ../backend/Accomodation
+      dockerfile: ./Notification/Dockerfile
     ports:
       - "7136:443"
       - "5136:80"
