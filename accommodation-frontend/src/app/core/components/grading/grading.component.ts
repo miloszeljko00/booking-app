@@ -6,6 +6,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { GradingService } from 'src/app/api/api/grading.service';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../keycloak/auth.service';
+import { DialogComponent } from '../dialog/dialog.component';
+import { CreateHostGradingDialogComponent } from '../create-host-grading-dialog/create-host-grading-dialog.component';
+import { CreateHostGrading } from 'src/app/api/model/createHostGrading';
 
 @Component({
   selector: 'app-grading',
@@ -29,6 +32,22 @@ export class GradingComponent {
       this.gradeList = response;
       this.dataSourceHostGrading.data = this.gradeList
     })
+  }
+
+  openDialog(){
+    const dialogRef = this.dialog.open(CreateHostGradingDialogComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        let hostGrade : CreateHostGrading = { hostEmail: result.host, guestEmail: this.user?.email ?? '', grade: result.grade}
+        this.gradingService.createHostGrading(hostGrade).subscribe(() => {
+          this.gradingService.getHostGrading().subscribe((response: any) => {
+            this.gradeList = response;
+            this.dataSourceHostGrading.data = this.gradeList
+          })
+        })
+      }
+    });
   }
 
 }

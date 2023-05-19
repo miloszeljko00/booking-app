@@ -26,6 +26,7 @@ import { AddPriceDialogComponent } from './components/add-price-dialog/add-price
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { NotificationsComponent } from './components/notifications/notifications.component';
 import { GradingComponent } from './components/grading/grading.component';
+import { CreateHostGradingDialogComponent } from './components/create-host-grading-dialog/create-host-grading-dialog.component';
 
 
 @NgModule({
@@ -42,6 +43,7 @@ import { GradingComponent } from './components/grading/grading.component';
     AddPriceDialogComponent,
     NotificationsComponent,
     GradingComponent,
+    CreateHostGradingDialogComponent,
 
   ],
   imports:[

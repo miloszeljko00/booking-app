@@ -37,6 +37,11 @@ export class AccommodationService{
 
     }
 
+    getHostsByGuestReservation(email: string): Observable<string[]> {
+      return this.http.get<string[]>(this.apiUrl + "/" + email + "/hosts");
+
+    }
+
     createAccomodation(accomodationCreate: AccommodationCreate): Observable<AccommodationCreate> {
       return this.http.post<AccommodationCreate>(this.apiUrl, accomodationCreate, httpOptions);
 
