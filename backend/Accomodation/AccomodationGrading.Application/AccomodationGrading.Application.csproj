@@ -12,7 +12,7 @@
 	</ItemGroup>
 	
   <ItemGroup>
-    <Folder Include="Dtos\" />
+    <Folder Include="Grading\Queries\" />
     <Folder Include="Mappers\" />
   </ItemGroup>
 	

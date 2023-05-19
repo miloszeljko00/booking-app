@@ -1,4 +1,8 @@
-﻿using MediatR;
+﻿using AccomodationGrading.Infrastructure.Grading;
+using AccomodationGradingApplication.Grading.Commands;
+using AccomodationGradingDomain.Entities;
+using AccomodationGradingDomain.Interfaces;
+using MediatR;
 
 namespace AccomodationGrading.Configuration
 {
@@ -7,11 +11,13 @@ namespace AccomodationGrading.Configuration
     {
         public static IServiceCollection AddRepositories(this IServiceCollection services)
         {
+            services.AddScoped<IHostGradingRepository, MongoHostGradingRepository>();
             return services;
         }
 
         public static IServiceCollection AddHandlers(this IServiceCollection services)
         {
+            services.AddScoped<IRequestHandler<CreateHostGradingCommand, HostGrading>, CreateHostGradingCommandHandler>();
             return services;
         }
     }
