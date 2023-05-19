@@ -15,4 +15,13 @@ message MessageResponseProto {
   string status = 1;
 }
 
+message MessageProto3 {
+  string email = 1;
+  string startDate = 2;
+  string endDate = 3;
+  string accommodation = 4;
+}
 
+message MessageResponseProto3 {
+  string status = 1;
+}

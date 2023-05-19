@@ -1,7 +1,7 @@
 <mat-toolbar color="primary" class="container">
     <div>
         <img class="logo-img" (click)="goToHomePage()" src="./../../../../assets/logo.png">
-        <img *ngIf="(user$ | async)" class="notification-img" src="./../../../../assets/notification.png">
+        <img *ngIf="(user$ | async)" (click)="goToNotification()" class="notification-img" src="./../../../../assets/notification.png">
     </div>
     <div class="pages">
         <div class="guest-pages" *ngIf="!(user$ | async)">

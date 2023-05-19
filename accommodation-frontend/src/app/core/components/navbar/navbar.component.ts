@@ -65,6 +65,10 @@ export class NavbarComponent implements OnDestroy{
   goToAdminAccommodation():void{
     this.router.navigate(['admin-accommodation'])
   }
+
+  goToNotification():void{
+    this.router.navigate(['notification'])
+  }
   
 
 }

@@ -5,6 +5,11 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Notification\Support\Grpc\Protos\hostCancelReservationNotificationGrpcService.proto" />
+    <None Remove="Notification\Support\Grpc\Protos\hostRequestNotificationGrpcService.proto" />
+  </ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Google.Protobuf" Version="3.23.0" />
 		<PackageReference Include="Grpc.AspNetCore" Version="2.53.0" />
@@ -25,8 +30,16 @@
   </ItemGroup>
 
 	<ItemGroup>
+		<Protobuf Include="Notification\Support\Grpc\Protos\hostCancelReservationNotificationGrpcService.proto">
+		  <GrpcService>Client</GrpcService>
+		</Protobuf>
+		<Protobuf Include="Notification\Support\Grpc\Protos\hostRequestNotificationGrpcService.proto">
+		  <GrpcService>Client</GrpcService>
+		</Protobuf>
 		<Protobuf Include="Notification\Support\Grpc\Protos\model.proto" GrpcService="None" />
 		<Protobuf Include="Notification\Support\Grpc\Protos\guestNotificationGrpcService.proto" GrpcService="Server" />
+		<Protobuf Include="Notification\Support\Grpc\Protos\hostRequestNotificationGrpcService.proto" GrpcService="Server" />
+		<Protobuf Include="Notification\Support\Grpc\Protos\hostCancelReservationNotificationGrpcService.proto" GrpcService="Server" />
 	</ItemGroup>
 
 </Project>

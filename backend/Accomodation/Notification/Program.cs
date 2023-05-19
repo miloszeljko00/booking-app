@@ -26,6 +26,18 @@ Server server = new Server
     Ports = { new ServerPort("localhost", 8787, ServerCredentials.Insecure) }
 };
 server.Start();
+Server server1 = new Server
+{
+    Services = { HostRequestNotificationGrpcService.BindService(new HostRequestServerGrpcServiceImpl(serviceProvider.GetService<IHostNotificationRepository>())) },
+    Ports = { new ServerPort("localhost", 8788, ServerCredentials.Insecure) }
+};
+server1.Start();
+Server server2 = new Server
+{
+    Services = { HostCancelReservationNotificationGrpcService.BindService(new HostCancelReservationServerGrpcServiceImpl(serviceProvider.GetService<IHostNotificationRepository>())) },
+    Ports = { new ServerPort("localhost", 8789, ServerCredentials.Insecure) }
+};
+server2.Start();
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -124,6 +136,9 @@ app.UseRouting();
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapGrpcService<ServerGrpcServiceImpl>();
+    endpoints.MapGrpcService<HostRequestServerGrpcServiceImpl>();
+    endpoints.MapGrpcService<HostCancelReservationServerGrpcServiceImpl>();
+
 });
 
 app.MapControllers();

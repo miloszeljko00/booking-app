@@ -36,7 +36,31 @@ namespace Notification.Application.Notification.Support.Email
 
             SendMessage(mailMsg);
         }
+        public void SendHostRequestNotification(string email, string accommodation, string startDate, string endDate)
+        {
+            MailMessage mailMsg = new MailMessage();
+            mailMsg.To.Add(email);
+            mailMsg.From = _fromMailAddress;
 
+            mailMsg.Subject = "Zahtev za rezervaciju";
+            mailMsg.Body = "Postovani," +
+                "\nPristigao vam je zahtev za rezervaciju u \"" + accommodation + "\" smestaju od " + startDate + " do " + endDate;
+
+            SendMessage(mailMsg);
+        }
+
+        public void SendHostCancelReservationNotification(string email, string accommodation, string startDate, string endDate)
+        {
+            MailMessage mailMsg = new MailMessage();
+            mailMsg.To.Add(email);
+            mailMsg.From = _fromMailAddress;
+
+            mailMsg.Subject = "Obavestenje o otkazivanju rezervacije";
+            mailMsg.Body = "Postovani," +
+                "\nOtkazana je rezervacija u \"" + accommodation + "\" smestaju od " + startDate + " do " + endDate;
+
+            SendMessage(mailMsg);
+        }
         private void SendMessage(MailMessage mailMsg)
         {
             try

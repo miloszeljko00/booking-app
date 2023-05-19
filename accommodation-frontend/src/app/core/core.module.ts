@@ -24,6 +24,7 @@ import { AdminRequestsReviewComponent } from './components/admin-requests-review
 import { AdminAccommodationComponent } from './components/admin-accommodation/admin-accommodation.component';
 import { AddPriceDialogComponent } from './components/add-price-dialog/add-price-dialog.component';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
+import { NotificationsComponent } from './components/notifications/notifications.component';
 
 
 @NgModule({
@@ -38,6 +39,7 @@ import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
     AdminRequestsReviewComponent,
     AdminAccommodationComponent,
     AddPriceDialogComponent,
+    NotificationsComponent,
 
   ],
   imports:[

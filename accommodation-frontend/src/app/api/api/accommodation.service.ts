@@ -1,6 +1,5 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { TitleStrategy } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Accommodation } from '../model/accommodation';
 import { Request } from '../model/request';
