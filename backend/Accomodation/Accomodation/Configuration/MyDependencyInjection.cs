@@ -33,6 +33,7 @@ namespace Accomodation.Configuration
             services.AddScoped<IRequestHandler<SearchAccommodationQuery, ICollection<AccommodationGetAllDTO>>, SearchAccommodationQueryHandler>();
             services.AddScoped<IRequestHandler<GetAllAccommodationByAdminQuery, ICollection<AccommodationGetAllDTO>>, GetAllAccommodationByAdminQueryHandler>();
             services.AddScoped<IRequestHandler<AddPriceCommand, Accommodation>, AddPriceCommandHandler>();
+            services.AddScoped<IRequestHandler<GetHostsByGuestReservationsQuery, ICollection<string>>, GetHostsByGuestReservationsQueryHandler>();
             return services;
         }
     }

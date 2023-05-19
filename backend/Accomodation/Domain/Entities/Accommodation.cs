@@ -198,6 +198,18 @@ namespace AccomodationSuggestionDomain.Entities
             return cancellationNumber;
         }
 
+        public bool DoesGuestHasReservation(string guestEmail)
+        {
+            foreach(Reservation r in Reservations)
+            {
+                if(r.GuestEmail.EmailAddress.Equals(guestEmail) && !r.IsCanceled)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public bool IsValidNumberOfGuests(int numberOfGuest)
         {
             return numberOfGuest >= Capacity.Min && numberOfGuest <= Capacity.Max;

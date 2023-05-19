@@ -12,7 +12,6 @@
 	</ItemGroup>
 	
   <ItemGroup>
-    <Folder Include="Grading\Queries\" />
     <Folder Include="Mappers\" />
   </ItemGroup>
 	

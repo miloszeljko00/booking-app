@@ -6,6 +6,7 @@ import { AddAccommodationComponent } from './pages/add-accommodation/add-accommo
 import { AdminRequestsReviewComponent } from './core/components/admin-requests-review/admin-requests-review.component';
 import { AdminAccommodationComponent } from './core/components/admin-accommodation/admin-accommodation.component';
 import { NotificationsComponent } from './core/components/notifications/notifications.component';
+import { GradingComponent } from './core/components/grading/grading.component';
 const routes: Routes =
 [
   { path: '', loadChildren: () => import('./pages/home/home.module').then(m => m.HomeModule) },
@@ -18,6 +19,7 @@ const routes: Routes =
   { path: 'add-accommodation', component: AddAccommodationComponent },
   { path: 'admin-accommodation', component: AdminAccommodationComponent },
   { path: 'notification', component: NotificationsComponent },
+  { path: 'grading', component: GradingComponent },
 
 ];
 

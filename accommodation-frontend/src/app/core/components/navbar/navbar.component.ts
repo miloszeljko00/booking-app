@@ -70,5 +70,8 @@ export class NavbarComponent implements OnDestroy{
     this.router.navigate(['notification'])
   }
   
+  goToGrading():void{
+    this.router.navigate(['grading'])
+  }
 
 }

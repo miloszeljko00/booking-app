@@ -10,6 +10,7 @@ using MongoDB.Driver;
 using AccomodationGradingDomain.Entities;
 using AccomodationGradingApplication.Dtos;
 using AccomodationGradingApplication.Grading.Commands;
+using Notification.Application.Notification.Queries;
 
 namespace AccomodationGrading.Presentation.Controllers
 {
@@ -25,6 +26,7 @@ namespace AccomodationGrading.Presentation.Controllers
         }
 
         [HttpPost]
+        [Route("host")]
         public async Task<ActionResult<HostGrading>> CreateHostGrading([FromBody] CreateHostGradingDTO createHostGradingDTO)
         {
             var command = new CreateHostGradingCommand(
@@ -33,6 +35,51 @@ namespace AccomodationGrading.Presentation.Controllers
 
             var result = await _mediator.Send(command);
             return Created("Successfully graded host", result);
+        }
+
+        [HttpPut]
+        [Route("host")]
+        public async Task<ActionResult<HostGrading>> UpdateHostGrading([FromBody] UpdateHostGradingDTO updateHostGradingDTO)
+        {
+            var command = new UpdateHostGradingCommand(
+               updateHostGradingDTO
+               );
+
+            try
+            {
+                var result = await _mediator.Send(command);
+                return Created("Successfully updated grade for host", result);
+            }
+            catch(Exception ex) {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("host")]
+        public async Task<ActionResult<List<HostGradingDTO>>> GetHostGrading()
+        {
+            var command = new GetHostGradingQuery();
+
+            var result = await _mediator.Send(command);
+            return Ok(result);
+        }
+
+        [HttpDelete]
+        [Route("host/{gradeId}")]
+        public async Task<ActionResult<HostGrading>> DeleteHostGrading([FromRoute(Name = "gradeId"), Required] Guid gradeId)
+        {
+            var command = new DeleteHostGradingCommand(gradeId);
+
+            try
+            {
+                var result = await _mediator.Send(command);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
     }
