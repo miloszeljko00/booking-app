@@ -30,10 +30,10 @@ export class GradingComponent {
   }
 
   ngOnInit() {
-    this.getAllGrades();
+    this.getAllHostGrades();
   }
 
-  openCreateDialog(){
+  openCreateHostGradeDialog(){
     const dialogRef = this.dialog.open(CreateHostGradingDialogComponent);
 
     dialogRef.afterClosed().subscribe(result => {
@@ -41,13 +41,13 @@ export class GradingComponent {
         let hostGrade : CreateHostGrading = { hostEmail: result.host, guestEmail: this.user?.email ?? '', grade: result.grade}
         this.gradingService.createHostGrading(hostGrade).subscribe(() => {
           this.showSuccess('Successfully created grade for host');
-          this.getAllGrades();
+          this.getAllHostGrades();
         })
       }
     });
   }
 
-  openChangeDialog(grade: HostGrading){
+  openChangeHostGradeDialog(grade: HostGrading){
     const dialogRef = this.dialog.open(UpdateHostGradingDialogComponent,
       {
         data: grade.grade,
@@ -58,20 +58,20 @@ export class GradingComponent {
         let hostGrade : UpdateHostGrading = { id: grade.id, grade: result}
         this.gradingService.updateHostGrading(hostGrade).subscribe(() => {
           this.showSuccess('Successfully changed grade for host');
-          this.getAllGrades();
+          this.getAllHostGrades();
         })
       }
     });
   }
 
-  delete(grade: HostGrading){
+  deleteHostGrade(grade: HostGrading){
       this.gradingService.deleteHostGrading(grade.id).subscribe(() => {
         this.showSuccess('Successfully deleted grade for host');
-        this.getAllGrades();
+        this.getAllHostGrades();
       })
   }
 
-  private getAllGrades(){
+  private getAllHostGrades(){
     this.gradingService.getHostGrading().subscribe((response: any) => {
       this.gradeList = response;
       this.dataSourceHostGrading.data = this.gradeList;

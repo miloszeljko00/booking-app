@@ -168,6 +168,16 @@ namespace AccomodationPresentation.Controllers
             return Ok(result.ToList());
         }
 
+        [HttpGet]
+        [Route("{guestEmail}/accommodation")]
+        public async Task<ActionResult<List<AccommodationMainDTO>>> GetAccommodationByGuestReservations([FromRoute(Name = "guestEmail"), Required] string guestEmail)
+        {
+            var query = new GetAccommodationByGuestReservationsQuery(guestEmail);
+            var result = await _mediator.Send(query);
+
+            return Ok(result.ToList());
+        }
+
         [HttpPost]
         public async Task<ActionResult<Accommodation>> CreateAccommodation([FromBody] AccommodationDTO createAccommodationDto)
         {
