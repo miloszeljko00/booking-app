@@ -27,6 +27,7 @@ import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { NotificationsComponent } from './components/notifications/notifications.component';
 import { GradingComponent } from './components/grading/grading.component';
 import { CreateHostGradingDialogComponent } from './components/create-host-grading-dialog/create-host-grading-dialog.component';
+import { UpdateHostGradingDialogComponent } from './components/update-host-grading-dialog/update-host-grading-dialog.component';
 
 
 @NgModule({
@@ -44,6 +45,7 @@ import { CreateHostGradingDialogComponent } from './components/create-host-gradi
     NotificationsComponent,
     GradingComponent,
     CreateHostGradingDialogComponent,
+    UpdateHostGradingDialogComponent,
 
   ],
   imports:[

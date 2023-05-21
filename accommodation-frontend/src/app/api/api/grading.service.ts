@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { HostGrading } from "../model/hostGrading";
 import { CreateHostGrading } from "../model/createHostGrading";
+import { UpdateHostGrading } from "../model/updateHostGrading";
 
 const httpOptions = {
     headers: new HttpHeaders({
@@ -26,6 +27,14 @@ export class GradingService{
 
     createHostGrading(createHostGrading: CreateHostGrading): Observable<any>{
       return this.http.post<any>(this.apiUrl + '/host', createHostGrading, httpOptions);
-  }
+    }
+
+    updateHostGrading(updateHostGrading: UpdateHostGrading): Observable<any>{
+      return this.http.put<any>(this.apiUrl + '/host', updateHostGrading, httpOptions);
+    }
+
+    deleteHostGrading(gradeId: string): Observable<any>{
+      return this.http.delete<any>(this.apiUrl + '/host/' + gradeId);
+    }
 
 }
