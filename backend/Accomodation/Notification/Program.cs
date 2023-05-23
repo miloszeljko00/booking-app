@@ -37,6 +37,7 @@ Server server2 = new Server
     Services = { HostCancelReservationNotificationGrpcService.BindService(new HostCancelReservationServerGrpcServiceImpl(serviceProvider.GetService<IHostNotificationRepository>())) },
     Ports = { new ServerPort("localhost", 8789, ServerCredentials.Insecure) }
 };
+server2.Start();
 Server server3 = new Server
 {
     Services = { HostGradingNotificationGrpcService.BindService(new HostGradingServerGrpcServiceImpl(serviceProvider.GetService<IHostNotificationRepository>())) },
