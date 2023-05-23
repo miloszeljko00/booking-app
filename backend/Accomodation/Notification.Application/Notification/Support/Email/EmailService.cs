@@ -61,6 +61,32 @@ namespace Notification.Application.Notification.Support.Email
 
             SendMessage(mailMsg);
         }
+
+        public void SendHostGradingNotification(string email, int grade)
+        {
+            MailMessage mailMsg = new MailMessage();
+            mailMsg.To.Add(email);
+            mailMsg.From = _fromMailAddress;
+
+            mailMsg.Subject = "Obavestenje o oceni hosta";
+            mailMsg.Body = "Postovani," +
+                "\nUpravo ste ocenjeni ocenom " + grade;
+
+            SendMessage(mailMsg);
+        }
+
+        public void SendAccommodationGradingNotification(string email, string accommodation, int grade)
+        {
+            MailMessage mailMsg = new MailMessage();
+            mailMsg.To.Add(email);
+            mailMsg.From = _fromMailAddress;
+
+            mailMsg.Subject = "Obavestenje o oceni smestaja";
+            mailMsg.Body = "Postovani," +
+                "\nVas smestaj \"" + accommodation + "\" je upravo ocenjen ocenom " + grade;
+
+            SendMessage(mailMsg);
+        }
         private void SendMessage(MailMessage mailMsg)
         {
             try

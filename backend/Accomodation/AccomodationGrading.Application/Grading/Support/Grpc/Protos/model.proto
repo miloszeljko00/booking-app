@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package rs.ac.uns.ftn.grpc;
+option csharp_namespace = "AccommodationGradingApplication.Grading.Support.Grpc.Protos";
+
+message MessageProto4 {
+  string email = 1;
+  int32 grade = 2;
+}
+
+message MessageResponseProto4 {
+  string status = 1;
+}
+
+message MessageProto5 {
+  string email = 1;
+  string accommodation = 2;
+  int32 grade = 3;
+}
+
+message MessageResponseProto5 {
+  string status = 1;
+}

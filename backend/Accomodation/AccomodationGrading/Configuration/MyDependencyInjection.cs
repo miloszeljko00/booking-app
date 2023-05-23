@@ -1,10 +1,10 @@
 ﻿using AccomodationGrading.Infrastructure.Grading;
 using AccomodationGradingApplication.Dtos;
 using AccomodationGradingApplication.Grading.Commands;
+using AccomodationGradingApplication.Grading.Queries;
 using AccomodationGradingDomain.Entities;
 using AccomodationGradingDomain.Interfaces;
 using MediatR;
-using Notification.Application.Notification.Queries;
 
 namespace AccomodationGrading.Configuration
 {

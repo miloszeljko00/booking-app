@@ -12,6 +12,8 @@ namespace Notification.Application.Notification.Support.Email
         void SendGuestNotification(string email, string operation, string accommodation, string startDate, string endDate);
         void SendHostRequestNotification(string email, string accommodation, string startDate, string endDate);
         void SendHostCancelReservationNotification(string email, string accommodation, string startDate, string endDate);
+        void SendHostGradingNotification(string email, int grade);
+        void SendAccommodationGradingNotification(string email, string accommodation, int grade);
 
 
     }

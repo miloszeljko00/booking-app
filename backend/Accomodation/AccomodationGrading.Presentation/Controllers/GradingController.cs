@@ -10,7 +10,7 @@ using MongoDB.Driver;
 using AccomodationGradingDomain.Entities;
 using AccomodationGradingApplication.Dtos;
 using AccomodationGradingApplication.Grading.Commands;
-using Notification.Application.Notification.Queries;
+using AccomodationGradingApplication.Grading.Queries;
 
 namespace AccomodationGrading.Presentation.Controllers
 {

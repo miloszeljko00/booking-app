@@ -25,3 +25,22 @@ message MessageProto3 {
 message MessageResponseProto3 {
   string status = 1;
 }
+
+message MessageProto4 {
+  string email = 1;
+  int32 grade = 2;
+}
+
+message MessageResponseProto4 {
+  string status = 1;
+}
+
+message MessageProto5 {
+  string email = 1;
+  string accommodation = 2;
+  int32 grade = 3;
+}
+
+message MessageResponseProto5 {
+  string status = 1;
+}

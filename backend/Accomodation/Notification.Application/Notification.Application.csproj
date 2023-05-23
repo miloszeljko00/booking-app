@@ -7,7 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Notification\Support\Grpc\Protos\accommodationGradingNotificationGrpcService.proto" />
     <None Remove="Notification\Support\Grpc\Protos\hostCancelReservationNotificationGrpcService.proto" />
+    <None Remove="Notification\Support\Grpc\Protos\hostGradingNotificationGrpcService.proto" />
     <None Remove="Notification\Support\Grpc\Protos\hostRequestNotificationGrpcService.proto" />
   </ItemGroup>
 	<ItemGroup>
@@ -30,11 +32,11 @@
   </ItemGroup>
 
 	<ItemGroup>
-		<Protobuf Include="Notification\Support\Grpc\Protos\hostCancelReservationNotificationGrpcService.proto">
-		  <GrpcService>Client</GrpcService>
+		<Protobuf Include="Notification\Support\Grpc\Protos\accommodationGradingNotificationGrpcService.proto">
+		  <GrpcService>Server</GrpcService>
 		</Protobuf>
-		<Protobuf Include="Notification\Support\Grpc\Protos\hostRequestNotificationGrpcService.proto">
-		  <GrpcService>Client</GrpcService>
+		<Protobuf Include="Notification\Support\Grpc\Protos\hostGradingNotificationGrpcService.proto">
+		  <GrpcService>Server</GrpcService>
 		</Protobuf>
 		<Protobuf Include="Notification\Support\Grpc\Protos\model.proto" GrpcService="None" />
 		<Protobuf Include="Notification\Support\Grpc\Protos\guestNotificationGrpcService.proto" GrpcService="Server" />

@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Notification.Application.Notification.Queries
+namespace AccomodationGradingApplication.Grading.Queries
 {
     public sealed class GetAccommodationGradingQueryHandler : IQueryHandler<GetAccommodationGradingQuery, List<AccommodationGradingDTO>>
     {
