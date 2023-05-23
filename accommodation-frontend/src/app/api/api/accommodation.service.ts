@@ -10,6 +10,7 @@ import { ReservationCancellation } from '../model/reservationCancellation';
 import { RequestByAdmin } from '../model/requestByAdmin';
 import { RequestManagement } from '../model/requestManagement';
 import { Price } from '../model/price';
+import { AccommodationMain } from '../model/accommodationMain';
 
 
 const httpOptions = {
@@ -39,7 +40,10 @@ export class AccommodationService{
 
     getHostsByGuestReservation(email: string): Observable<string[]> {
       return this.http.get<string[]>(this.apiUrl + "/" + email + "/hosts");
+    }
 
+    getAccommodationByGuestReservation(email: string): Observable<AccommodationMain[]> {
+      return this.http.get<AccommodationMain[]>(this.apiUrl + "/" + email + "/accommodation");
     }
 
     createAccomodation(accomodationCreate: AccommodationCreate): Observable<AccommodationCreate> {

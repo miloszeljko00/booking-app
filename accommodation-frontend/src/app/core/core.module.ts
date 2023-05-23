@@ -28,6 +28,8 @@ import { NotificationsComponent } from './components/notifications/notifications
 import { GradingComponent } from './components/grading/grading.component';
 import { CreateHostGradingDialogComponent } from './components/create-host-grading-dialog/create-host-grading-dialog.component';
 import { UpdateHostGradingDialogComponent } from './components/update-host-grading-dialog/update-host-grading-dialog.component';
+import { CreateAccommodationGradingDialogComponent } from './components/create-accommodation-grading-dialog/create-accommodation-grading-dialog.component';
+import { UpdateAccommodationGradingDialogComponent } from './components/update-accommodation-grading-dialog/update-accommodation-grading-dialog.component';
 
 
 @NgModule({
@@ -46,6 +48,8 @@ import { UpdateHostGradingDialogComponent } from './components/update-host-gradi
     GradingComponent,
     CreateHostGradingDialogComponent,
     UpdateHostGradingDialogComponent,
+    CreateAccommodationGradingDialogComponent,
+    UpdateAccommodationGradingDialogComponent,
 
   ],
   imports:[

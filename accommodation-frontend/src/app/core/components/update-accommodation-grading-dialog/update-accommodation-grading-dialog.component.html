@@ -1,0 +1,18 @@
+<h1 mat-dialog-title>Change accommodation grade</h1>
+<br/>
+<div mat-dialog-content>
+  <form  [formGroup]="formGroup">
+    <table>
+      <tr>
+        <mat-form-field appearance="outline" color="primary">
+          <mat-label>Grade</mat-label>
+          <input matInput type="number" min="1" max="5" name="grade" formControlName="grade" [(ngModel)]="grade">
+        </mat-form-field>
+      </tr>
+    </table>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button [mat-dialog-close]="grade" [disabled]="!formGroup.valid">OK</button>
+</div>
