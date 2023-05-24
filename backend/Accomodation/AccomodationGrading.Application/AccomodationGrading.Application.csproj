@@ -6,6 +6,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Grading\Support\Grpc\Protos\hostGradeGrpcService.proto" />
+  </ItemGroup>
+
 	<ItemGroup>
 		<PackageReference Include="Google.Protobuf" Version="3.23.0" />
 		<PackageReference Include="Grpc.AspNetCore" Version="2.53.0" />
@@ -37,6 +41,7 @@
 	  <Protobuf Include="Grading\Support\Grpc\Protos\hostGradingNotificationGrpcService.proto">
       <GrpcService>Client</GrpcService>
     </Protobuf>
+	  <Protobuf Include="Grading\Support\Grpc\Protos\hostGradeGrpcService.proto" GrpcServices="Server" />
   </ItemGroup>
 
 </Project>

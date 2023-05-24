@@ -139,6 +139,16 @@ namespace AccomodationPresentation.Controllers
         }
 
         [HttpGet]
+        [Route("{hostEmail}/highlighted-host")]
+        public async Task<ActionResult<bool>> CheckHighlightedHost([FromRoute(Name = "hostEmail"), Required] string hostEmail)
+        {
+            var query = new CheckHighlightedHostQuery(hostEmail);
+            var result = await _mediator.Send(query);
+
+            return Ok(result);
+        }
+
+        [HttpGet]
         [Route("{guestEmail}/requests")]
         public async Task<ActionResult<List<ReservationRequestByGuestDTO>>> GetRequestsByGuest([FromRoute(Name = "guestEmail"), Required] string guestEmail)
         {

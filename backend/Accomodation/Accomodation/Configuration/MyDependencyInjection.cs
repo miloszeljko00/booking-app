@@ -36,6 +36,7 @@ namespace Accomodation.Configuration
             services.AddScoped<IRequestHandler<AddPriceCommand, Accommodation>, AddPriceCommandHandler>();
             services.AddScoped<IRequestHandler<GetHostsByGuestReservationsQuery, ICollection<string>>, GetHostsByGuestReservationsQueryHandler>();
             services.AddScoped<IRequestHandler<GetAccommodationByGuestReservationsQuery, ICollection<AccommodationMainDTO>>, GetAccommodationByGuestReservationsQueryHandler>();
+            services.AddScoped<IRequestHandler<CheckHighlightedHostQuery, bool>, CheckHighlightedHostQueryHandler>();
             return services;
         }
     }

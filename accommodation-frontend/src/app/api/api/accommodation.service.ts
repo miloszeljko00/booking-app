@@ -92,6 +92,10 @@ export class AccommodationService{
       return this.http.get(this.apiUrl + "/" + adminEmail + "/admin-accommodation" );
     }
 
+    checkHighlightedHost(adminEmail: string): Observable<boolean>{
+      return this.http.get<boolean>(this.apiUrl + "/" + adminEmail + "/highlighted-host" );
+    }
+
     AddPrice(price: Price){
       return this.http.post<Price>(this.apiUrl+"/add-price", price, httpOptions);
     }

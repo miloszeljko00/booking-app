@@ -1,0 +1,8 @@
+﻿syntax = "proto3";
+
+package rs.ac.uns.ftn.grpc;
+import "Grading/Support/Grpc/Protos/model.proto";
+
+service HostGradeGrpcService {
+  rpc hostGrade (MessageProto6) returns (MessageResponseProto6);
+}

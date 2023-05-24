@@ -198,6 +198,45 @@ namespace AccomodationSuggestionDomain.Entities
             return cancellationNumber;
         }
 
+        public int GetCancellationNumber()
+        {
+            int cancellationNumber = 0;
+            foreach (Reservation res in Reservations)
+            {
+                if (res.IsCanceled)
+                {
+                    cancellationNumber++;
+                }
+            }
+            return cancellationNumber;
+        }
+
+        public int GetNumberOfSuccessfulReservationsInPast()
+        {
+            int numberOfReservations = 0;
+            foreach (Reservation res in Reservations)
+            {
+                if (!res.IsCanceled && res.ReservationDate.End.CompareTo(DateTime.Now) < 0)
+                {
+                    numberOfReservations++;
+                }
+            }
+            return numberOfReservations;
+        }
+
+        public int GetNumberOfDaysForSuccessfulReservationsInPast()
+        {
+            int numberOfDays = 0;
+            foreach (Reservation res in Reservations)
+            {
+                if (!res.IsCanceled && res.ReservationDate.End.CompareTo(DateTime.Now) < 0)
+                {
+                    numberOfDays += res.ReservationDate.CalculateNumberOfDaysInRange();
+                }
+            }
+            return numberOfDays;
+        }
+
         public bool DoesGuestHasReservation(string guestEmail)
         {
             foreach(Reservation r in Reservations)

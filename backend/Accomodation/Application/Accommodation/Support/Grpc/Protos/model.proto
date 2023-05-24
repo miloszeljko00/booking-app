@@ -35,3 +35,11 @@ message MessageProto3 {
 message MessageResponseProto3 {
   string status = 1;
 }
+
+message MessageProto6 {
+  string email = 1;
+}
+
+message MessageResponseProto6 {
+  double grade = 1;
+}
