@@ -21,6 +21,8 @@ namespace AccomodationApplication.Accommodation.Queries
         private Channel channel;
 
         private HostGradeGrpcService.HostGradeGrpcServiceClient client;
+
+        private HighlightedHostGrpcService.HighlightedHostGrpcServiceClient client1;
         public CheckHighlightedHostQueryHandler(IAccommodationRepository repository)
         {
             _repository = repository;
@@ -40,9 +42,18 @@ namespace AccomodationApplication.Accommodation.Queries
             double averageGrade = response.Grade;
             Console.WriteLine("Host average rating is: " + averageGrade);
 
+            channel = new Channel("127.0.0.1:8792", ChannelCredentials.Insecure);
+            client1 = new HighlightedHostGrpcService.HighlightedHostGrpcServiceClient(channel);
+            MessageResponseProto7 response1;
             if (cancellationRate(request.hostEmail, accommodations) < 0.05 && numberOfSuccessfulReservationsInPast(request.hostEmail, accommodations) >= 5
                 && numberOfDaysForSuccessfulReservationsInPast(request.hostEmail, accommodations) > 50 && averageGrade > 4.7)
+            {
+                response1 = await client1.checkAsync(new MessageProto7() { Email = request.hostEmail, Status = "DOBILI" });
+                Console.WriteLine("Email status: " + response1.Status);
                 return true;
+            }
+            response1 = await client1.checkAsync(new MessageProto7() { Email = request.hostEmail, Status = "IZGUBILI" });
+            Console.WriteLine("Email status: " + response1.Status);
             return false;
         }
 

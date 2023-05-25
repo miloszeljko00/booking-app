@@ -50,6 +50,12 @@ Server server4 = new Server
     Ports = { new ServerPort("localhost", 8791, ServerCredentials.Insecure) }
 };
 server4.Start();
+Server server5 = new Server
+{
+    Services = { HighlightedHostGrpcService.BindService(new HighlightedHostServerGrpcServiceImpl()) },
+    Ports = { new ServerPort("localhost", 8792, ServerCredentials.Insecure) }
+};
+server5.Start();
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -152,6 +158,7 @@ app.UseEndpoints(endpoints =>
     endpoints.MapGrpcService<HostCancelReservationServerGrpcServiceImpl>();
     endpoints.MapGrpcService<HostGradingServerGrpcServiceImpl>();
     endpoints.MapGrpcService<AccommodationGradingServerGrpcServiceImpl>();
+    endpoints.MapGrpcService<HighlightedHostServerGrpcServiceImpl>();
 });
 
 app.MapControllers();

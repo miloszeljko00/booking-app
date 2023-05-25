@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package rs.ac.uns.ftn.grpc;
+import "Notification/Support/Grpc/Protos/model.proto";
+
+service HighlightedHostGrpcService {
+  rpc check (MessageProto7) returns (MessageResponseProto7);
+}

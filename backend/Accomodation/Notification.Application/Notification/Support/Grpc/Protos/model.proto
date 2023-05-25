@@ -44,3 +44,12 @@ message MessageProto5 {
 message MessageResponseProto5 {
   string status = 1;
 }
+
+message MessageProto7 {
+  string email = 1;
+  string status = 2;
+}
+
+message MessageResponseProto7 {
+  string status = 1;
+}

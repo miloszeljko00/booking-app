@@ -87,6 +87,19 @@ namespace Notification.Application.Notification.Support.Email
 
             SendMessage(mailMsg);
         }
+
+        public void SendHighlightedHostNotification(string email, string status)
+        {
+            MailMessage mailMsg = new MailMessage();
+            mailMsg.To.Add(email);
+            mailMsg.From = _fromMailAddress;
+
+            mailMsg.Subject = "Obavestenje o statusu istaknutog hosta";
+            mailMsg.Body = "Postovani," +
+                "\nObavestavamo vas da ste " + status + " status istaknutog hosta";
+
+            SendMessage(mailMsg);
+        }
         private void SendMessage(MailMessage mailMsg)
         {
             try
