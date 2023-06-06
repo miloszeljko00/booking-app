@@ -10,6 +10,8 @@ using AccomodationSuggestionDomain.Primitives.Enums;
 using AccomodationSuggestionDomain.ValueObjects;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using OpenTracing;
+using Prometheus;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -24,15 +26,24 @@ namespace AccomodationPresentation.Controllers
     public class AccommodationController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly ITracer _tracer;
 
-        public AccommodationController(IMediator mediator)
+        Counter counter = Metrics.CreateCounter("accommodation_service_counter", "accommodation counter");
+
+        public AccommodationController(IMediator mediator, ITracer tracer)
         {
+            _tracer = tracer;
             _mediator = mediator;
         }
 
         [HttpGet]
         public async Task<ActionResult<List<AccommodationGetAllDTO>>> GetAllAccommodations()
         {
+            var actionName = ControllerContext.ActionDescriptor.DisplayName;
+            using var scope = _tracer.BuildSpan(actionName).StartActive(true);
+            scope.Span.Log("get accommodation");
+            counter.Inc();
+
             var query = new GetAllAccommodationsQuery();
             var result = await _mediator.Send(query);
             
