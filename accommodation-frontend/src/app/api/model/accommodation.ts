@@ -8,4 +8,5 @@ export interface Accommodation{
     benefits: string;
     id: string;
     pictures: {fileName: string, base64: string}[]
+    hostEmail: string;
 }

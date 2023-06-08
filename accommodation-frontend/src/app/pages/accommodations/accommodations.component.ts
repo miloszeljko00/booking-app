@@ -24,6 +24,14 @@ export class AccommodationsComponent implements OnInit {
   formGroup1!: FormGroup;
   previews:{fileName: string, base64: string}[] = [];
   numOfDays: number = 1;
+  minPrice: number = 0;
+  maxPrice: number = 0;
+  isHost: boolean = false;
+  lastSearchedDate: string = '';
+  
+  benefitList: string[] = [];
+  benefits = new FormControl('');
+  selectedIndexes: number[] = [];
 
   dataSourceAcc = new MatTableDataSource<Accommodation>();
   displayedColumnsFlights = ['name', 'address', 'price', 'priceCalculation' , 'totalPrice','benefits', 'min', 'max', 'reservation'];
@@ -36,6 +44,10 @@ export class AccommodationsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.accService.getBenefits().subscribe((response: any) => {
+      this.benefitList = response;
+      
+    })
     this.accService.getAll().subscribe((response: any) => {
       this.accomodationList = response;
       
@@ -47,6 +59,7 @@ export class AccommodationsComponent implements OnInit {
       address: new FormControl('', [Validators.required]),
       numberOfGuests: new FormControl('',[Validators.min(1), Validators.required]),
     });
+    
   }
 
   openDialog(accommodation:Accommodation){
@@ -155,12 +168,16 @@ export class AccommodationsComponent implements OnInit {
     
     var sd =  this.datepipe.transform(this.startDate, 'MM/dd/yyyy')??''
     var ed = this.datepipe.transform(this.endDate, 'MM/dd/yyyy')??''
-   
+    this.lastSearchedDate = sd;
     this.numOfDays = this.getNumberOfDays(this.startDate, this.endDate)
 
       this.accService.searchAccommodation(this.address, this.numberOfGuests, sd, ed).subscribe((response: any) => {
           this.accomodationList = response;
           this.dataSourceAcc.data = this.accomodationList;
+          this.minPrice = 0;
+          this.maxPrice = 0;
+          this.isHost = false;
+          this.selectedIndexes = []
       })
 
   }
@@ -179,6 +196,28 @@ export class AccommodationsComponent implements OnInit {
     const timeDiff = endDate.getTime() - startDate.getTime();
     const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
     return days;
+  }
+
+  filter(){
+    if(this.lastSearchedDate==='')
+    {
+      const today = new Date();
+      this.lastSearchedDate =  this.datepipe.transform(today, 'MM/dd/yyyy')??''
+    }
+    this.accService.filterAccommodation(this.minPrice, this.maxPrice, this.selectedIndexes, this.isHost, this.lastSearchedDate).subscribe((response: any) => {
+      var filteredList: Accommodation[];
+      filteredList = []
+      this.accomodationList.forEach(function(acc1: Accommodation){
+        response.forEach(function(acc2: Accommodation){
+          if(acc1.id === acc2.id){
+              filteredList.push(acc1);
+          }
+        });
+      });
+      this.dataSourceAcc.data = filteredList;
+    
+    })
+
   }
   
 

@@ -242,6 +242,25 @@ namespace AccomodationPresentation.Controllers
             return Ok(result);
         }
 
+        [HttpGet]
+        [Route("filter")]
+        public async Task<ActionResult<List<AccommodationGetAllDTO>>> FilterAccommodationAsync([FromQuery(Name = "minPrice")] int minPrice, [FromQuery(Name = "maxPrice")] int maxPrice, [FromQuery(Name = "benefits")] List<Benefit> benefits, [FromQuery(Name = "date")] string date, [FromQuery(Name = "isHighlighted")] bool isHighlighted)
+        {
+            var query = new FilterAccommodationQuery(maxPrice, minPrice, benefits, isHighlighted, date);
+            var result = await _mediator.Send(query);
+            if(!isHighlighted)
+                return Ok(result.ToList());
+            List<AccommodationGetAllDTO> returnList = new List<AccommodationGetAllDTO>();
+            foreach(var acc in result.ToList())
+            {
+                var hostQuery = new CheckHighlightedHostQuery(acc.HostEmail);
+                var hostResult = await _mediator.Send(hostQuery);
+                if (hostResult)
+                    returnList.Add(acc);
+            }
+            return Ok(returnList);
+        }
+
 
 
     }

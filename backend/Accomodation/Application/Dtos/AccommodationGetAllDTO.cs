@@ -19,6 +19,7 @@ namespace Accomodation.Application.Dtos
         public string Id { get; set; }
         public double Price { get; set; }
         public List<Picture> Pictures { get; set; }
+        public string HostEmail { get; set; }
 
     }
 }
