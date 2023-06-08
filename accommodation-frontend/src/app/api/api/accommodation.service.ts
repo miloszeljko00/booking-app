@@ -100,4 +100,19 @@ export class AccommodationService{
       return this.http.post<Price>(this.apiUrl+"/add-price", price, httpOptions);
     }
 
+    filterAccommodation(minPrice: number, maxPrice: number, benefits: number[], isHost: boolean, date:string)
+    {
+      let params = new HttpParams();
+      params = params.set('maxPrice', maxPrice.toString());
+      params = params.set('minPrice', minPrice.toString());
+      params = params.set('isHighlighted', isHost.toString());
+      params = params.set('date', date);
+      for (const benefit of benefits) {
+        params = params.append('benefits', benefit);
+      }
+
+      return this.http.get(this.apiUrl + "/filter", {params});
+      
+    }
+
 }

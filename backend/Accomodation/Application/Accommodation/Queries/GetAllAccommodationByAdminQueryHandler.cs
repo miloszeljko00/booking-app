@@ -29,7 +29,7 @@ namespace Accomodation.Application.Accommodation.Queries
                     var price1 = acc.GetPriceForSpecificDate(DateTime.Now);
                     double price =  price1 == null ? 0 : price1.Value;
                     AccommodationGetAllDTO dto = new AccommodationGetAllDTO { Name = acc.Name, Address = acc.GetAddressAsString(), Min = acc.Capacity.Min, Max = acc.Capacity.Max,
-                        Price = price, PriceCalculation = acc.PriceCalculation.ToString(), Benefits = acc.GetBenefitsAsString(), Id = acc.Id.ToString() };
+                        Price = price, PriceCalculation = acc.PriceCalculation.ToString(), Benefits = acc.GetBenefitsAsString(), Id = acc.Id.ToString(), HostEmail = acc.HostEmail.EmailAddress };
                     result.Add(dto);
                 }
             }

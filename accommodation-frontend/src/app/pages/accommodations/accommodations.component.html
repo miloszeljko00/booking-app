@@ -28,6 +28,26 @@
   
     <button class="button" mat-raised-button color="primary" (click)="search()" [disabled]="!formGroup1.valid">Search</button>
   </form>
+  <form >
+    <mat-form-field>
+      <mat-label>Minimal price</mat-label>
+      <input matInput  type="number" min="0"   name="minPrice"  [(ngModel)]="minPrice">
+    </mat-form-field>
+  
+    <mat-form-field>
+      <mat-label>Maximal price</mat-label>
+      <input matInput  type="number" min="0"   name="maxPrice"  [(ngModel)]="maxPrice">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Benefits</mat-label>
+      <mat-select [(value)]="selectedIndexes" multiple>
+          <mat-option *ngFor="let benefit of benefitList; let i = index" [value]="i">{{benefit}}</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-slide-toggle color="primary" [(ngModel)]="isHost" name="hosts">is Host highlighted?</mat-slide-toggle>
+  
+    <button class="button" mat-raised-button color="primary" (click)="filter()" >Filter</button>
+  </form>
   <table mat-table [dataSource]="dataSourceAcc">
       <ng-container matColumnDef="name">
           <th mat-header-cell *matHeaderCellDef class="cell-center"> Name </th>
