@@ -150,13 +150,15 @@ app.UseCors("AllowOrigin");
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseRouting();
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapGrpcService<ServerGrpcServiceImpl>();
-});
-app.MapControllers();
 
 app.UseMetricServer();
 app.UseHttpMetrics();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapMetrics();
+    endpoints.MapGrpcService<ServerGrpcServiceImpl>();
+});
+app.MapControllers();
 
 app.Run();

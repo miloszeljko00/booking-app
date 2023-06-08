@@ -17,9 +17,10 @@
       static_configs:
         - targets: ['localhost:9090']
 
-    - job_name: 'booking-service'
+    - job_name: 'accommodation-service'
       static_configs:
-        - targets: ['host.docker.internal:5000']
+        - targets: ['localhost:5000']
+      scheme: https
 
     - job_name: 'node_exporter'
       static_configs:
