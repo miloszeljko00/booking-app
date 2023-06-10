@@ -29,6 +29,36 @@ Server server = new Server
     Ports = { new ServerPort("localhost", 8787, ServerCredentials.Insecure) }
 };
 server.Start();
+Server server1 = new Server
+{
+    Services = { HostRequestNotificationGrpcService.BindService(new HostRequestServerGrpcServiceImpl(serviceProvider.GetService<IHostNotificationRepository>())) },
+    Ports = { new ServerPort("localhost", 8788, ServerCredentials.Insecure) }
+};
+server1.Start();
+Server server2 = new Server
+{
+    Services = { HostCancelReservationNotificationGrpcService.BindService(new HostCancelReservationServerGrpcServiceImpl(serviceProvider.GetService<IHostNotificationRepository>())) },
+    Ports = { new ServerPort("localhost", 8789, ServerCredentials.Insecure) }
+};
+server2.Start();
+Server server3 = new Server
+{
+    Services = { HostGradingNotificationGrpcService.BindService(new HostGradingServerGrpcServiceImpl(serviceProvider.GetService<IHostNotificationRepository>())) },
+    Ports = { new ServerPort("localhost", 8790, ServerCredentials.Insecure) }
+};
+server3.Start();
+Server server4 = new Server
+{
+    Services = { AccommodationGradingNotificationGrpcService.BindService(new AccommodationGradingServerGrpcServiceImpl(serviceProvider.GetService<IHostNotificationRepository>())) },
+    Ports = { new ServerPort("localhost", 8791, ServerCredentials.Insecure) }
+};
+server4.Start();
+Server server5 = new Server
+{
+    Services = { HighlightedHostGrpcService.BindService(new HighlightedHostServerGrpcServiceImpl()) },
+    Ports = { new ServerPort("localhost", 8792, ServerCredentials.Insecure) }
+};
+server5.Start();
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -127,6 +157,11 @@ app.UseRouting();
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapGrpcService<ServerGrpcServiceImpl>();
+    endpoints.MapGrpcService<HostRequestServerGrpcServiceImpl>();
+    endpoints.MapGrpcService<HostCancelReservationServerGrpcServiceImpl>();
+    endpoints.MapGrpcService<HostGradingServerGrpcServiceImpl>();
+    endpoints.MapGrpcService<AccommodationGradingServerGrpcServiceImpl>();
+    endpoints.MapGrpcService<HighlightedHostServerGrpcServiceImpl>();
 });
 
 app.MapControllers();

@@ -1,7 +1,7 @@
 <mat-toolbar color="primary" class="container">
     <div>
         <img class="logo-img" (click)="goToHomePage()" src="./../../../../assets/logo.png">
-        <img *ngIf="(user$ | async)" class="notification-img" src="./../../../../assets/notification.png">
+        <img *ngIf="(user$ | async)" (click)="goToNotification()" class="notification-img" src="./../../../../assets/notification.png">
     </div>
     <div class="pages">
         <div class="guest-pages" *ngIf="!(user$ | async)">
@@ -14,7 +14,7 @@
                 <app-navbar-button (click)="goToSearchAccommodations()">Accommodation</app-navbar-button>
                 <app-navbar-button (click)="goToReservationsReview()">Reservations</app-navbar-button>
                 <app-navbar-button (click)="goToRequestsReview()">Requests</app-navbar-button>
-
+                <app-navbar-button (click)="goToGrading()">Grading</app-navbar-button>
             </ng-container>
             <ng-container class="admin-pages" *ngIf="user.roles.includes('host')">
                 <!-- TODO: Ovde dodavati dugmad za administratora -->

@@ -21,5 +21,6 @@
 	  <ProjectReference Include="..\Accomodation.Infrastructure\AccomodationGrading.Infrastructure.csproj" />
 	  <ProjectReference Include="..\AccomodationGrading.Application\AccomodationGrading.Application.csproj" />
 	  <ProjectReference Include="..\AccomodationGrading.Domain\AccomodationGrading.Domain.csproj" />
+		<ProjectReference Include="..\AccomodationGrading.Presentation\AccomodationGrading.Presentation.csproj" />
 	</ItemGroup>
 </Project>

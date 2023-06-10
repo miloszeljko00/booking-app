@@ -1,9 +1,11 @@
-﻿using Accomodation.Domain.Primitives.Enums;
+﻿using AccommodationApplication.Accommodation.Support.Grpc.Protos;
+using Accomodation.Domain.Primitives.Enums;
 using AccomodationApplication.Abstractions.Messaging;
 using AccomodationSuggestionDomain.Entities;
 using AccomodationSuggestionDomain.Interfaces;
 using AccomodationSuggestionDomain.Primitives.Enums;
 using AccomodationSuggestionDomain.ValueObjects;
+using Grpc.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +17,10 @@ namespace AccomodationApplication.Accommodation.Commands
     public sealed class CancelReservationCommandHandler : ICommandHandler<CancelReservationCommand, AccomodationSuggestionDomain.Entities.Accommodation>
     {
         private readonly IAccommodationRepository _repository;
+
+        private Channel channel;
+
+        private HostCancelReservationNotificationGrpcService.HostCancelReservationNotificationGrpcServiceClient client;
         public AccommodationBuilder AccommodationBuilder { get; set; } = new AccommodationBuilder();
         public CancelReservationCommandHandler(IAccommodationRepository repository)
         {
@@ -26,7 +32,7 @@ namespace AccomodationApplication.Accommodation.Commands
             return _repository;
         }
 
-        public Task<AccomodationSuggestionDomain.Entities.Accommodation> Handle(CancelReservationCommand request, CancellationToken cancellationToken)
+        public async Task<AccomodationSuggestionDomain.Entities.Accommodation> Handle(CancelReservationCommand request, CancellationToken cancellationToken)
         {
             var acc = _repository.GetAsync(request.reservationCancellationDTO.AccommodationId);
             AccomodationSuggestionDomain.Entities.Accommodation accommodation = acc.Result;
@@ -63,8 +69,14 @@ namespace AccomodationApplication.Accommodation.Commands
             }
             else
                 throw new Exception("Reservation or its request does not exist");
+
+            channel = new Channel("127.0.0.1:8789", ChannelCredentials.Insecure);
+            client = new HostCancelReservationNotificationGrpcService.HostCancelReservationNotificationGrpcServiceClient(channel);
+            MessageResponseProto3 response = await client.communicateAsync(new MessageProto3() { Email = accommodation.HostEmail.EmailAddress, Accommodation = accommodation.Name, StartDate = res.ReservationDate.Start.ToString("dd.MM.yyy."), EndDate = res.ReservationDate.End.ToString("dd.MM.yyy.") });
+            Console.WriteLine(response);
+
             _repository.UpdateAsync(accommodation.Id, accommodation);
-            return Task.FromResult(accommodation);
+            return accommodation;
         }
     }
 }

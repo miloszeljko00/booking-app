@@ -25,3 +25,30 @@ message MessageResponseProto2 {
   bool canDelete = 1;
 }
 
+message MessageProto3 {
+  string email = 1;
+  string startDate = 2;
+  string endDate = 3;
+  string accommodation = 4;
+}
+
+message MessageResponseProto3 {
+  string status = 1;
+}
+
+message MessageProto6 {
+  string email = 1;
+}
+
+message MessageResponseProto6 {
+  double grade = 1;
+}
+
+message MessageProto7 {
+  string email = 1;
+  string status = 2;
+}
+
+message MessageResponseProto7 {
+  string status = 1;
+}

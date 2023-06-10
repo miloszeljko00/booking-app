@@ -1,0 +1,26 @@
+<h1 mat-dialog-title>Create host grade</h1>
+<br/>
+<div mat-dialog-content>
+  <form  [formGroup]="formGroup">
+    <table>
+      <tr>
+        <mat-form-field appearance="outline" color="primary">
+          <mat-label>Host*</mat-label>
+          <mat-select name="host" [(value)]="host">
+            <mat-option *ngFor="let h of hosts" [value]="h">{{h}}</mat-option>
+          </mat-select>
+      </mat-form-field>
+      </tr>
+      <tr>
+        <mat-form-field appearance="outline" color="primary">
+          <mat-label>Grade</mat-label>
+          <input matInput type="number" min="1" max="5" name="grade" formControlName="grade" [(ngModel)]="grade">
+        </mat-form-field>
+      </tr>
+    </table>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button [mat-dialog-close]="{grade: grade, host: host}" [disabled]="!formGroup.valid || host === ''">OK</button>
+</div>

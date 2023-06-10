@@ -35,7 +35,8 @@ namespace Accomodation.Application.Accommodation.Queries
                 if (acc.GetPriceForSpecificDate(_startDate)!= null && !acc.IsReservationDateRangeTaken(DateRange.Create(_startDate, _endDate)) && acc.IsValidNumberOfGuests(request.numberOfGuests) && acc.GetAddressAsString().ToLower().Contains(request.address.ToLower()))
                 {
                     AccommodationGetAllDTO dto = new AccommodationGetAllDTO { Name = acc.Name, Address = acc.GetAddressAsString(), Min = acc.Capacity.Min, Max = acc.Capacity.Max,
-                        Price = acc.GetPriceForSpecificDate(_startDate).Value, PriceCalculation = acc.PriceCalculation.ToString(), Benefits = acc.GetBenefitsAsString(), Id = acc.Id.ToString() };
+                        Price = acc.GetPriceForSpecificDate(_startDate).Value, PriceCalculation = acc.PriceCalculation.ToString(), Benefits = acc.GetBenefitsAsString(), Id = acc.Id.ToString(), 
+                    HostEmail = acc.HostEmail.EmailAddress};
                     result.Add(dto);
                 }
 

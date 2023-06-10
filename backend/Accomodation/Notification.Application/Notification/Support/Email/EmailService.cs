@@ -36,7 +36,70 @@ namespace Notification.Application.Notification.Support.Email
 
             SendMessage(mailMsg);
         }
+        public void SendHostRequestNotification(string email, string accommodation, string startDate, string endDate)
+        {
+            MailMessage mailMsg = new MailMessage();
+            mailMsg.To.Add(email);
+            mailMsg.From = _fromMailAddress;
 
+            mailMsg.Subject = "Zahtev za rezervaciju";
+            mailMsg.Body = "Postovani," +
+                "\nPristigao vam je zahtev za rezervaciju u \"" + accommodation + "\" smestaju od " + startDate + " do " + endDate;
+
+            SendMessage(mailMsg);
+        }
+
+        public void SendHostCancelReservationNotification(string email, string accommodation, string startDate, string endDate)
+        {
+            MailMessage mailMsg = new MailMessage();
+            mailMsg.To.Add(email);
+            mailMsg.From = _fromMailAddress;
+
+            mailMsg.Subject = "Obavestenje o otkazivanju rezervacije";
+            mailMsg.Body = "Postovani," +
+                "\nOtkazana je rezervacija u \"" + accommodation + "\" smestaju od " + startDate + " do " + endDate;
+
+            SendMessage(mailMsg);
+        }
+
+        public void SendHostGradingNotification(string email, int grade)
+        {
+            MailMessage mailMsg = new MailMessage();
+            mailMsg.To.Add(email);
+            mailMsg.From = _fromMailAddress;
+
+            mailMsg.Subject = "Obavestenje o oceni hosta";
+            mailMsg.Body = "Postovani," +
+                "\nUpravo ste ocenjeni ocenom " + grade;
+
+            SendMessage(mailMsg);
+        }
+
+        public void SendAccommodationGradingNotification(string email, string accommodation, int grade)
+        {
+            MailMessage mailMsg = new MailMessage();
+            mailMsg.To.Add(email);
+            mailMsg.From = _fromMailAddress;
+
+            mailMsg.Subject = "Obavestenje o oceni smestaja";
+            mailMsg.Body = "Postovani," +
+                "\nVas smestaj \"" + accommodation + "\" je upravo ocenjen ocenom " + grade;
+
+            SendMessage(mailMsg);
+        }
+
+        public void SendHighlightedHostNotification(string email, string status)
+        {
+            MailMessage mailMsg = new MailMessage();
+            mailMsg.To.Add(email);
+            mailMsg.From = _fromMailAddress;
+
+            mailMsg.Subject = "Obavestenje o statusu istaknutog hosta";
+            mailMsg.Body = "Postovani," +
+                "\nObavestavamo vas da ste " + status + " status istaknutog hosta";
+
+            SendMessage(mailMsg);
+        }
         private void SendMessage(MailMessage mailMsg)
         {
             try

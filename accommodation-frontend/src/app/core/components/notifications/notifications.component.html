@@ -1,0 +1,50 @@
+<div class="notification">
+    <form *ngIf="checkIfGuest()">
+        <table>
+            <tr>
+                <td class="row">
+                    <mat-slide-toggle color="primary" [(ngModel)]="guestNotification.receiveAnswer" name="receiveAnswer">Receive notification when host review reservation request</mat-slide-toggle>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align: center;">
+                    <button mat-raised-button color="primary" (click)="save()">Save changes</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+    <form *ngIf="!checkIfGuest()">
+        <table>
+            <tr>
+                <td class="row">
+                    <mat-slide-toggle color="primary" [(ngModel)]="hostNotification.receiveAnswerForCreatedRequest" name="receiveAnswerForCreatedRequest">Receive notification when guest create reservation request</mat-slide-toggle>
+                </td>
+            </tr>
+            <tr>
+                <td class="row">
+                    <mat-slide-toggle color="primary" [(ngModel)]="hostNotification.receiveAnswerForCanceledReservation" name="receiveAnswerForCanceledReservation">Receive notification when guest cancel reservation</mat-slide-toggle>
+                </td>
+            </tr>
+            <tr>
+                <td class="row">
+                    <mat-slide-toggle color="primary" [(ngModel)]="hostNotification.receiveAnswerForHostRating" name="receiveAnswerForHostRating">Receive notification when you are rated</mat-slide-toggle>
+                </td>
+            </tr>
+            <tr>
+                <td class="row">
+                    <mat-slide-toggle color="primary" [(ngModel)]="hostNotification.receiveAnswerForAccommodationRating" name="receiveAnswerForAccommodationRating">Receive notification when your accommodation is rated</mat-slide-toggle>
+                </td>
+            </tr>
+            <tr>
+                <td class="row">
+                    <mat-slide-toggle color="primary" [(ngModel)]="hostNotification.receiveAnswerForHighlightedHostStatus" name="receiveAnswerForHighlightedHostStatus">Receive notification when you get status of highlighted host</mat-slide-toggle>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align: center;">
+                    <button mat-raised-button color="primary" (click)="save()">Save changes</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>

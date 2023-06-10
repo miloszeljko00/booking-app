@@ -5,6 +5,7 @@ using Accomodation.Infrastructure.Accommodation;
 using Accomodation.Infrastructure.Persistance.Settings;
 using AccomodationApplication.Accommodation.Commands;
 using AccomodationApplication.Accommodation.Queries;
+using AccomodationApplication.Dtos;
 using AccomodationSuggestionDomain.Entities;
 using AccomodationSuggestionDomain.Interfaces;
 using MediatR;
@@ -34,6 +35,10 @@ namespace Accomodation.Configuration
             services.AddScoped<IRequestHandler<SearchAccommodationQuery, ICollection<AccommodationGetAllDTO>>, SearchAccommodationQueryHandler>();
             services.AddScoped<IRequestHandler<GetAllAccommodationByAdminQuery, ICollection<AccommodationGetAllDTO>>, GetAllAccommodationByAdminQueryHandler>();
             services.AddScoped<IRequestHandler<AddPriceCommand, Accommodation>, AddPriceCommandHandler>();
+            services.AddScoped<IRequestHandler<GetHostsByGuestReservationsQuery, ICollection<string>>, GetHostsByGuestReservationsQueryHandler>();
+            services.AddScoped<IRequestHandler<GetAccommodationByGuestReservationsQuery, ICollection<AccommodationMainDTO>>, GetAccommodationByGuestReservationsQueryHandler>();
+            services.AddScoped<IRequestHandler<CheckHighlightedHostQuery, bool>, CheckHighlightedHostQueryHandler>();
+            services.AddScoped<IRequestHandler<FilterAccommodationQuery, ICollection<AccommodationGetAllDTO>>, FilterAccommodationQueryHandler>();
             return services;
         }
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, ConfigurationManager builderConfiguration)

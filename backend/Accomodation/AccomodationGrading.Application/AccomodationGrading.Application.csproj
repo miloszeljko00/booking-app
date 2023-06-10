@@ -6,18 +6,42 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Grading\Support\Grpc\Protos\hostGradeGrpcService.proto" />
+  </ItemGroup>
+
 	<ItemGroup>
+		<PackageReference Include="Google.Protobuf" Version="3.23.0" />
+		<PackageReference Include="Grpc.AspNetCore" Version="2.53.0" />
+		<PackageReference Include="Grpc.AspNetCore.Server" Version="2.53.0" />
+		<PackageReference Include="Grpc.Core" Version="2.46.6" />
+		<PackageReference Include="Grpc.Tools" Version="2.54.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
 		<PackageReference Include="MediatR" Version="12.0.1" />
 		<PackageReference Include="MongoDB.Driver" Version="2.19.1" />
 	</ItemGroup>
 	
   <ItemGroup>
-    <Folder Include="Dtos\" />
     <Folder Include="Mappers\" />
   </ItemGroup>
 	
   <ItemGroup>
     <ProjectReference Include="..\AccomodationGrading.Domain\AccomodationGrading.Domain.csproj" />
+  </ItemGroup>
+	
+  <ItemGroup>
+	  <Protobuf Include="Grading\Support\Grpc\Protos\model.proto">
+		  <GrpcService>None</GrpcService>
+	  </Protobuf>
+	  <Protobuf Include="Grading\Support\Grpc\Protos\accommodationGradingNotificationGrpcService.proto">
+      <GrpcService>Client</GrpcService>
+    </Protobuf>
+	  <Protobuf Include="Grading\Support\Grpc\Protos\hostGradingNotificationGrpcService.proto">
+      <GrpcService>Client</GrpcService>
+    </Protobuf>
+	  <Protobuf Include="Grading\Support\Grpc\Protos\hostGradeGrpcService.proto" GrpcServices="Server" />
   </ItemGroup>
 
 </Project>

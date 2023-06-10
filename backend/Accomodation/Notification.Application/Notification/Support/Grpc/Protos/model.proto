@@ -15,4 +15,41 @@ message MessageResponseProto {
   string status = 1;
 }
 
+message MessageProto3 {
+  string email = 1;
+  string startDate = 2;
+  string endDate = 3;
+  string accommodation = 4;
+}
 
+message MessageResponseProto3 {
+  string status = 1;
+}
+
+message MessageProto4 {
+  string email = 1;
+  int32 grade = 2;
+}
+
+message MessageResponseProto4 {
+  string status = 1;
+}
+
+message MessageProto5 {
+  string email = 1;
+  string accommodation = 2;
+  int32 grade = 3;
+}
+
+message MessageResponseProto5 {
+  string status = 1;
+}
+
+message MessageProto7 {
+  string email = 1;
+  string status = 2;
+}
+
+message MessageResponseProto7 {
+  string status = 1;
+}

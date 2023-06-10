@@ -2,6 +2,11 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 using AccomodationGrading.Configuration;
+using Grpc.Core;
+using MediatR;
+using Rs.Ac.Uns.Ftn.Grpc;
+using AccomodationGradingApplication.Grading.Support.Grpc;
+using AccomodationGradingDomain.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +21,13 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.G
 builder.Services
     .AddRepositories()
     .AddHandlers();
+IServiceProvider serviceProvider = builder.Services.BuildServiceProvider();
+Server server = new Server
+{
+    Services = { HostGradeGrpcService.BindService(new HostGradeServerGrpcServiceImpl(serviceProvider.GetRequiredService<IHostGradingRepository>())) },
+    Ports = { new ServerPort("localhost", 8700, ServerCredentials.Insecure) }
+};
+server.Start();
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -87,6 +99,8 @@ builder.Services
                               .AllowAnyMethod());
     });
 
+builder.Services.AddGrpc();
+
 
 var app = builder.Build();
 
@@ -110,6 +124,12 @@ app.UseCors("AllowOrigin");
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseRouting();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapGrpcService<HostGradeServerGrpcServiceImpl>();
+});
 
 app.MapControllers();
 

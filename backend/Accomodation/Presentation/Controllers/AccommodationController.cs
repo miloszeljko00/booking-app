@@ -139,6 +139,16 @@ namespace AccomodationPresentation.Controllers
         }
 
         [HttpGet]
+        [Route("{hostEmail}/highlighted-host")]
+        public async Task<ActionResult<bool>> CheckHighlightedHost([FromRoute(Name = "hostEmail"), Required] string hostEmail)
+        {
+            var query = new CheckHighlightedHostQuery(hostEmail);
+            var result = await _mediator.Send(query);
+
+            return Ok(result);
+        }
+
+        [HttpGet]
         [Route("{guestEmail}/requests")]
         public async Task<ActionResult<List<ReservationRequestByGuestDTO>>> GetRequestsByGuest([FromRoute(Name = "guestEmail"), Required] string guestEmail)
         {
@@ -153,6 +163,26 @@ namespace AccomodationPresentation.Controllers
         public async Task<ActionResult<List<ReservationRequestByAdminDTO>>> GetRequestsByAdmin([FromRoute(Name = "adminEmail"), Required] string adminEmail)
         {
             var query = new GetAllRequestsByAdminQuery(adminEmail);
+            var result = await _mediator.Send(query);
+
+            return Ok(result.ToList());
+        }
+
+        [HttpGet]
+        [Route("{guestEmail}/hosts")]
+        public async Task<ActionResult<List<string>>> GetHostsByGuestReservations([FromRoute(Name = "guestEmail"), Required] string guestEmail)
+        {
+            var query = new GetHostsByGuestReservationsQuery(guestEmail);
+            var result = await _mediator.Send(query);
+
+            return Ok(result.ToList());
+        }
+
+        [HttpGet]
+        [Route("{guestEmail}/accommodation")]
+        public async Task<ActionResult<List<AccommodationMainDTO>>> GetAccommodationByGuestReservations([FromRoute(Name = "guestEmail"), Required] string guestEmail)
+        {
+            var query = new GetAccommodationByGuestReservationsQuery(guestEmail);
             var result = await _mediator.Send(query);
 
             return Ok(result.ToList());
@@ -210,6 +240,25 @@ namespace AccomodationPresentation.Controllers
             var command= new AddPriceCommand(priceDTO);
             var result = await _mediator.Send(command);
             return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("filter")]
+        public async Task<ActionResult<List<AccommodationGetAllDTO>>> FilterAccommodationAsync([FromQuery(Name = "minPrice")] int minPrice, [FromQuery(Name = "maxPrice")] int maxPrice, [FromQuery(Name = "benefits")] List<Benefit> benefits, [FromQuery(Name = "date")] string date, [FromQuery(Name = "isHighlighted")] bool isHighlighted)
+        {
+            var query = new FilterAccommodationQuery(maxPrice, minPrice, benefits, isHighlighted, date);
+            var result = await _mediator.Send(query);
+            if(!isHighlighted)
+                return Ok(result.ToList());
+            List<AccommodationGetAllDTO> returnList = new List<AccommodationGetAllDTO>();
+            foreach(var acc in result.ToList())
+            {
+                var hostQuery = new CheckHighlightedHostQuery(acc.HostEmail);
+                var hostResult = await _mediator.Send(hostQuery);
+                if (hostResult)
+                    returnList.Add(acc);
+            }
+            return Ok(returnList);
         }
 
 

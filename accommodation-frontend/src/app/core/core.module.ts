@@ -24,6 +24,12 @@ import { AdminRequestsReviewComponent } from './components/admin-requests-review
 import { AdminAccommodationComponent } from './components/admin-accommodation/admin-accommodation.component';
 import { AddPriceDialogComponent } from './components/add-price-dialog/add-price-dialog.component';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
+import { NotificationsComponent } from './components/notifications/notifications.component';
+import { GradingComponent } from './components/grading/grading.component';
+import { CreateHostGradingDialogComponent } from './components/create-host-grading-dialog/create-host-grading-dialog.component';
+import { UpdateHostGradingDialogComponent } from './components/update-host-grading-dialog/update-host-grading-dialog.component';
+import { CreateAccommodationGradingDialogComponent } from './components/create-accommodation-grading-dialog/create-accommodation-grading-dialog.component';
+import { UpdateAccommodationGradingDialogComponent } from './components/update-accommodation-grading-dialog/update-accommodation-grading-dialog.component';
 
 
 @NgModule({
@@ -38,6 +44,12 @@ import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
     AdminRequestsReviewComponent,
     AdminAccommodationComponent,
     AddPriceDialogComponent,
+    NotificationsComponent,
+    GradingComponent,
+    CreateHostGradingDialogComponent,
+    UpdateHostGradingDialogComponent,
+    CreateAccommodationGradingDialogComponent,
+    UpdateAccommodationGradingDialogComponent,
 
   ],
   imports:[

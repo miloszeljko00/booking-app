@@ -11,6 +11,7 @@ import { RequestByAdmin } from '../model/requestByAdmin';
 import { RequestManagement } from '../model/requestManagement';
 import { Price } from '../model/price';
 import { environment } from 'src/environments/environment';
+import { AccommodationMain } from '../model/accommodationMain';
 
 
 const httpOptions = {
@@ -36,6 +37,14 @@ export class AccommodationService{
     makeReservation(request: Request): Observable<Accommodation> {
       return this.http.put<Accommodation>(this.apiUrl + "/reservation", request, httpOptions);
 
+    }
+
+    getHostsByGuestReservation(email: string): Observable<string[]> {
+      return this.http.get<string[]>(this.apiUrl + "/" + email + "/hosts");
+    }
+
+    getAccommodationByGuestReservation(email: string): Observable<AccommodationMain[]> {
+      return this.http.get<AccommodationMain[]>(this.apiUrl + "/" + email + "/accommodation");
     }
 
     createAccomodation(accomodationCreate: AccommodationCreate): Observable<AccommodationCreate> {
@@ -84,8 +93,25 @@ export class AccommodationService{
       return this.http.get(this.apiUrl + "/" + adminEmail + "/admin-accommodation" );
     }
 
+    checkHighlightedHost(adminEmail: string): Observable<boolean>{
+      return this.http.get<boolean>(this.apiUrl + "/" + adminEmail + "/highlighted-host" );
+    }
+
     AddPrice(price: Price){
       return this.http.post<Price>(this.apiUrl+"/add-price", price, httpOptions);
     }
+filterAccommodation(minPrice: number, maxPrice: number, benefits: number[], isHost: boolean, date:string)
+    {
+      let params = new HttpParams();
+      params = params.set('maxPrice', maxPrice.toString());
+      params = params.set('minPrice', minPrice.toString());
+      params = params.set('isHighlighted', isHost.toString());
+      params = params.set('date', date);
+      for (const benefit of benefits) {
+        params = params.append('benefits', benefit);
+      }
 
+      return this.http.get(this.apiUrl + "/filter", {params});
+
+    }
 }

@@ -20,6 +20,10 @@
 
   <ItemGroup>
     <None Remove="Accommodation\Support\Grpc\Protos\accomodationGrpcService.proto" />
+    <None Remove="Accommodation\Support\Grpc\Protos\highlightedHostGrpcService.proto" />
+    <None Remove="Accommodation\Support\Grpc\Protos\hostCancelReservationNotificationGrpcService.proto" />
+    <None Remove="Accommodation\Support\Grpc\Protos\hostGradeGrpcService.proto" />
+    <None Remove="Accommodation\Support\Grpc\Protos\hostRequestNotificationGrpcService.proto" />
   </ItemGroup>
 
   <ItemGroup>
@@ -44,9 +48,19 @@
   </ItemGroup>
 	
     <ItemGroup>
+		<Protobuf Include="Accommodation\Support\Grpc\Protos\highlightedHostGrpcService.proto" GrpcServices="Client" />
+		<Protobuf Include="Accommodation\Support\Grpc\Protos\hostGradeGrpcService.proto" GrpcServices="Client" />
 		<Protobuf Include="Accommodation\Support\Grpc\Protos\accomodationGrpcService.proto" GrpcServices="Server" />
+		<Protobuf Include="Accommodation\Support\Grpc\Protos\hostCancelReservationNotificationGrpcService.proto">
+		  <GrpcService>Client</GrpcService>
+		</Protobuf>
+		<Protobuf Include="Accommodation\Support\Grpc\Protos\hostRequestNotificationGrpcService.proto">
+		  <GrpcService>Client</GrpcService>
+		</Protobuf>
 		<Protobuf Include="Accommodation\Support\Grpc\Protos\model.proto" GrpcService="None" />
 		<Protobuf Include="Accommodation\Support\Grpc\Protos\guestNotificationGrpcService.proto" GrpcService="Client" />
+		<Protobuf Include="Accommodation\Support\Grpc\Protos\hostRequestNotificationGrpcService.proto" GrpcService="Client" />
+		<Protobuf Include="Accommodation\Support\Grpc\Protos\hostCancelReservationNotificationGrpcService.proto" GrpcService="Client" />
 	</ItemGroup>
 
 </Project>
