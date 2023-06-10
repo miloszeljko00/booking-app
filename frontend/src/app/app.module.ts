@@ -10,11 +10,12 @@ import { AppComponent } from './app.component';
 import { initializeKeycloak } from './core/keycloak/initialize-keycloak';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DatePipe } from '@angular/common';
+import { environment } from 'src/environments/environment';
 
 
 export function apiConfigFactory(): Configuration {
   const params: ConfigurationParameters = {
-    basePath: 'http://localhost:5000',
+    basePath: environment.apiUrl,
   };
   return new Configuration(params);
 }

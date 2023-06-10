@@ -1,8 +1,9 @@
 export const environment = {
-    production: false,
-    keycloak: {
-      url: 'http://localhost:8080/auth',
-      realm: 'your-realm',
-      clientId: 'your-client-id'
-    }
-  };
+  production: false,
+  apiUrl: 'https://flights-app.azurewebsites.net',
+  keycloak: {
+    url: 'https://login-keycloak.azurewebsites.net/auth',
+    realm: 'booking-app',
+    clientId: 'booking-app-client'
+  }
+};

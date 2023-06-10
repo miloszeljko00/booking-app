@@ -1,14 +1,10 @@
-# Build container
-FROM node:14-alpine AS build
+FROM node:16-alpine AS build
 WORKDIR /app
-COPY package*.json ./
-RUN npm i
-COPY . .
-RUN npm run build
 
-# Final container
-FROM nginx:alpine AS final
-COPY ./nginx.conf /etc/nginx/nginx.conf
-COPY --from=build /app/dist/booking-app /usr/share/nginx/html
+COPY . .
+RUN npm install
+RUN npm run build
+# Serve Application using Nginx Server
+FROM nginx:alpine
+COPY --from=build /app/dist/booking-app/ /usr/share/nginx/html
 EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]

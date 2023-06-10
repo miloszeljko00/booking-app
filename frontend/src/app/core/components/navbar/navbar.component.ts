@@ -33,7 +33,7 @@ export class NavbarComponent implements OnDestroy{
     this.router.navigate(['']);
   }
   goToAccountPage(): void {
-    const externalUrl = 'https://login-booking-app.azurewebsites.net/auth/realms/booking-app/account/#/personal-info';
+    const externalUrl = 'https://login-keycloak.azurewebsites.net/auth/realms/booking-app/account/#/personal-info';
     window.open(externalUrl, '_blank');
   }
   goToCreateFlight(): void {
