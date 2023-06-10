@@ -1,126 +1,63 @@
 version: "3.8"
 services:
   #----------------------------------------------------------------
-  keycloak:
-    image: quay.io/keycloak/keycloak:21.0.1
-    environment:
-      KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: admin
-    entrypoint: ["/opt/keycloak/bin/kc.sh", "start-dev"]
-    ports:
-      - 28080:8080
-  #----------------------------------------------------------------
-  mongo:
-    image: mongo:5.0
-    container_name: mongo
-    environment:
-        - MONGO_INITDB_ROOT_USERNAME=user
-        - MONGO_INITDB_ROOT_PASSWORD=user
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongo_data:/var/lib/mongo/data
-    networks:
-      - docker-network
-  #----------------------------------------------------------------
-  mongo-express:
-    image: mongo-express
-    container_name: mexpress
-    environment:
-      - ME_CONFIG_MONGODB_ADMINUSERNAME=user
-      - ME_CONFIG_MONGODB_ADMINPASSWORD=user
-      - ME_CONFIG_MONGODB_URL=mongodb://user:user@mongo:27017/?authSource=admin
-      - ME_CONFIG_BASICAUTH_USERNAME=user
-      - ME_CONFIG_BASICAUTH_PASSWORD=user
-    links:
-      - mongo
-    depends_on:
-      - mongo
-    ports:
-      - "5050:8081"
-    networks:
-      - docker-network
-  #----------------------------------------------------------------
   accommodation-service:
-    image: ${YOUR_REGISTRY-}accommodation-service:1.0.0
+    image: bookingappcontainers.azurecr.io/accommodation-service:1.0.0
     container_name: accommodation-service
     build:
       context: ../backend/Accomodation
       dockerfile: ./Accomodation/Dockerfile 
-    ports:
-      - "5000:443"
-      - "23725:80"
     environment:
-      MongoDatabaseSettings:ConnectionString: mongodb://user:user@mongo:27017/?authSource=admin
-      Jwt:Authority: http://keycloak:8080/realms/booking-app
-      Jwt:AuthorizationUrl: http://keycloak:8080/realms/booking-app/protocol/openid-connect/auth
-      Jwt:TokenUrl: http://keycloak:8080/realms/booking-app/protocol/openid-connect/token
+      ASPNETCORE_ENVIRONMENT : Development
+      MongoDatabaseSettings:ConnectionString: mongodb+srv://svenadev:0mSCxqslvdQV46wi@booking-app.udfgsob.mongodb.net/?retryWrites=true&w=majority
+      Jwt:Authority: https://login-keycloak.azurewebsites.net/auth/realms/booking-app
+      Jwt:AuthorizationUrl: https://login-keycloak.azurewebsites.net/auth/realms/booking-app/protocol/openid-connect/auth
+      Jwt:TokenUrl: https://login-keycloak.azurewebsites.net/auth/realms/booking-app/protocol/openid-connect/token
     networks:
       - docker-network
-    depends_on:
-      - mongo
   #----------------------------------------------------------------
   user-management-service:
-    image: ${YOUR_REGISTRY-}user-management-service:1.0.0
+    image: bookingappcontainers.azurecr.io/user-management-service:1.0.0
     container_name: user-management-service
     build:
       context: ../backend/Accomodation
       dockerfile: ./UserManagement/Dockerfile
-    ports:
-      - "7294:443"
-      - "5294:80"
     environment:
-      MongoDatabaseSettings:ConnectionString: mongodb://user:user@mongo:27017/?authSource=admin
-      Jwt:Authority: http://keycloak:8080/realms/booking-app
-      Jwt:AuthorizationUrl: http://keycloak:8080/realms/booking-app/protocol/openid-connect/auth
-      Jwt:TokenUrl: http://keycloak:8080/realms/booking-app/protocol/openid-connect/token
+      ASPNETCORE_ENVIRONMENT : Development
+      MongoDatabaseSettings:ConnectionString: mongodb://booking-app-db:HgMoW57yCP8iRltJBpW7UlDYXIxCaGKhK9ZboO0y67JHIiISElpWQ5kSGWY40zpnd2HJXNiB9wNNACDb9MYsjA==@booking-app-db.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@booking-app-db@
+      Jwt:Authority: https://login-keycloak.azurewebsites.net/auth/realms/booking-app
+      Jwt:AuthorizationUrl: https://login-keycloak.azurewebsites.net/auth/realms/booking-app/protocol/openid-connect/auth
+      Jwt:TokenUrl: https://login-keycloak.azurewebsites.net/auth/realms/booking-app/protocol/openid-connect/token
     networks:
       - docker-network
-    depends_on:
-      - mongo    
   #----------------------------------------------------------------
   notification-service:
-    image: ${YOUR_REGISTRY-}notification-service:1.0.0
+    image: bookingappcontainers.azurecr.io/notification-service:1.0.0
     container_name: notification-service
     build:
       context: ../backend/Accomodation
       dockerfile: ./Notification/Dockerfile
-    ports:
-      - "7136:443"
-      - "5136:80"
     environment:
-      MongoDatabaseSettings:ConnectionString: mongodb://user:user@mongo:27017/?authSource=admin
-      Jwt:Authority: http://keycloak:8080/realms/booking-app
-      Jwt:AuthorizationUrl: http://keycloak:8080/realms/booking-app/protocol/openid-connect/auth
-      Jwt:TokenUrl: http://keycloak:8080/realms/booking-app/protocol/openid-connect/token
+      ASPNETCORE_ENVIRONMENT : Development
+      MongoDatabaseSettings:ConnectionString: mongodb://booking-app-db:HgMoW57yCP8iRltJBpW7UlDYXIxCaGKhK9ZboO0y67JHIiISElpWQ5kSGWY40zpnd2HJXNiB9wNNACDb9MYsjA==@booking-app-db.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@booking-app-db@
+      Jwt:Authority: https://login-keycloak.azurewebsites.net/auth/realms/booking-app
+      Jwt:AuthorizationUrl: https://login-keycloak.azurewebsites.net/auth/realms/booking-app/protocol/openid-connect/auth
+      Jwt:TokenUrl: https://login-keycloak.azurewebsites.net/auth/realms/booking-app/protocol/openid-connect/token
     networks:
       - docker-network
-    depends_on:
-      - mongo    
 #----------------------------------------------------------------
-#   booking-service:
-#     build: ./../backend/flights-booking-api
-#     container_name: booking-service
-#     environment:
-#       ASPNETCORE_ENVIRONMENT: Development
-#       ENABLE_CORS: true
-#     depends_on:
-#       - mongo
-#     expose:
-#       - 5000
-#     ports:
-#       - "5000:5000"
-#     networks:
-#       - docker-network
-# #----------------------------------------------------------------
-#   booking-app:
-#     build: ./../frontend
-#     container_name: booking-app
-#     ports:
-#       - 4200:80
-#----------------------------------------------------------------
-volumes:
-  mongo_data:
-#----------------------------------------------------------------
+  ocelot-apigateway:
+    image: bookingappcontainers.azurecr.io/ocelot-apigateway:1.0.0
+    container_name: ocelot-apigateway
+    build:
+      context: ../backend/Accomodation
+      dockerfile: ./Accomodation.ApiGateway/Dockerfile
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - docker-network
+    environment: 
+      - ASPNETCORE_ENVIRONMENT=Development
 networks:
   docker-network:

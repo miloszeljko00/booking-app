@@ -1,0 +1,15 @@
+version: "3.8"
+services:
+  ocelot-apigateway:
+    image: bookingappcontainers.azurecr.io/ocelot-apigateway:1.0.0
+    container_name: ocelot-apigateway
+    build:
+      context: ../../backend/Accomodation
+      dockerfile: ./Accomodation.ApiGateway/Dockerfile
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - docker-network
+    environment: 
+      - ASPNETCORE_ENVIRONMENT=Development

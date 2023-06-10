@@ -57,11 +57,11 @@ export class AccountPage {
     })
   }
   changePassword(): void {
-    const externalUrl = 'http://localhost:28080/realms/booking-app/account/password';
+    const externalUrl = 'https://login-keycloak.azurewebsites.net/auth/realms/booking-app/account/password';
     window.open(externalUrl, '_blank');
   }
   enableTwoFactor(){
-    const externalUrl = 'http://localhost:28080/realms/booking-app/account/totp';
+    const externalUrl = 'https://login-keycloak.azurewebsites.net/auth/realms/booking-app/account/totp';
     window.open(externalUrl, '_blank');
   }
   deleteAccount(): void {

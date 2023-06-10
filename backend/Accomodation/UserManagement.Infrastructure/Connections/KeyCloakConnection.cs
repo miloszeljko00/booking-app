@@ -34,7 +34,7 @@ public class KeyCloakConnection : IKeyCloakConnection
         string? accessToken = await GetAccessTokenAsync();
         if (accessToken == null) return false;
 
-        var resourceUrl = "/admin/realms/" + _config["Jwt:RealmName"] + "/users/" + userId;
+        var resourceUrl = "/auth/admin/realms/" + _config["Jwt:RealmName"] + "/users/" + userId;
         _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accessToken);
 
         var request = new HttpRequestMessage(HttpMethod.Delete, resourceUrl);
@@ -48,7 +48,7 @@ public class KeyCloakConnection : IKeyCloakConnection
         string? accessToken = await GetAccessTokenAsync();
         if (accessToken == null) return false;
 
-        var resourceUrl = "/admin/realms/" + _config["Jwt:RealmName"] + "/users";
+        var resourceUrl = "/auth/admin/realms/" + _config["Jwt:RealmName"] + "/users";
         _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accessToken);
        
         var request = new HttpRequestMessage(HttpMethod.Post, resourceUrl) { 
@@ -77,7 +77,7 @@ public class KeyCloakConnection : IKeyCloakConnection
         string? accessToken = await GetAccessTokenAsync();
         if (accessToken == null) return null;
 
-        var resourceUrl = "/admin/realms/" + _config["Jwt:RealmName"] + "/users?email=" + email;
+        var resourceUrl = "/auth/admin/realms/" + _config["Jwt:RealmName"] + "/users?email=" + email;
         _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accessToken);
 
         var request = new HttpRequestMessage(HttpMethod.Get, resourceUrl);
@@ -96,7 +96,7 @@ public class KeyCloakConnection : IKeyCloakConnection
         nvc.Add(new KeyValuePair<string, string>("client_secret", _config["Jwt:ApiClientSecret"]));
         nvc.Add(new KeyValuePair<string, string>("grant_type", _config["Jwt:ApiClientGrantType"]));
 
-        var req = new HttpRequestMessage(HttpMethod.Post, "/realms/master/protocol/openid-connect/token") { Content = new FormUrlEncodedContent(nvc) };
+        var req = new HttpRequestMessage(HttpMethod.Post, "/auth/realms/master/protocol/openid-connect/token") { Content = new FormUrlEncodedContent(nvc) };
         var res = await _httpClient.SendAsync(req);
         if (!res.IsSuccessStatusCode) return null;
 

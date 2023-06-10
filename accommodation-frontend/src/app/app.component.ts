@@ -1,6 +1,4 @@
-import { KeycloakService } from 'keycloak-angular';
 import { Component } from '@angular/core';
-import { FlightService } from './api';
 
 @Component({
   selector: 'app-root',

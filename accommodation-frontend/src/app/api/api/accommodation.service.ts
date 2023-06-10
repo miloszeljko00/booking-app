@@ -10,6 +10,7 @@ import { ReservationCancellation } from '../model/reservationCancellation';
 import { RequestByAdmin } from '../model/requestByAdmin';
 import { RequestManagement } from '../model/requestManagement';
 import { Price } from '../model/price';
+import { environment } from 'src/environments/environment';
 
 
 const httpOptions = {
@@ -24,7 +25,7 @@ const httpOptions = {
 
 
 export class AccommodationService{
-    private apiUrl = 'https://localhost:7060/Accommodation'
+    private apiUrl = environment.apiUrl + '/Accommodation'
 
     constructor(private http: HttpClient) { }
 

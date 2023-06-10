@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 
 const httpOptions = {
@@ -14,7 +15,7 @@ const httpOptions = {
 
 
 export class UserManagementService{
-    private apiUrl = 'https://localhost:7060/User'
+    private apiUrl = environment.apiUrl + '/User'
 
     constructor(private http: HttpClient) { }
 

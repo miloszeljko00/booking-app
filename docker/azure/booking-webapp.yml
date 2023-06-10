@@ -1,0 +1,10 @@
+version: "3.8"
+services:
+  booking-webapp:
+    image: bookingappcontainers.azurecr.io/booking-webapp:1.0.0
+    container_name: booking-webapp
+    build:
+      context: ../../accommodation-frontend
+      dockerfile: ./Dockerfile
+    ports:
+      - "80:80"

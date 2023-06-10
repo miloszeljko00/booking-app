@@ -1,4 +1,6 @@
-﻿﻿FROM mcr.microsoft.com/dotnet/sdk:6.0 AS base
+#See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
+
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
@@ -6,18 +8,13 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["AccomodationSuggestion/AccomodationSuggestion.csproj", "AccomodationSuggestion/"]
-COPY ["AccomodationSuggestion.Application/AccomodationSuggestion.Application.csproj", "AccomodationSuggestion.Application/"]
-COPY ["AccomodationSuggestion.Domain/AccomodationSuggestion.Domain.csproj", "AccomodationSuggestion.Domain/"]
-COPY ["AccomodationSuggestion.Infrastructure/AccomodationSuggestion.Infrastructure.csproj", "AccomodationSuggestion.Infrastructure/"]
-COPY ["AccomodationSuggestion.Presentation/AccomodationSuggestion.Presentation.csproj", "AccomodationSuggestion.Presentation/"]
-
 RUN dotnet restore "AccomodationSuggestion/AccomodationSuggestion.csproj"
 COPY . .
 WORKDIR "/src/AccomodationSuggestion"
 RUN dotnet build "AccomodationSuggestion.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "AccomodationSuggestion.csproj" -c Release -o /app/publish
+RUN dotnet publish "AccomodationSuggestion.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app

@@ -13,8 +13,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5000
+          "Host": "booking-app-accommodation.azurewebsites.net",
+          "Port": 443
         }
       ]
     },
@@ -30,8 +30,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5000
+          "Host": "booking-app-accommodation.azurewebsites.net",
+          "Port": 443
         }
       ]
     },
@@ -47,8 +47,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7294
+          "Host": "booking-app-user-management.azurewebsites.net",
+          "Port": 443
         }
       ]
     },
@@ -64,19 +64,25 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7294
+          "Host": "booking-app-user-management.azurewebsites.net",
+          "Port": 443
         }
       ]
-    }//Dodati sve rute
+    } //Dodati sve rute
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "http://localhost:5294"
+    "RequestIdKey": "null",
+    "AdministrationPath": null
   },
   "HttpHandlerOptions": {
-    "AllowAutoRedirect": true,
+    "AllowAutoRedirect": false,
     "UseCookieContainer": true,
     "UseTracing": true,
     "MaxConnectionsPerServer": 100
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Debug"
+    }
   }
 }

@@ -1,31 +1,22 @@
-#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
+#See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
-# Container we use for final publish
-FROM mcr.microsoft.com/dotnet/core/aspnet:6.0-buster-slim AS base
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-# Build container
-FROM mcr.microsoft.com/dotnet/core/sdk:6.0-buster AS build
-	
-# Copy the code into the container
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["src/FlightsBookingAPI/FlightsBookingAPI.csproj", "FlightsBookingAPI/"]
-
-# NuGet restore
-RUN dotnet restore "FlightsBookingAPI/FlightsBookingAPI.csproj"
-COPY ["src/FlightsBookingAPI/", "FlightsBookingAPI/"]
-
-# Build the API
-WORKDIR "FlightsBookingAPI"
+COPY ["src/FlightsBookingAPI/FlightsBookingAPI.csproj", "src/FlightsBookingAPI/"]
+COPY ["FlightsBooking/FlightsBooking.csproj", "FlightsBooking/"]
+RUN dotnet restore "src/FlightsBookingAPI/FlightsBookingAPI.csproj"
+COPY . .
+WORKDIR "/src/src/FlightsBookingAPI"
 RUN dotnet build "FlightsBookingAPI.csproj" -c Release -o /app/build
 
-# Publish it
 FROM build AS publish
-RUN dotnet publish "FlightsBookingAPI.csproj" -c Release -o /app/publish
+RUN dotnet publish "FlightsBookingAPI.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
-# Make the final image for publishing
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .

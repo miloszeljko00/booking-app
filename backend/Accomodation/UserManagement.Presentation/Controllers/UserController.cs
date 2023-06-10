@@ -41,6 +41,7 @@ public class UserController : ControllerBase
     [Route("{userId}")]
     public async Task<ActionResult> GetUser(string userId)
     {
+        Console.WriteLine("AJDE RADI PLSSSS");
         var result = await _mediator.Send(new GetUserByIdQuery(userId));
         if (result is null) return BadRequest();
         return Ok(result);

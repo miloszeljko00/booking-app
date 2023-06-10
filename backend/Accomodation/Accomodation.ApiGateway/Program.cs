@@ -20,7 +20,7 @@ builder.Services.AddOcelot(builder.Configuration);
 
 
 var app = builder.Build();
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 app.UseCors("CorsPolicy");
 app.UseOcelot().Wait();
 app.UseMiddleware<CorsMiddleware>();
