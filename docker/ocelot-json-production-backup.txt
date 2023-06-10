@@ -1,0 +1,88 @@
+{
+  //After dockerization host will be container name, port will be 80
+  "Routes": [
+    {
+      "UpstreamPathTemplate": "/Accommodation",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE"
+      ],
+      "DownstreamPathTemplate": "/Accommodation",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "booking-app-accommodation.azurewebsites.net",
+          "Port": 443
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/Accommodation/{anyPath}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE"
+      ],
+      "DownstreamPathTemplate": "/Accommodation/{anyPath}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "booking-app-accommodation.azurewebsites.net",
+          "Port": 443
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/User",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE"
+      ],
+      "DownstreamPathTemplate": "/User",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "booking-app-user-management.azurewebsites.net",
+          "Port": 443
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/User/{anyPath}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE"
+      ],
+      "DownstreamPathTemplate": "/User/{anyPath}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "booking-app-user-management.azurewebsites.net",
+          "Port": 443
+        }
+      ]
+    } //Dodati sve rute
+  ],
+  "GlobalConfiguration": {
+    "RequestIdKey": "null",
+    "AdministrationPath": null
+  },
+  "HttpHandlerOptions": {
+    "AllowAutoRedirect": false,
+    "UseCookieContainer": true,
+    "UseTracing": true,
+    "MaxConnectionsPerServer": 100
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Debug"
+    }
+  }
+}

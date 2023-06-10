@@ -17,12 +17,14 @@ export class HomePage {
   }
   ngOnInit() {
     this.user = this.authService.getUser()
-    this.accService.checkHighlightedHost(this.user?.email ?? '').subscribe((response) => {
-      this.isHighlightedHost = response;
-      if(this.user?.roles.includes('host') && this.isHighlightedHost === true){
-        this.toastr.clear()
-        this.toastr.info('DODELJEN VAM JE STATUS ISTAKNUTOG HOSTA!', '', {"timeOut":0, "extendedTimeOut":0, tapToDismiss:false, "positionClass":'toast-bottom-left'})
-      }
-    })
+    if(this.user?.roles.includes('host')){
+      this.accService.checkHighlightedHost(this.user?.email ?? '').subscribe((response) => {
+        this.isHighlightedHost = response;
+        if(this.isHighlightedHost === true){
+          this.toastr.clear()
+          this.toastr.info('DODELJEN VAM JE STATUS ISTAKNUTOG HOSTA!', '', {"timeOut":0, "extendedTimeOut":0, tapToDismiss:false, "positionClass":'toast-bottom-left'})
+        }
+      })
+    }
   }
 }

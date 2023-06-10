@@ -7,6 +7,7 @@ import { UpdateHostGrading } from "../model/updateHostGrading";
 import { AccommodationGrading } from "../model/accommodationGrading";
 import { CreateAccommodationGrading } from "../model/createAccommodationGrading";
 import { UpdateAccommodationGrading } from "../model/updateAccommodationGrading";
+import { environment } from "src/environments/environment";
 
 const httpOptions = {
     headers: new HttpHeaders({
@@ -20,7 +21,7 @@ const httpOptions = {
 
 
 export class GradingService{
-  private apiUrl = 'https://localhost:7274/Grading'
+  private apiUrl = environment.apiUrl + '/Grading'
 
   constructor(private http: HttpClient) { }
 

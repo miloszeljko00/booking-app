@@ -10,11 +10,11 @@
         "DELETE"
       ],
       "DownstreamPathTemplate": "/Accommodation",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "booking-app-accommodation.azurewebsites.net",
-          "Port": 443
+          "Host": "accommodation-service",
+          "Port": 80
         }
       ]
     },
@@ -27,11 +27,11 @@
         "DELETE"
       ],
       "DownstreamPathTemplate": "/Accommodation/{anyPath}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "booking-app-accommodation.azurewebsites.net",
-          "Port": 443
+          "Host": "accommodation-service",
+          "Port": 80
         }
       ]
     },
@@ -44,11 +44,11 @@
         "DELETE"
       ],
       "DownstreamPathTemplate": "/User",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "booking-app-user-management.azurewebsites.net",
-          "Port": 443
+          "Host": "user-management-service",
+          "Port": 80
         }
       ]
     },
@@ -61,14 +61,82 @@
         "DELETE"
       ],
       "DownstreamPathTemplate": "/User/{anyPath}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "booking-app-user-management.azurewebsites.net",
-          "Port": 443
+          "Host": "user-management-service",
+          "Port": 80
         }
       ]
-    } //Dodati sve rute
+    },
+    {
+      "UpstreamPathTemplate": "/Grading",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE"
+      ],
+      "DownstreamPathTemplate": "/Grading",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "accommodation-grading-service",
+          "Port": 80
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/Grading/{anyPath}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE"
+      ],
+      "DownstreamPathTemplate": "/Grading/{anyPath}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "accommodation-grading-service",
+          "Port": 80
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/Suggestion",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE"
+      ],
+      "DownstreamPathTemplate": "/Suggestion",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "accommodation-suggestion-service",
+          "Port": 80
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/Suggestion/{anyPath}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE"
+      ],
+      "DownstreamPathTemplate": "/Suggestion/{anyPath}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "accommodation-suggestion-service",
+          "Port": 80
+        }
+      ]
+    }
   ],
   "GlobalConfiguration": {
     "RequestIdKey": "null",

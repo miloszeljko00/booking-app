@@ -1,10 +1,11 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { GuestNotification } from '../model/guestNotification';
 import { Observable } from 'rxjs';
 import { HostNotification } from '../model/hostNotification';
 import { CreateGuestNotification } from '../model/createGuestNotification';
 import { CreateHostNotification } from '../model/createHostNotification';
+import { environment } from 'src/environments/environment';
 
 
 const httpOptions = {
@@ -19,7 +20,7 @@ const httpOptions = {
 
 
 export class NotificationService{
-    private apiUrl = 'https://localhost:7136/Notification'
+    private apiUrl = environment.apiUrl + '/Notification'
 
     constructor(private http: HttpClient) { }
 
@@ -30,7 +31,7 @@ export class NotificationService{
     getHostNotifications(email: string): Observable<HostNotification> {
         return this.http.get<HostNotification>(this.apiUrl + '/' + email + '/host-notifications');
     }
-    
+
     setGuestNotifications(guestNotification: CreateGuestNotification){
       return this.http.put(this.apiUrl + '/guest-notifications', guestNotification, httpOptions);
     }

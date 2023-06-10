@@ -1,6 +1,7 @@
 export const environment = {
   production: false,
-  apiUrl: 'https://booking-app-api.azurewebsites.net',
+  //apiUrl: 'https://booking-app-api.azurewebsites.net',
+  apiUrl: 'http://localhost:80',
   keycloak: {
     url: 'https://login-keycloak.azurewebsites.net/auth',
     realm: 'booking-app',
