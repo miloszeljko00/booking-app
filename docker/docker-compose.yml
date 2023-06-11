@@ -95,6 +95,9 @@ services:
       Jwt:Authority: https://login-keycloak.azurewebsites.net/auth/realms/booking-app
       Jwt:AuthorizationUrl: https://login-keycloak.azurewebsites.net/auth/realms/booking-app/protocol/openid-connect/auth
       Jwt:TokenUrl: https://login-keycloak.azurewebsites.net/auth/realms/booking-app/protocol/openid-connect/token
+    ports:
+      - "54321:80"
+      - "54322:443"
     networks:
       - docker-network
 #----------------------------------------------------------------
