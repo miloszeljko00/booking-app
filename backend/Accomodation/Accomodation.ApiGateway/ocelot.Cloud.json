@@ -10,11 +10,11 @@
         "DELETE"
       ],
       "DownstreamPathTemplate": "/Accommodation",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5001
+          "Host": "booking-app-accommodation.azurewebsites.net",
+          "Port": 443
         }
       ]
     },
@@ -27,11 +27,11 @@
         "DELETE"
       ],
       "DownstreamPathTemplate": "/Accommodation/{anyPath}",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5001
+          "Host": "booking-app-accommodation.azurewebsites.net",
+          "Port": 443
         }
       ]
     },
@@ -44,11 +44,11 @@
         "DELETE"
       ],
       "DownstreamPathTemplate": "/User",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5294
+          "Host": "booking-app-user-management.azurewebsites.net",
+          "Port": 443
         }
       ]
     },
@@ -61,11 +61,11 @@
         "DELETE"
       ],
       "DownstreamPathTemplate": "/User/{anyPath}",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5294
+          "Host": "booking-app-user-management.azurewebsites.net",
+          "Port": 443
         }
       ]
     },
@@ -78,11 +78,11 @@
         "DELETE"
       ],
       "DownstreamPathTemplate": "/Grading",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5274
+          "Host": "accommodation-grading-api.azurewebsites.net",
+          "Port": 443
         }
       ]
     },
@@ -95,11 +95,11 @@
         "DELETE"
       ],
       "DownstreamPathTemplate": "/Grading/{anyPath}",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5274
+          "Host": "accommodation-grading-api.azurewebsites.net",
+          "Port": 443
         }
       ]
     },
@@ -112,11 +112,11 @@
         "DELETE"
       ],
       "DownstreamPathTemplate": "/Suggestion",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5067
+          "Host": "accommodation-suggestion-api.azurewebsites.net",
+          "Port": 443
         }
       ]
     },
@@ -129,11 +129,11 @@
         "DELETE"
       ],
       "DownstreamPathTemplate": "/Suggestion/{anyPath}",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5067
+          "Host": "accommodation-suggestion-api.azurewebsites.net",
+          "Port": 443
         }
       ]
     },
@@ -146,11 +146,11 @@
         "DELETE"
       ],
       "DownstreamPathTemplate": "/Notification",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5136
+          "Host": "accommodation-notification-api.azurewebsites.net",
+          "Port": 443
         }
       ]
     },
@@ -163,11 +163,11 @@
         "DELETE"
       ],
       "DownstreamPathTemplate": "/Notification/{anyPath}",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5136
+          "Host": "accommodation-notification-api.azurewebsites.net",
+          "Port": 443
         }
       ]
     }

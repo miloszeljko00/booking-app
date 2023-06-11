@@ -13,8 +13,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5001
+          "Host": "accommodation-service",
+          "Port": 80
         }
       ]
     },
@@ -30,8 +30,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5001
+          "Host": "accommodation-service",
+          "Port": 80
         }
       ]
     },
@@ -47,8 +47,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5294
+          "Host": "user-management-service",
+          "Port": 80
         }
       ]
     },
@@ -64,8 +64,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5294
+          "Host": "user-management-service",
+          "Port": 80
         }
       ]
     },
@@ -81,8 +81,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5274
+          "Host": "accommodation-grading-service",
+          "Port": 80
         }
       ]
     },
@@ -98,8 +98,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5274
+          "Host": "accommodation-grading-service",
+          "Port": 80
         }
       ]
     },
@@ -115,8 +115,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5067
+          "Host": "accommodation-suggestion-service",
+          "Port": 80
         }
       ]
     },
@@ -132,8 +132,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5067
+          "Host": "accommodation-suggestion-service",
+          "Port": 80
         }
       ]
     },
@@ -149,8 +149,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5136
+          "Host": "notification-service",
+          "Port": 80
         }
       ]
     },
@@ -166,8 +166,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5136
+          "Host": "notification-service",
+          "Port": 80
         }
       ]
     }

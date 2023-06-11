@@ -1,4 +1,5 @@
 ﻿using AccomodationGrading.Infrastructure.Grading;
+using AccomodationGrading.Infrastructure.Persistance.Settings;
 using AccomodationGradingApplication.Dtos;
 using AccomodationGradingApplication.Grading.Commands;
 using AccomodationGradingApplication.Grading.Queries;
@@ -28,6 +29,12 @@ namespace AccomodationGrading.Configuration
             services.AddScoped<IRequestHandler<DeleteHostGradingCommand, HostGrading>, DeleteHostGradingCommandHandler>();
             services.AddScoped<IRequestHandler<UpdateAccommodationGradingCommand, AccommodationGrading>, UpdateAccommodationGradingCommandHandler>();
             services.AddScoped<IRequestHandler<DeleteAccommodationGradingCommand, AccommodationGrading>, DeleteAccommodationGradingCommandHandler>();
+            return services;
+        }
+
+        public static IServiceCollection AddInfrastructure(this IServiceCollection services, ConfigurationManager builderConfiguration)
+        {
+            services.Configure<DatabaseSettings>(builderConfiguration.GetSection(DatabaseSettings.OptionName));
             return services;
         }
     }

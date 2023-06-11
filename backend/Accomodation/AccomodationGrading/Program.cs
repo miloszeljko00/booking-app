@@ -20,6 +20,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
 builder.Services
     .AddRepositories()
+    .AddInfrastructure(builder.Configuration)
     .AddHandlers();
 IServiceProvider serviceProvider = builder.Services.BuildServiceProvider();
 Server server = new Server
