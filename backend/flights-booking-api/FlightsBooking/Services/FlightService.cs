@@ -16,9 +16,9 @@ namespace FlightsBooking.Services
 
         public FlightService()
         {
-            var mongoClient = new MongoClient("mongodb://booking-app-db:HgMoW57yCP8iRltJBpW7UlDYXIxCaGKhK9ZboO0y67JHIiISElpWQ5kSGWY40zpnd2HJXNiB9wNNACDb9MYsjA==@booking-app-db.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@booking-app-db@");
+            var mongoClient = new MongoClient("mongodb+srv://svenadev:0mSCxqslvdQV46wi@booking-app.udfgsob.mongodb.net/");
 
-            var mongoDatabase = mongoClient.GetDatabase("BookingApp");
+            var mongoDatabase = mongoClient.GetDatabase("FlightsApp");
 
             _flightCollection = mongoDatabase.GetCollection<Flight>("Flights");
         }

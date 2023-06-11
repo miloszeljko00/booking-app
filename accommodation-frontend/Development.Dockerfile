@@ -1,12 +1,9 @@
 FROM node:16-alpine AS build
 WORKDIR /app
 
-ARG NODE_ENV
-ENV NODE_ENV $NODE_ENV
-
 COPY . .
 RUN npm install
-RUN npm run build -- --configuration=$NODE_ENV
+RUN npm run build:development
 # Serve Application using Nginx Server
 FROM nginx:alpine
 COPY --from=build /app/dist/booking-app/ /usr/share/nginx/html
