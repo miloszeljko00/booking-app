@@ -26,8 +26,7 @@ namespace FlightsBookingAPI
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                   webBuilder.UseStartup<Startup>()
-                             .UseUrls("http://0.0.0.0:5000/");
+                    webBuilder.UseStartup<Startup>();
                 });
     }
 }

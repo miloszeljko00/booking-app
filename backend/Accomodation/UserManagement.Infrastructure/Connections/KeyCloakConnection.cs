@@ -50,7 +50,7 @@ public class KeyCloakConnection : IKeyCloakConnection
 
         var resourceUrl = "/auth/admin/realms/" + _config["Jwt:RealmName"] + "/users";
         _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accessToken);
-       
+        createUserCommand.Roles.Add("user");
         var request = new HttpRequestMessage(HttpMethod.Post, resourceUrl) { 
             Content = JsonContent.Create(new {
                 email = createUserCommand.Email,

@@ -16,7 +16,7 @@ namespace FlightsBooking.Services
 
         public FlightService()
         {
-            var mongoClient = new MongoClient("mongodb+srv://svenadev:0mSCxqslvdQV46wi@booking-app.udfgsob.mongodb.net/");
+            var mongoClient = new MongoClient("mongodb+srv://svenadev:0mSCxqslvdQV46wi@booking-app.udfgsob.mongodb.net/?retryWrites=true&w=majority");
 
             var mongoDatabase = mongoClient.GetDatabase("FlightsApp");
 

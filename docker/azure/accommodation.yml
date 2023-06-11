@@ -3,12 +3,9 @@ services:
   accommodation-service:
     image: bookingappcontainers.azurecr.io/accommodation-service:1.0.0
     container_name: accommodation-service
-    build:
-      context: ../../backend/Accomodation
-      dockerfile: ./Accomodation/Dockerfile 
     environment:
       ASPNETCORE_ENVIRONMENT : Development
-      MongoDatabaseSettings:ConnectionString: mongodb://booking-app-db:HgMoW57yCP8iRltJBpW7UlDYXIxCaGKhK9ZboO0y67JHIiISElpWQ5kSGWY40zpnd2HJXNiB9wNNACDb9MYsjA==@booking-app-db.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@booking-app-db@
+      MongoDatabaseSettings:ConnectionString: mongodb+srv://svenadev:0mSCxqslvdQV46wi@booking-app.udfgsob.mongodb.net/?retryWrites=true&w=majority
       Jwt:Authority: https://login-keycloak.azurewebsites.net/auth/realms/booking-app
       Jwt:AuthorizationUrl: https://login-keycloak.azurewebsites.net/auth/realms/booking-app/protocol/openid-connect/auth
       Jwt:TokenUrl: https://login-keycloak.azurewebsites.net/auth/realms/booking-app/protocol/openid-connect/token

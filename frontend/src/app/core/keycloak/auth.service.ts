@@ -25,8 +25,10 @@ export class AuthService {
           this.token = token;
           this.token$.next(this.token);
           let decoded: any = jwtDecode(token);
+          console.log('%cMyProject%cline:27%cdecoded', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(229, 187, 129);padding:3px;border-radius:2px', decoded)
           this.user = decoded.user;   
           this.user$.next(this.user);  
+          console.log('%cMyProject%cline:29%cthis.user', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(222, 125, 44);padding:3px;border-radius:2px', this.user)
         });
         
         this.authenticated$.next(this.authenticated);

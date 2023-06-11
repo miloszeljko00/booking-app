@@ -4,6 +4,6 @@ export const environment = {
   keycloak: {
     url: 'https://login-keycloak.azurewebsites.net/auth',
     realm: 'booking-app',
-    clientId: 'booking-app-client'
+    clientId: 'flights-booking-client'
   }
 };

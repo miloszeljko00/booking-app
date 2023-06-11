@@ -3,8 +3,5 @@ services:
   flights-webapp:
     image: bookingappcontainers.azurecr.io/flights-webapp:1.0.0
     container_name: flights-webapp
-    build:
-      context: ../../frontend
-      dockerfile: ./Dockerfile
     ports:
       - "80:80"
