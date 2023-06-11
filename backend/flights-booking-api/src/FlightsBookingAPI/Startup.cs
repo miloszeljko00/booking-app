@@ -176,7 +176,7 @@ namespace FlightsBookingAPI
                 .AddCors(options =>
                 {
                     options.AddPolicy("AllowOrigin",
-                        builder => builder.AllowAnyOrigin()
+                        builder => builder.WithOrigins("*")
                                           .AllowAnyHeader()
                                           .AllowAnyMethod());
                 });
