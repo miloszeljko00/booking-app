@@ -1,0 +1,16 @@
+﻿syntax = "proto3";
+
+package rs.ac.uns.ftn.grpc;
+option csharp_namespace = "AccommodationSuggestionApplication.Suggestion.Support.Grpc.Protos";
+
+
+message GetAllSuggestedFlightsMessageProto {
+    string placeOfDeparture { get; set; }
+	string departureDate { get; set; }
+	string placeOfArrival { get; set; }
+	string arrivalDate { get; set; }
+}
+
+message GetAllSuggestedFlightsMessageProtoResponse {
+  string status = 1;
+}
