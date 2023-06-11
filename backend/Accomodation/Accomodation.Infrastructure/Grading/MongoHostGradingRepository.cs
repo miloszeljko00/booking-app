@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AccomodationGrading.Infrastructure.Persistance.Settings;
 using AccomodationGradingDomain.Entities;
 using AccomodationGradingDomain.Interfaces;
+using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
 namespace AccomodationGrading.Infrastructure.Grading
@@ -13,13 +15,13 @@ namespace AccomodationGrading.Infrastructure.Grading
     {
         private readonly IMongoCollection<HostGrading> _gradeCollection;
 
-        public MongoHostGradingRepository()
+        public MongoHostGradingRepository(IOptions<DatabaseSettings> dbSettings)
         {
-            var mongoClient = new MongoClient("mongodb://user:user@localhost:27017/?authSource=admin");
+            var mongoClient = new MongoClient(dbSettings.Value.ConnectionString);
 
-            var mongoDatabase = mongoClient.GetDatabase("BookingApp");
+            var mongoDatabase = mongoClient.GetDatabase(dbSettings.Value.DatabaseName);
 
-            _gradeCollection = mongoDatabase.GetCollection<HostGrading>("HostGrading");
+            _gradeCollection = mongoDatabase.GetCollection<HostGrading>(dbSettings.Value.HostGradingCollectionName);
         }
 
 
