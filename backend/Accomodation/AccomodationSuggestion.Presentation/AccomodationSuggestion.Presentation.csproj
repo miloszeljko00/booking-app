@@ -10,4 +10,7 @@
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
 		<PackageReference Include="MongoDB.Driver" Version="2.19.1" />
 	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\AccomodationSuggestion.Application\AccomodationSuggestion.Application.csproj" />
+	</ItemGroup>
 </Project>
