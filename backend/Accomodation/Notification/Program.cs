@@ -8,6 +8,13 @@ using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Grpc.Core;
 using Notification.Application.Notification.Support.Grpc;
 using MediatR;
+using Jaeger.Reporters;
+using Jaeger.Samplers;
+using Jaeger.Senders.Thrift;
+using OpenTracing.Util;
+using OpenTracing;
+using Jaeger;
+using Prometheus;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -142,6 +149,27 @@ builder.Services
     });
 builder.Services.AddGrpc();
 
+builder.Services.AddOpenTracing();
+
+builder.Services.AddSingleton<ITracer>(sp =>
+{
+    var serviceName = sp.GetRequiredService<IWebHostEnvironment>().ApplicationName;
+    var loggerFactory = sp.GetRequiredService<ILoggerFactory>();
+    var reporter = new RemoteReporter.Builder()
+                    .WithLoggerFactory(loggerFactory)
+                    .WithSender(new UdpSender("host.docker.internal", 6831, 0))
+                    .Build();
+    var tracer = new Tracer.Builder(serviceName)
+        // The constant sampler reports every span.
+        .WithSampler(new ConstSampler(true))
+        // LoggingReporter prints every reported span to the logging framework.
+        .WithLoggerFactory(loggerFactory)
+        .WithReporter(reporter)
+        .Build();
+    GlobalTracer.Register(tracer);
+    return tracer;
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -166,8 +194,13 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.UseRouting();
 app.UseGrpcWeb(new GrpcWebOptions { DefaultEnabled = true });
+
+app.UseMetricServer();
+app.UseHttpMetrics();
+
 app.UseEndpoints(endpoints =>
 {
+    endpoints.MapMetrics();
     endpoints.MapGrpcService<ServerGrpcServiceImpl>();
     endpoints.MapGrpcService<HostRequestServerGrpcServiceImpl>();
     endpoints.MapGrpcService<HostCancelReservationServerGrpcServiceImpl>();

@@ -28,7 +28,11 @@ namespace AccomodationPresentation.Controllers
         private readonly IMediator _mediator;
         private readonly ITracer _tracer;
 
-        Counter counter = Metrics.CreateCounter("accommodation_service_counter", "accommodation counter");
+        Counter AccommodationCounter = Metrics.CreateCounter("accommodation_counter", "Number of requests for Accommodation microservice" +
+            "for given endpoint and with given status code", new CounterConfiguration
+        {
+            LabelNames = new[] {"microservice", "endpoint", "status"}
+        });
 
         public AccommodationController(IMediator mediator, ITracer tracer)
         {
@@ -41,8 +45,7 @@ namespace AccomodationPresentation.Controllers
         {
             var actionName = ControllerContext.ActionDescriptor.DisplayName;
             using var scope = _tracer.BuildSpan(actionName).StartActive(true);
-            scope.Span.Log("get accommodation");
-            counter.Inc();
+            scope.Span.Log("Get all accommodation");
 
             var query = new GetAllAccommodationsQuery();
             var result = await _mediator.Send(query);
@@ -60,6 +63,7 @@ namespace AccomodationPresentation.Controllers
      
                 resultList.Add(dto);
             }
+            AccommodationCounter.WithLabels("accommodation", "get_all_accommodation", "200").Inc();
             return Ok(resultList);
         }
 
@@ -67,6 +71,14 @@ namespace AccomodationPresentation.Controllers
         [Route("reservation")]
         public async Task<ActionResult<ReservationRequest>> CreateReservationRequest([FromBody] ReservationRequestDTO reservationRequestDTO)
         {
+            var actionName = ControllerContext.ActionDescriptor.DisplayName;
+            using var scope = _tracer.BuildSpan(actionName).StartActive(true);
+            scope.Span.Log("Create reservation request");
+            if (!ModelState.IsValid)
+            {
+                AccommodationCounter.WithLabels("accommodation", "create_reservation_request", "400").Inc();
+                return BadRequest("Invalid request");
+            }
             var command = new CreateReservationRequestCommand(
                reservationRequestDTO
                );
@@ -74,10 +86,12 @@ namespace AccomodationPresentation.Controllers
             try
             {
                 var result = await _mediator.Send(command);
+                AccommodationCounter.WithLabels("accommodation", "create_reservation_request", "201").Inc();
                 return Created("Successful reservation", result);
             }
             catch(Exception e)
             {
+                AccommodationCounter.WithLabels("accommodation", "create_reservation_request", "400").Inc();
                 return BadRequest(e.Message);
             }
         }
@@ -86,6 +100,14 @@ namespace AccomodationPresentation.Controllers
         [Route("manage-request")]
         public async Task<ActionResult<Accommodation>> ManageReservationRequest([FromBody] ReservationManagementDTO reservationRequestManagementDTO)
         {
+            var actionName = ControllerContext.ActionDescriptor.DisplayName;
+            using var scope = _tracer.BuildSpan(actionName).StartActive(true);
+            scope.Span.Log("Reservation request review");
+            if (!ModelState.IsValid)
+            {
+                AccommodationCounter.WithLabels("accommodation", "manage_reservation_request", "400").Inc();
+                return BadRequest("Invalid request");
+            }
             var command = new ManageReservationRequestCommand(
                reservationRequestManagementDTO
                );
@@ -93,10 +115,12 @@ namespace AccomodationPresentation.Controllers
             try
             {
                 var result = await _mediator.Send(command);
+                AccommodationCounter.WithLabels("accommodation", "manage_reservation_request", "200").Inc();
                 return Ok(result);
             }
             catch (Exception e)
             {
+                AccommodationCounter.WithLabels("accommodation", "manage_reservation_request", "400").Inc();
                 return BadRequest(e.Message);
             }
         }
@@ -105,6 +129,14 @@ namespace AccomodationPresentation.Controllers
         [Route("request")]
         public async Task<ActionResult<Accommodation>> CancelReservationRequest([FromBody] ReservationCancellationDTO reservationRequestCancellationDTO)
         {
+            var actionName = ControllerContext.ActionDescriptor.DisplayName;
+            using var scope = _tracer.BuildSpan(actionName).StartActive(true);
+            scope.Span.Log("Cancel reservation request");
+            if (!ModelState.IsValid)
+            {
+                AccommodationCounter.WithLabels("accommodation", "cancel_reservation_request", "400").Inc();
+                return BadRequest("Invalid request");
+            }
             var command = new CancelReservationRequestCommand(
                reservationRequestCancellationDTO
                );
@@ -112,10 +144,12 @@ namespace AccomodationPresentation.Controllers
             try
             {
                 var result = await _mediator.Send(command);
+                AccommodationCounter.WithLabels("accommodation", "cancel_reservation_request", "204").Inc();
                 return NoContent();
             }
             catch (Exception e)
             {
+                AccommodationCounter.WithLabels("accommodation", "cancel_reservation_request", "400").Inc();
                 return BadRequest(e.Message);
             }
         }
@@ -124,6 +158,14 @@ namespace AccomodationPresentation.Controllers
         [Route("reservation")]
         public async Task<ActionResult<Accommodation>> CancelReservation([FromBody] ReservationCancellationDTO reservationCancellationDTO)
         {
+            var actionName = ControllerContext.ActionDescriptor.DisplayName;
+            using var scope = _tracer.BuildSpan(actionName).StartActive(true);
+            scope.Span.Log("Cancel reservation");
+            if (!ModelState.IsValid)
+            {
+                AccommodationCounter.WithLabels("accommodation", "cancel_reservation", "400").Inc();
+                return BadRequest("Invalid request");
+            }
             var command = new CancelReservationCommand(
                reservationCancellationDTO
                );
@@ -131,10 +173,12 @@ namespace AccomodationPresentation.Controllers
             try
             {
                 var result = await _mediator.Send(command);
+                AccommodationCounter.WithLabels("accommodation", "cancel_reservation", "204").Inc();
                 return NoContent();
             }
             catch (Exception e)
             {
+                AccommodationCounter.WithLabels("accommodation", "cancel_reservation", "400").Inc();
                 return BadRequest(e.Message);
             }
         }
@@ -143,9 +187,12 @@ namespace AccomodationPresentation.Controllers
         [Route("{guestEmail}/reservations")]
         public async Task<ActionResult<List<ReservationByGuestDTO>>> GetReservationsByGuest([FromRoute(Name = "guestEmail"), Required] string guestEmail)
         {
+            var actionName = ControllerContext.ActionDescriptor.DisplayName;
+            using var scope = _tracer.BuildSpan(actionName).StartActive(true);
+            scope.Span.Log("Get all reservations by guest");
             var query = new GetAllReservationsByGuestQuery(guestEmail);
             var result = await _mediator.Send(query);
-
+            AccommodationCounter.WithLabels("accommodation", "get_reservations_by_guest", "200").Inc();
             return Ok(result.ToList());
         }
 
@@ -153,9 +200,12 @@ namespace AccomodationPresentation.Controllers
         [Route("{hostEmail}/highlighted-host")]
         public async Task<ActionResult<bool>> CheckHighlightedHost([FromRoute(Name = "hostEmail"), Required] string hostEmail)
         {
+            var actionName = ControllerContext.ActionDescriptor.DisplayName;
+            using var scope = _tracer.BuildSpan(actionName).StartActive(true);
+            scope.Span.Log("Check if the host is highlighted");
             var query = new CheckHighlightedHostQuery(hostEmail);
             var result = await _mediator.Send(query);
-
+            AccommodationCounter.WithLabels("accommodation", "check_highlighted_host", "200").Inc();
             return Ok(result);
         }
 
@@ -163,9 +213,12 @@ namespace AccomodationPresentation.Controllers
         [Route("{guestEmail}/requests")]
         public async Task<ActionResult<List<ReservationRequestByGuestDTO>>> GetRequestsByGuest([FromRoute(Name = "guestEmail"), Required] string guestEmail)
         {
+            var actionName = ControllerContext.ActionDescriptor.DisplayName;
+            using var scope = _tracer.BuildSpan(actionName).StartActive(true);
+            scope.Span.Log("Get all reservation requests by guest");
             var query = new GetAllRequestsByGuestQuery(guestEmail);
             var result = await _mediator.Send(query);
-
+            AccommodationCounter.WithLabels("accommodation", "get_requests_by_guest", "200").Inc();
             return Ok(result.ToList());
         }
 
@@ -173,9 +226,12 @@ namespace AccomodationPresentation.Controllers
         [Route("{adminEmail}/admin-requests")]
         public async Task<ActionResult<List<ReservationRequestByAdminDTO>>> GetRequestsByAdmin([FromRoute(Name = "adminEmail"), Required] string adminEmail)
         {
+            var actionName = ControllerContext.ActionDescriptor.DisplayName;
+            using var scope = _tracer.BuildSpan(actionName).StartActive(true);
+            scope.Span.Log("Get all reservation requests by host");
             var query = new GetAllRequestsByAdminQuery(adminEmail);
             var result = await _mediator.Send(query);
-
+            AccommodationCounter.WithLabels("accommodation", "get_requests_by_host", "200").Inc();
             return Ok(result.ToList());
         }
 
@@ -183,9 +239,12 @@ namespace AccomodationPresentation.Controllers
         [Route("{guestEmail}/hosts")]
         public async Task<ActionResult<List<string>>> GetHostsByGuestReservations([FromRoute(Name = "guestEmail"), Required] string guestEmail)
         {
+            var actionName = ControllerContext.ActionDescriptor.DisplayName;
+            using var scope = _tracer.BuildSpan(actionName).StartActive(true);
+            scope.Span.Log("Get all accommodation hosts for guest's reservations");
             var query = new GetHostsByGuestReservationsQuery(guestEmail);
             var result = await _mediator.Send(query);
-
+            AccommodationCounter.WithLabels("accommodation", "get_hosts_by_guest_reservations", "200").Inc();
             return Ok(result.ToList());
         }
 
@@ -193,21 +252,32 @@ namespace AccomodationPresentation.Controllers
         [Route("{guestEmail}/accommodation")]
         public async Task<ActionResult<List<AccommodationMainDTO>>> GetAccommodationByGuestReservations([FromRoute(Name = "guestEmail"), Required] string guestEmail)
         {
+            var actionName = ControllerContext.ActionDescriptor.DisplayName;
+            using var scope = _tracer.BuildSpan(actionName).StartActive(true);
+            scope.Span.Log("Get all accommodation for guest's reservations");
             var query = new GetAccommodationByGuestReservationsQuery(guestEmail);
             var result = await _mediator.Send(query);
-
+            AccommodationCounter.WithLabels("accommodation", "get_accommodation_by_guest_reservations", "200").Inc();
             return Ok(result.ToList());
         }
 
         [HttpPost]
         public async Task<ActionResult<Accommodation>> CreateAccommodation([FromBody] AccommodationDTO createAccommodationDto)
         {
+            var actionName = ControllerContext.ActionDescriptor.DisplayName;
+            using var scope = _tracer.BuildSpan(actionName).StartActive(true);
+            scope.Span.Log("Create accommodation");
+            if (!ModelState.IsValid)
+            {
+                AccommodationCounter.WithLabels("accommodation", "create_accommodation", "400").Inc();
+                return BadRequest("Invalid request");
+            }
             var command = new CreateAccommodationCommand(
                 createAccommodationDto
                 );
 
             var result = await _mediator.Send(command);
-
+            AccommodationCounter.WithLabels("accommodation", "create_accommodation", "201").Inc();
             return Created("neki uri", result);
         }
 
@@ -215,13 +285,16 @@ namespace AccomodationPresentation.Controllers
         [Route("benefits")]
         public ActionResult<Benefit> GetBenefits()
         {
+            var actionName = ControllerContext.ActionDescriptor.DisplayName;
+            using var scope = _tracer.BuildSpan(actionName).StartActive(true);
+            scope.Span.Log("Get all accommodation benefits");
             List<string> benefitList = new List<string>();
 
             foreach (Benefit benefit in Enum.GetValues(typeof(Benefit)))
             {
                 benefitList.Add(benefit.ToString());
             }
-            
+            AccommodationCounter.WithLabels("accommodation", "get_benefits", "200").Inc();
             return Ok(benefitList);
         }
 
@@ -229,9 +302,12 @@ namespace AccomodationPresentation.Controllers
         [Route("search")]
         public async Task<ActionResult<List<AccommodationGetAllDTO>>> SearchAccommodationAsync([FromQuery(Name = "address")] string address, [FromQuery(Name = "numberOfGuests")] int numberOfGuests, [FromQuery(Name = "startDate")] string startDate, [FromQuery(Name = "endDate")] string endDate )
         {
+            var actionName = ControllerContext.ActionDescriptor.DisplayName;
+            using var scope = _tracer.BuildSpan(actionName).StartActive(true);
+            scope.Span.Log("Search accommodation");
             var query = new SearchAccommodationQuery(address, numberOfGuests, startDate, endDate);
             var result = await _mediator.Send(query);
-
+            AccommodationCounter.WithLabels("accommodation", "search_accommodation", "200").Inc();
             return Ok(result.ToList());
         }
 
@@ -239,17 +315,30 @@ namespace AccomodationPresentation.Controllers
         [Route("{adminEmail}/admin-accommodation")]
         public async Task<ActionResult<List<AccommodationGetAllDTO>>> GetAccommodationByAdmin([FromRoute(Name = "adminEmail"), Required] string adminEmail)
         {
+            var actionName = ControllerContext.ActionDescriptor.DisplayName;
+            using var scope = _tracer.BuildSpan(actionName).StartActive(true);
+            scope.Span.Log("Get all accommodation by host");
             var query = new GetAllAccommodationByAdminQuery(adminEmail);
             var result = await _mediator.Send(query);
-
+            AccommodationCounter.WithLabels("accommodation", "get_accommodation_by_host", "200").Inc();
             return Ok(result.ToList());
         }
+
         [HttpPost]
         [Route("add-price")]
         public async Task<ActionResult<Accommodation>> AddNewPriceAsync(PriceDTO priceDTO)
         {
+            var actionName = ControllerContext.ActionDescriptor.DisplayName;
+            using var scope = _tracer.BuildSpan(actionName).StartActive(true);
+            scope.Span.Log("Create new price for accommodation");
+            if (!ModelState.IsValid)
+            {
+                AccommodationCounter.WithLabels("accommodation", "add_new_price", "400").Inc();
+                return BadRequest("Invalid request");
+            }
             var command= new AddPriceCommand(priceDTO);
             var result = await _mediator.Send(command);
+            AccommodationCounter.WithLabels("accommodation", "add_new_price", "200").Inc();
             return Ok(result);
         }
 
@@ -257,10 +346,16 @@ namespace AccomodationPresentation.Controllers
         [Route("filter")]
         public async Task<ActionResult<List<AccommodationGetAllDTO>>> FilterAccommodationAsync([FromQuery(Name = "minPrice")] int minPrice, [FromQuery(Name = "maxPrice")] int maxPrice, [FromQuery(Name = "benefits")] List<Benefit> benefits, [FromQuery(Name = "date")] string date, [FromQuery(Name = "isHighlighted")] bool isHighlighted)
         {
+            var actionName = ControllerContext.ActionDescriptor.DisplayName;
+            using var scope = _tracer.BuildSpan(actionName).StartActive(true);
+            scope.Span.Log("Filter accommodation");
             var query = new FilterAccommodationQuery(maxPrice, minPrice, benefits, isHighlighted, date);
             var result = await _mediator.Send(query);
-            if(!isHighlighted)
+            if (!isHighlighted)
+            {
+                AccommodationCounter.WithLabels("accommodation", "filter_accommodation", "200").Inc();
                 return Ok(result.ToList());
+            }
             List<AccommodationGetAllDTO> returnList = new List<AccommodationGetAllDTO>();
             foreach(var acc in result.ToList())
             {
@@ -269,6 +364,7 @@ namespace AccomodationPresentation.Controllers
                 if (hostResult)
                     returnList.Add(acc);
             }
+            AccommodationCounter.WithLabels("accommodation", "filter_accommodation", "200").Inc();
             return Ok(returnList);
         }
 

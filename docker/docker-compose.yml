@@ -1,4 +1,10 @@
 version: "3.8"
+
+x-logging: &fluent-bit
+  driver: fluentd
+  options:
+    fluentd-address: ${FLUENT_BIT_ADDRESS}:24224
+
 services:
   accommodation-service:
     container_name: accommodation-service
@@ -13,6 +19,7 @@ services:
       Jwt:TokenUrl: https://login-keycloak.azurewebsites.net/auth/realms/booking-app/protocol/openid-connect/token
     networks:
       - docker-network
+      - monitoring
   #----------------------------------------------------------------
   accommodation-grading-service:
     container_name: accommodation-grading-service
@@ -27,6 +34,7 @@ services:
       Jwt:TokenUrl: https://login-keycloak.azurewebsites.net/auth/realms/booking-app/protocol/openid-connect/token
     networks:
       - docker-network
+      - monitoring
   #----------------------------------------------------------------
   accommodation-suggestion-service:
     container_name: accommodation-suggestion-service
@@ -41,6 +49,7 @@ services:
       Jwt:TokenUrl: https://login-keycloak.azurewebsites.net/auth/realms/booking-app/protocol/openid-connect/token
     networks:
       - docker-network
+      - monitoring
   #----------------------------------------------------------------
   user-management-service:
     container_name: user-management-service
@@ -55,6 +64,7 @@ services:
       Jwt:TokenUrl: https://login-keycloak.azurewebsites.net/auth/realms/booking-app/protocol/openid-connect/token
     networks:
       - docker-network
+      - monitoring
   #----------------------------------------------------------------
   notification-service:
     container_name: notification-service
@@ -69,6 +79,7 @@ services:
       Jwt:TokenUrl: https://login-keycloak.azurewebsites.net/auth/realms/booking-app/protocol/openid-connect/token
     networks:
       - docker-network
+      - monitoring
 #----------------------------------------------------------------
   ocelot-apigateway:
     container_name: ocelot-apigateway
@@ -82,6 +93,7 @@ services:
       - "4430:443"
     networks:
       - docker-network
+      - monitoring
 #----------------------------------------------------------------
   flights-booking-service:
     container_name: flights-booking-service
@@ -119,4 +131,6 @@ services:
     ports:
       - "4201:80"
 networks:
+  monitoring:
+    external: true
   docker-network:

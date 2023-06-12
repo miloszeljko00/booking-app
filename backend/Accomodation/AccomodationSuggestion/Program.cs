@@ -2,6 +2,13 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 using Accomodation.Configuration;
+using Jaeger.Reporters;
+using Jaeger.Samplers;
+using OpenTracing.Util;
+using OpenTracing;
+using Jaeger;
+using Jaeger.Senders.Thrift;
+using Prometheus;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -87,6 +94,26 @@ builder.Services
                               .AllowAnyMethod());
     });
 
+builder.Services.AddOpenTracing();
+
+builder.Services.AddSingleton<ITracer>(sp =>
+{
+    var serviceName = sp.GetRequiredService<IWebHostEnvironment>().ApplicationName;
+    var loggerFactory = sp.GetRequiredService<ILoggerFactory>();
+    var reporter = new RemoteReporter.Builder()
+                    .WithLoggerFactory(loggerFactory)
+                    .WithSender(new UdpSender("host.docker.internal", 6831, 0))
+                    .Build();
+    var tracer = new Tracer.Builder(serviceName)
+        // The constant sampler reports every span.
+        .WithSampler(new ConstSampler(true))
+        // LoggingReporter prints every reported span to the logging framework.
+        .WithLoggerFactory(loggerFactory)
+        .WithReporter(reporter)
+        .Build();
+    GlobalTracer.Register(tracer);
+    return tracer;
+});
 
 var app = builder.Build();
 
@@ -110,6 +137,14 @@ app.UseCors("AllowOrigin");
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseMetricServer();
+app.UseHttpMetrics();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapMetrics();
+});
 
 app.MapControllers();
 

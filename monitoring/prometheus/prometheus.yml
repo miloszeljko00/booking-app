@@ -19,8 +19,42 @@
 
     - job_name: 'accommodation-service'
       static_configs:
-        - targets: ['localhost:5000']
-      scheme: https
+        - targets: ['host.docker.internal:80']
+      metrics_path: /metrics/accommodation-service
+      labels:
+        service: 'accommodation-service'
+    
+    - job_name: 'accommodation-grading-service'
+      static_configs:
+        - targets: ['host.docker.internal:80']
+      metrics_path: /metrics/accommodation-grading-service
+      labels:
+        service: 'accommodation-grading-service'
+
+    - job_name: 'accommodation-suggestion-service'
+      static_configs:
+        - targets: ['host.docker.internal:80']
+      metrics_path: /metrics/accommodation-suggestion-service
+      labels:
+        service: 'accommodation-suggestion-service'
+
+    - job_name: 'user-management-service'
+      static_configs:
+        - targets: ['host.docker.internal:80']
+      metrics_path: /metrics/user-management-service
+      labels:
+        service: 'user-management-service'
+
+    - job_name: 'notification-service'
+      static_configs:
+        - targets: ['host.docker.internal:80']
+      metrics_path: /metrics/notification-service
+      labels:
+        service: 'notification-service'
+
+    - job_name: 'ocelot-apigateway'
+      static_configs:
+        - targets: ['host.docker.internal:8080']
 
     - job_name: 'node_exporter'
       static_configs:
