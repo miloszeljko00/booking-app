@@ -32,6 +32,9 @@ export class NavbarComponent implements OnDestroy{
   goToHomePage(): void {
     this.router.navigate(['']);
   }
+  goToManageApiKey(): void {
+    this.router.navigate(['api-key']);
+  }
   goToAccountPage(): void {
     const externalUrl = 'https://login-keycloak.azurewebsites.net/auth/realms/booking-app/account/#/personal-info';
     window.open(externalUrl, '_blank');

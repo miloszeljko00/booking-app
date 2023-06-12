@@ -1,4 +1,5 @@
-﻿using FlightsBooking.Services;
+﻿using FlightsBooking.Models;
+using FlightsBooking.Services;
 using FlightsBookingAPI.Controllers;
 using FlightsBookingAPI.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -13,11 +14,54 @@ namespace FlightsBookingAPI.ControllersImpl
     public class UserController : UserApiController
     {
         private IFlightService flightService;
+        private IUserService userService;
 
-        public UserController(IFlightService flightService)
+        public UserController(IFlightService flightService, IUserService userService)
         {
             this.flightService = flightService;
+            this.userService = userService;
         }
+
+        [Authorize(Roles = "user")]
+        [HttpGet]
+        [Route("/users/getApiKey/{userId}")]
+        public async Task<IActionResult> GetApiKey(string userId)
+        {
+            var user = await userService.GetAsync(Guid.Parse(userId));
+            if(user == null) return Ok(new User() { Id=Guid.Parse(userId), ApiKey = "" });
+            return Ok(new User() { Id = user.Id, ApiKey = user.ApiKey });
+        }
+
+        [Authorize(Roles = "user")]
+        [HttpGet]
+        [Route("/users/generateApiKey/{userId}")]
+        public async Task<IActionResult> GenerateApiKey(string userId)
+        {
+            var apiKey = Guid.NewGuid();
+            var user = await userService.GetAsync(Guid.Parse(userId));
+            if (user == null)
+            {
+                user = new User() { Id = Guid.Parse(userId), ApiKey = apiKey.ToString() };
+                await userService.CreateAsync(user);
+            }
+            else
+            {
+                user.ApiKey = apiKey.ToString();
+                await userService.UpdateAsync(user.Id, user);
+            }
+            return Ok(user);
+        }
+        [Authorize(Roles = "user")]
+        [HttpDelete]
+        [Route("/users/revokeApiKey/{userId}")]
+        public async Task<IActionResult> RevokeApiKey(string userId)
+        {
+            var user = await userService.GetAsync(Guid.Parse(userId));
+            if (user == null) return BadRequest();
+            await userService.RemoveAsync(user.Id);
+            return Ok();
+        }
+
         [Authorize(Roles="user")]
         public override async Task<IActionResult> GetUsersIdFlightTickets([FromRoute(Name = "UserId"), Required] string userId)
         {
@@ -34,8 +78,8 @@ namespace FlightsBookingAPI.ControllersImpl
                             new UserFlight
                             {
                                 FlightId = flight.Id,
-                                Departure = new Departure { City = flight.Departure.City, Time = flight.Departure.Time },
-                                Arrival = new Arrival { City = flight.Arrival.City, Time = flight.Arrival.Time },
+                                Departure = new Models.Departure { City = flight.Departure.City, Time = flight.Departure.Time },
+                                Arrival = new Models.Arrival { City = flight.Arrival.City, Time = flight.Arrival.Time },
                                 Passed = flight.IsFlightPassed(),
                                 Canceled = flight.IsDeleted
                             };
@@ -60,5 +104,6 @@ namespace FlightsBookingAPI.ControllersImpl
         {
             throw new System.NotImplementedException();
         }
+
     }
 }

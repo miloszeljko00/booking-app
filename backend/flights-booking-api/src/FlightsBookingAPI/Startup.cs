@@ -182,6 +182,7 @@ namespace FlightsBookingAPI
                 });
 
             services.AddScoped<IFlightService, FlightService>();
+            services.AddScoped<IUserService, UserService>();
         }
 
         /// <summary>

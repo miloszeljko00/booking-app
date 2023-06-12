@@ -37,11 +37,27 @@ public class UserController : ControllerBase
         if (result is null) return BadRequest();
         return Ok(result);
     }
+    [HttpPut]
+    [Route("updateFlightsApiKey/{userId}")]
+    public async Task<ActionResult> UpdateUserFlightsApiKey(string userId, UpdateUserFlightsApiKeyCommand updateUserFlightsApiKeyCommand)
+    {
+        if (userId != updateUserFlightsApiKeyCommand.UserId) return BadRequest();
+        var result = await _mediator.Send(updateUserFlightsApiKeyCommand);
+        if (result is null) return BadRequest();
+        return Ok(result);
+    }
+    [HttpGet]
+    [Route("getFlightsApiKey/{userId}")]
+    public async Task<ActionResult> GetUserFlightsApiKey(string userId)
+    {
+        var result = await _mediator.Send(new GetUserFlightsApiKeyByUserIdQuery(userId));
+        if (result is null) return BadRequest();
+        return Ok(result);
+    }
     [HttpGet]
     [Route("{userId}")]
     public async Task<ActionResult> GetUser(string userId)
     {
-        Console.WriteLine("AJDE RADI PLSSSS");
         var result = await _mediator.Send(new GetUserByIdQuery(userId));
         if (result is null) return BadRequest();
         return Ok(result);

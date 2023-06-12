@@ -24,5 +24,6 @@ namespace UserManagement.Domain.Entities
         public string Name { get; set; }
         public string Surname { get; set; }
         public Address Address { get; set; }
+        public string FlightsApiKey { get; set; } = "";
     }
 }

@@ -1,0 +1,26 @@
+<div style="display: flex; justify-content: center;">
+    <div>
+      <div style="display: flex; justify-content: center; margin-top: 100px;">
+        <h1 mat-dialog-title>Enter Flights Booking App API Key</h1>
+      <br/>
+      </div>
+      <div mat-dialog-content>
+        <form [formGroup]="formGroup">
+          <table>
+            <tr>
+              <td colspan="4" style="display: flex; justify-content: center;">
+                <mat-form-field appearance="outline" color="primary" style="width: 100%; display: flex; justify-content: center; margin-left:70px;">
+                  <mat-label>API Key</mat-label>
+                  <input matInput type="text" name="apiKey" formControlName="apiKey" [disabled]="true">
+                </mat-form-field>
+              </td>
+            </tr>
+          </table>
+        </form>
+      </div>
+      <div mat-dialog-actions style="display: flex; justify-content: center;">
+        <button mat-button (click)="$event.preventDefault();update()" [disabled]="!formGroup.valid">Update</button>
+      </div>
+    </div>
+  </div>
+  

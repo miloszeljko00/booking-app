@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using UserManagement.Application.Abstractions.Connections;
+using UserManagement.Application.Dtos;
 using UserManagement.Application.Users.Commands;
 using UserManagement.Domain.Entities;
 using UserManagement.Domain.Interfaces;
@@ -24,6 +25,8 @@ namespace UserManagement.Configuration
             services.AddScoped<IRequestHandler<UpdateUserCommand, User?>, UpdateUserCommandHandler>();
             services.AddScoped<IRequestHandler<GetUserByIdQuery, User?>, GetUserByIdQueryHandler>();
             services.AddScoped<IRequestHandler<CreateUserCommand, User?>, CreateUserCommandHandler>();
+            services.AddScoped<IRequestHandler<UpdateUserFlightsApiKeyCommand, UserApiKeyDto?>, UpdateUserFlightsApiKeyCommandHandler>();
+            services.AddScoped<IRequestHandler<GetUserFlightsApiKeyByUserIdQuery, UserApiKeyDto?>, GetUserFlightsApiKeyByUserIdQueryHandler>();
             return services;
         }
 

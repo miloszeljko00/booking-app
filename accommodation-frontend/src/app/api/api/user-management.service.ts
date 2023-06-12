@@ -31,4 +31,10 @@ export class UserManagementService{
     update(request: any){
       return this.http.put(this.apiUrl + '/' + request.userId, request);
     }
+    updateApiKey(request: any) {
+      return this.http.put(`${environment.apiUrl}/User/updateFlightsApiKey/${request.userId}`, request)
+    }
+    getApiKey(userId: string) {
+      return this.http.get(`${environment.apiUrl}/User/getFlightsApiKey/${userId}`)
+    }
 }

@@ -20,6 +20,7 @@ const routes: Routes =
   { path: 'admin-accommodation', component: AdminAccommodationComponent },
   { path: 'notification', component: NotificationsComponent },
   { path: 'grading', component: GradingComponent },
+  { path: 'flights-integration', loadChildren: () => import('./pages/flights-integration/flights-integration.module').then(m => m.FlightsIntegrationModule) },
 
 ];
 

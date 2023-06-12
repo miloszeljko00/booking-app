@@ -9,6 +9,7 @@ const routes: Routes = [{ path: '', loadChildren: () => import('./pages/home/hom
 {path: 'review-flights', component: ReviewFlightsComponent},
 {path: 'search-flights', component: SearchFlightsComponent},
 {path: 'user-flights', component: UserFlightsComponent},
+{ path: 'api-key', loadChildren: () => import('./pages/api-key/api-key.module').then(m => m.ApiKeyModule) },
 ];
 
 @NgModule({

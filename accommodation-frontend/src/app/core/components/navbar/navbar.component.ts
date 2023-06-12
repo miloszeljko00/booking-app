@@ -37,7 +37,9 @@ export class NavbarComponent implements OnDestroy{
   goToAccountPage(): void {
     this.router.navigate(['account']);
   }
-  
+  goToFlightsIntegration() {
+    this.router.navigate(['flights-integration'])
+  }
   goToSearchAccommodations():void{
     this.router.navigate(['search-accommodations']);
   }
