@@ -1,7 +1,7 @@
 ﻿syntax = "proto3";
 
 package rs.ac.uns.ftn.grpc;
-option csharp_namespace = "AccommodationSuggestionApplication.Suggestion.Support.Grpc.Protos";
+option csharp_namespace = "FlightsBooking.Grpc.Protos";
 
 
 message GetAllSuggestedFlightsMessageProto {

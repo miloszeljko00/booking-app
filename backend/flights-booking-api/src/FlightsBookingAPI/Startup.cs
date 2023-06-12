@@ -28,6 +28,10 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using Microsoft.Extensions.Options;
+using Grpc.Core;
+using Rs.Ac.Uns.Ftn.Grpc;
+using Notification.Application.Notification.Support.Grpc;
+using FlightsBooking.Grpc;
 
 namespace FlightsBookingAPI
 {
@@ -183,6 +187,16 @@ namespace FlightsBookingAPI
 
             services.AddScoped<IFlightService, FlightService>();
             services.AddScoped<IUserService, UserService>();
+            IServiceProvider serviceProvider = services.BuildServiceProvider();
+            Server server = new Server
+            {
+                Services = { 
+                    SuggestFlightsGrpcService.BindService(new SuggestFlightsServerGrpcServiceImpl(serviceProvider.GetService<IFlightService>())),
+                    BookFlightGrpcService.BindService(new BookFlightServerGrpcServiceImpl(serviceProvider.GetService<IFlightService>()))
+                },
+                Ports = { new ServerPort("localhost", 6000, ServerCredentials.Insecure) }
+            };
+            server.Start();
         }
 
         /// <summary>

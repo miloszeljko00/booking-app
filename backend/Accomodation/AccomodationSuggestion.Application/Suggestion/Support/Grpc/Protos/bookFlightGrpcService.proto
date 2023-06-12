@@ -1,0 +1,7 @@
+﻿syntax = "proto3";
+
+package rs.ac.uns.ftn.grpc;
+import "Suggestion/Support/Grpc/Protos/model.proto";
+service BookFlightGrpcService {
+  rpc bookFlight (BookFlightMessageProto) returns (BookFlightMessageProtoResponse);
+}

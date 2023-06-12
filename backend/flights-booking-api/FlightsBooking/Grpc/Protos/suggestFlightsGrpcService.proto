@@ -1,0 +1,7 @@
+﻿syntax = "proto3";
+
+package rs.ac.uns.ftn.grpc;
+import "Grpc/Protos/model.proto";
+service SuggestFlightsGrpcService {
+  rpc getAllSuggestedFlights (GetAllSuggestedFlightsMessageProto) returns (GetAllSuggestedFlightsMessageProtoResponse);
+}
