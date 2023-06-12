@@ -305,6 +305,11 @@ namespace AccomodationPresentation.Controllers
             var actionName = ControllerContext.ActionDescriptor.DisplayName;
             using var scope = _tracer.BuildSpan(actionName).StartActive(true);
             scope.Span.Log("Search accommodation");
+            if (!ModelState.IsValid)
+            {
+                AccommodationCounter.WithLabels("accommodation", "search_accommodation", "400").Inc();
+                return BadRequest("Invalid request");
+            }
             var query = new SearchAccommodationQuery(address, numberOfGuests, startDate, endDate);
             var result = await _mediator.Send(query);
             AccommodationCounter.WithLabels("accommodation", "search_accommodation", "200").Inc();
@@ -349,6 +354,11 @@ namespace AccomodationPresentation.Controllers
             var actionName = ControllerContext.ActionDescriptor.DisplayName;
             using var scope = _tracer.BuildSpan(actionName).StartActive(true);
             scope.Span.Log("Filter accommodation");
+            if (!ModelState.IsValid)
+            {
+                AccommodationCounter.WithLabels("accommodation", "filter_accommodation", "400").Inc();
+                return BadRequest("Invalid request");
+            }
             var query = new FilterAccommodationQuery(maxPrice, minPrice, benefits, isHighlighted, date);
             var result = await _mediator.Send(query);
             if (!isHighlighted)
