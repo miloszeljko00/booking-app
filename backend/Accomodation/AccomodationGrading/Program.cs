@@ -7,12 +7,13 @@ using MediatR;
 using Rs.Ac.Uns.Ftn.Grpc;
 using AccomodationGradingApplication.Grading.Support.Grpc;
 using AccomodationGradingDomain.Interfaces;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Configuration
-        .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+        .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: false, reloadOnChange: true)
         .AddEnvironmentVariables();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -23,12 +24,36 @@ builder.Services
     .AddInfrastructure(builder.Configuration)
     .AddHandlers();
 IServiceProvider serviceProvider = builder.Services.BuildServiceProvider();
-Server server = new Server
+var env = builder.Environment.EnvironmentName;
+
+if (env != null && env == "Cloud")
 {
-    Services = { HostGradeGrpcService.BindService(new HostGradeServerGrpcServiceImpl(serviceProvider.GetRequiredService<IHostGradingRepository>())) },
-    Ports = { new ServerPort("localhost", 8700, ServerCredentials.Insecure) }
-};
-server.Start();
+    builder.WebHost.ConfigureKestrel(options =>
+    {
+        options.ListenAnyIP(int.Parse(builder.Configuration["HttpPort"]));
+        options.ListenAnyIP(int.Parse(builder.Configuration["HttpsPort"]));
+        options.ListenAnyIP(int.Parse(builder.Configuration["GrpcDruzina:AccommodationGrading:Port"]), listenOptions =>
+        {
+            listenOptions.Protocols = HttpProtocols.Http2;
+        });
+    });
+    Server server = new Server
+    {
+        Services = { HostGradeGrpcService.BindService(new HostGradeServerGrpcServiceImpl(serviceProvider.GetRequiredService<IHostGradingRepository>())) },
+    };
+    server.Start();
+}
+else
+{
+    Server server = new Server
+    {
+        Services = { HostGradeGrpcService.BindService(new HostGradeServerGrpcServiceImpl(serviceProvider.GetRequiredService<IHostGradingRepository>())) },
+        Ports = { new ServerPort("0.0.0.0", int.Parse(builder.Configuration["GrpcDruzina:AccommodationGrading:Port"]), ServerCredentials.Insecure) }
+    };
+    server.Start();
+}
+
+
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -126,6 +151,7 @@ app.UseCors("AllowOrigin");
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseRouting();
+app.UseGrpcWeb(new GrpcWebOptions { DefaultEnabled = true });
 
 app.UseEndpoints(endpoints =>
 {

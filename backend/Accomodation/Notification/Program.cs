@@ -2,17 +2,18 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 using Accomodation.Configuration;
-using Grpc.Core;
-using Notification.Application.Notification.Support.Grpc.Protos;
-using Notification.Application.Notification.Support.Grpc;
 using Rs.Ac.Uns.Ftn.Grpc;
 using Notification.Domain.Interfaces;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
+using Grpc.Core;
+using Notification.Application.Notification.Support.Grpc;
+using MediatR;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Configuration
-        .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+        .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: false, reloadOnChange: true)
         .AddEnvironmentVariables();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -23,42 +24,52 @@ builder.Services
     .AddHandlers()
     .AddInfrastructure(builder.Configuration);
 IServiceProvider serviceProvider = builder.Services.BuildServiceProvider();
-Server server = new Server
+
+var env = builder.Environment.EnvironmentName;
+
+if (env != null && env == "Cloud")
 {
-    Services = { GuestNotificationGrpcService.BindService(new ServerGrpcServiceImpl(serviceProvider.GetService<IGuestNotificationRepository>())) },
-    Ports = { new ServerPort("localhost", 8787, ServerCredentials.Insecure) }
-};
-server.Start();
-Server server1 = new Server
+    builder.WebHost.ConfigureKestrel(options =>
+    {
+        options.ListenAnyIP(int.Parse(builder.Configuration["HttpPort"]));
+        options.ListenAnyIP(int.Parse(builder.Configuration["HttpsPort"]));
+        options.ListenAnyIP(int.Parse(builder.Configuration["GrpcDruzina:Notification:Port"]), listenOptions =>
+        {
+            listenOptions.Protocols = HttpProtocols.Http2;
+        });
+    });
+    Server server = new Server
+    {
+        Services = {
+            GuestNotificationGrpcService.BindService(new ServerGrpcServiceImpl(serviceProvider.GetService<IGuestNotificationRepository>())),
+            HostRequestNotificationGrpcService.BindService(new HostRequestServerGrpcServiceImpl(serviceProvider.GetService<IHostNotificationRepository>())),
+            HostCancelReservationNotificationGrpcService.BindService(new HostCancelReservationServerGrpcServiceImpl(serviceProvider.GetService<IHostNotificationRepository>())),
+            HostGradingNotificationGrpcService.BindService(new HostGradingServerGrpcServiceImpl(serviceProvider.GetService<IHostNotificationRepository>())),
+            AccommodationGradingNotificationGrpcService.BindService(new AccommodationGradingServerGrpcServiceImpl(serviceProvider.GetService<IHostNotificationRepository>())),
+            HighlightedHostGrpcService.BindService(new HighlightedHostServerGrpcServiceImpl())
+        },
+    };
+    server.Start();
+}
+else
 {
-    Services = { HostRequestNotificationGrpcService.BindService(new HostRequestServerGrpcServiceImpl(serviceProvider.GetService<IHostNotificationRepository>())) },
-    Ports = { new ServerPort("localhost", 8788, ServerCredentials.Insecure) }
-};
-server1.Start();
-Server server2 = new Server
-{
-    Services = { HostCancelReservationNotificationGrpcService.BindService(new HostCancelReservationServerGrpcServiceImpl(serviceProvider.GetService<IHostNotificationRepository>())) },
-    Ports = { new ServerPort("localhost", 8789, ServerCredentials.Insecure) }
-};
-server2.Start();
-Server server3 = new Server
-{
-    Services = { HostGradingNotificationGrpcService.BindService(new HostGradingServerGrpcServiceImpl(serviceProvider.GetService<IHostNotificationRepository>())) },
-    Ports = { new ServerPort("localhost", 8790, ServerCredentials.Insecure) }
-};
-server3.Start();
-Server server4 = new Server
-{
-    Services = { AccommodationGradingNotificationGrpcService.BindService(new AccommodationGradingServerGrpcServiceImpl(serviceProvider.GetService<IHostNotificationRepository>())) },
-    Ports = { new ServerPort("localhost", 8791, ServerCredentials.Insecure) }
-};
-server4.Start();
-Server server5 = new Server
-{
-    Services = { HighlightedHostGrpcService.BindService(new HighlightedHostServerGrpcServiceImpl()) },
-    Ports = { new ServerPort("localhost", 8792, ServerCredentials.Insecure) }
-};
-server5.Start();
+    Server server = new Server
+    {
+        Services = {
+            GuestNotificationGrpcService.BindService(new ServerGrpcServiceImpl(serviceProvider.GetService<IGuestNotificationRepository>())),
+            HostRequestNotificationGrpcService.BindService(new HostRequestServerGrpcServiceImpl(serviceProvider.GetService<IHostNotificationRepository>())),
+            HostCancelReservationNotificationGrpcService.BindService(new HostCancelReservationServerGrpcServiceImpl(serviceProvider.GetService<IHostNotificationRepository>())),
+            HostGradingNotificationGrpcService.BindService(new HostGradingServerGrpcServiceImpl(serviceProvider.GetService<IHostNotificationRepository>())),
+            AccommodationGradingNotificationGrpcService.BindService(new AccommodationGradingServerGrpcServiceImpl(serviceProvider.GetService<IHostNotificationRepository>())),
+            HighlightedHostGrpcService.BindService(new HighlightedHostServerGrpcServiceImpl())
+        },
+        Ports = { new ServerPort("0.0.0.0", int.Parse(builder.Configuration["GrpcDruzina:Notification:Port"]), ServerCredentials.Insecure) }
+    };
+    server.Start();
+}
+
+
+
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -154,6 +165,7 @@ app.UseCors("AllowOrigin");
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseRouting();
+app.UseGrpcWeb(new GrpcWebOptions { DefaultEnabled = true });
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapGrpcService<ServerGrpcServiceImpl>();

@@ -7,12 +7,14 @@ using AccommodationApplication.Accommodation.Support.Grpc.Protos;
 using Accomodation.Application.Accommodation;
 using MediatR;
 using AccomodationSuggestionDomain.Interfaces;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
+using System.Runtime.CompilerServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Configuration
-        .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+        .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: false, reloadOnChange: true)
         .AddEnvironmentVariables();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -23,12 +25,37 @@ builder.Services
     .AddHandlers()
     .AddInfrastructure(builder.Configuration);
 IServiceProvider serviceProvider = builder.Services.BuildServiceProvider();
-Server server = new Server
+
+var env = builder.Environment.EnvironmentName;
+
+if (env != null && env == "Cloud")
 {
-    Services = { AccomodationGrpcService.BindService(new ServerGrpcServiceImpl(serviceProvider.GetRequiredService<IMediator>(), serviceProvider.GetRequiredService<IAccommodationRepository>())) },
-    Ports = { new ServerPort("localhost", 8797, ServerCredentials.Insecure) }
-};
-server.Start();
+    builder.WebHost.ConfigureKestrel(options =>
+    {
+        options.ListenAnyIP(int.Parse(builder.Configuration["HttpPort"]));
+        options.ListenAnyIP(int.Parse(builder.Configuration["HttpsPort"]));
+        options.ListenAnyIP(int.Parse(builder.Configuration["GrpcDruzina:Accommodation:Port"]), listenOptions =>
+        {
+            listenOptions.Protocols = HttpProtocols.Http2;
+        });
+    });
+    Server server = new Server
+    {
+        Services = { AccomodationGrpcService.BindService(new ServerGrpcServiceImpl(serviceProvider.GetRequiredService<IMediator>(), serviceProvider.GetRequiredService<IAccommodationRepository>())) },
+    };
+    server.Start();
+}
+else
+{
+    Server server = new Server
+    {
+        Services = { AccomodationGrpcService.BindService(new ServerGrpcServiceImpl(serviceProvider.GetRequiredService<IMediator>(), serviceProvider.GetRequiredService<IAccommodationRepository>())) },
+        Ports = { new ServerPort("0.0.0.0", int.Parse(builder.Configuration["GrpcDruzina:Accommodation:Port"]), ServerCredentials.Insecure) }
+    };
+    server.Start();
+}
+
+
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -124,6 +151,7 @@ app.UseCors("AllowOrigin");
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseRouting();
+app.UseGrpcWeb(new GrpcWebOptions { DefaultEnabled = true });
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapGrpcService<ServerGrpcServiceImpl>();

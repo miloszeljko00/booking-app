@@ -6,26 +6,32 @@ using AccomodationSuggestionDomain.Interfaces;
 using AccomodationSuggestionDomain.Primitives.Enums;
 using AccomodationSuggestionDomain.ValueObjects;
 using Grpc.Core;
+using Grpc.Net.Client.Web;
+using Grpc.Net.Client;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Hosting;
 
 namespace AccomodationApplication.Accommodation.Commands
 {
     public sealed class ManageReservationRequestCommandHandler : ICommandHandler<ManageReservationRequestCommand, AccomodationSuggestionDomain.Entities.Accommodation>
     {
         private readonly IAccommodationRepository _repository;
-
-        private Channel channel;
+        private readonly IConfiguration _configuration;
+        private readonly IHostEnvironment _env;
 
         private GuestNotificationGrpcService.GuestNotificationGrpcServiceClient client;
 
         public AccommodationBuilder AccommodationBuilder { get; set; } = new AccommodationBuilder();
-        public ManageReservationRequestCommandHandler(IAccommodationRepository repository)
+        public ManageReservationRequestCommandHandler(IAccommodationRepository repository, IConfiguration configuration, IHostEnvironment env)
         {
             _repository = repository;
+            _configuration = configuration;
+            _env = env;
         }
 
         public IAccommodationRepository Get_repository()
@@ -80,10 +86,22 @@ namespace AccomodationApplication.Accommodation.Commands
             else
                 throw new Exception("Reservation request does not exist");
 
-            channel = new Channel("127.0.0.1:8787", ChannelCredentials.Insecure);
-            client = new GuestNotificationGrpcService.GuestNotificationGrpcServiceClient(channel);
-            MessageResponseProto response = await client.communicateAsync(new MessageProto() { Email = req.GuestEmail.EmailAddress, Accommodation = accommodation.Name, StartDate = req.ReservationDate.Start.ToString("dd.MM.yyy."), EndDate = req.ReservationDate.End.ToString("dd.MM.yyy."), Operation = operation });
-            Console.WriteLine(response);
+            if (_env.EnvironmentName != "Cloud")
+            {
+                var channel = new Channel(_configuration.GetValue<string>("GrpcDruzina:Notification:Address") + ":" + _configuration.GetValue<int>("GrpcDruzina:Notification:Port"), ChannelCredentials.Insecure);
+                client = new GuestNotificationGrpcService.GuestNotificationGrpcServiceClient(channel);
+                MessageResponseProto response = await client.communicateAsync(new MessageProto() { Email = req.GuestEmail.EmailAddress, Accommodation = accommodation.Name, StartDate = req.ReservationDate.Start.ToString("dd.MM.yyy."), EndDate = req.ReservationDate.End.ToString("dd.MM.yyy."), Operation = operation });
+            }
+            else
+            {
+                using var channel = GrpcChannel.ForAddress(_configuration.GetValue<string>("GrpcDruzina:Notification:Address"), new GrpcChannelOptions
+                {
+                    HttpHandler = new GrpcWebHandler(new HttpClientHandler())
+                });
+                client = new GuestNotificationGrpcService.GuestNotificationGrpcServiceClient(channel);
+                MessageResponseProto response = await client.communicateAsync(new MessageProto() { Email = req.GuestEmail.EmailAddress, Accommodation = accommodation.Name, StartDate = req.ReservationDate.Start.ToString("dd.MM.yyy."), EndDate = req.ReservationDate.End.ToString("dd.MM.yyy."), Operation = operation });
+            }
+
 
             _repository.UpdateAsync(accommodation.Id, accommodation);
             return accommodation;

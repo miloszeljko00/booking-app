@@ -4,7 +4,7 @@ services:
     image: bookingappcontainers.azurecr.io/accommodation-service:1.0.0
     container_name: accommodation-service
     environment:
-      ASPNETCORE_ENVIRONMENT : Development
+      ASPNETCORE_ENVIRONMENT : Cloud
       MongoDatabaseSettings:ConnectionString: mongodb+srv://svenadev:0mSCxqslvdQV46wi@booking-app.udfgsob.mongodb.net/?retryWrites=true&w=majority
       Jwt:Authority: https://login-keycloak.azurewebsites.net/auth/realms/booking-app
       Jwt:AuthorizationUrl: https://login-keycloak.azurewebsites.net/auth/realms/booking-app/protocol/openid-connect/auth
