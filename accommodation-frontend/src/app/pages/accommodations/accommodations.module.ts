@@ -4,6 +4,7 @@ import { AccommodationsComponent } from './accommodations.component';
 import { AccommodationRoutingModule } from './accommodation-routing.module';
 import { MatTableModule } from '@angular/material/table';
 import { MaterialModule } from 'src/app/core/material/material.module';
+import { SuggestedFlightsDialog } from './dialogs/suggested-flights/suggested-flights.dialog';
 @NgModule({
   imports: [
     CommonModule,
@@ -11,6 +12,6 @@ import { MaterialModule } from 'src/app/core/material/material.module';
     MatTableModule,
     MaterialModule
   ],
-  declarations: [AccommodationsComponent]
+  declarations: [AccommodationsComponent, SuggestedFlightsDialog]
 })
 export class AccommodationsModule { }

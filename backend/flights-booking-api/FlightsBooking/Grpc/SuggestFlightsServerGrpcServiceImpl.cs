@@ -45,11 +45,11 @@ namespace Notification.Application.Notification.Support.Grpc
 
         private bool suggestFlightForGoing(Flight flight, DateTime goingDate)
         {
-            return flight.Arrival.Time.Date == goingDate.Date && flight.Arrival.Time<goingDate;
+            return flight.Arrival.Time.Date == goingDate.Date;
         }
         private bool suggestFlightForReturning(Flight flight, DateTime returningDate)
         {
-            return flight.Departure.Time.Date == returningDate.Date && flight.Departure.Time > returningDate;
+            return flight.Departure.Time.Date == returningDate.Date;
         }
         private SuggestedFlightDto convertFlightToSuggestedFlightDto(Flight flight)
         {

@@ -89,7 +89,7 @@ services:
       context: ../backend/flights-booking-api
       dockerfile: ./src/FlightsBookingApi/Dockerfile
     environment:
-      ASPNETCORE_ENVIRONMENT : Development
+      ASPNETCORE_ENVIRONMENT : Container
       ENABLE_CORS: true
       MongoDatabaseSettings:ConnectionString: mongodb+srv://svenadev:0mSCxqslvdQV46wi@booking-app.udfgsob.mongodb.net/?retryWrites=true&w=majority
       Jwt:Authority: https://login-keycloak.azurewebsites.net/auth/realms/booking-app

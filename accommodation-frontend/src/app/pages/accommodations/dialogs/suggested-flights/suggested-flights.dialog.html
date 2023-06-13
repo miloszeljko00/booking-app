@@ -1,0 +1,55 @@
+<p>Flights for going</p>
+<table mat-table [dataSource]="dataSource">
+  <ng-container matColumnDef="departure">
+    <th mat-header-cell *matHeaderCellDef class="cell-center"> Departure </th>
+    <td mat-cell *matCellDef="let flight" class="cell-center clickable-cell">{{flight.departureDate}}</td>
+  </ng-container>
+  <ng-container matColumnDef="arrival">
+    <th mat-header-cell *matHeaderCellDef class="cell-center"> Arrival </th>
+    <td mat-cell *matCellDef="let flight" class="cell-center clickable-cell">{{flight.arrivalDate}}</td>
+  </ng-container>
+  <ng-container matColumnDef="price">
+    <th mat-header-cell *matHeaderCellDef class="cell-center"> Price per ticket </th>
+    <td mat-cell *matCellDef="let flight" class="cell-center clickable-cell">{{flight.ticketPrice}}</td>
+  </ng-container>
+  <ng-container matColumnDef="buttons">
+    <th mat-header-cell *matHeaderCellDef class="cell-center"></th>
+    <td mat-cell *matCellDef="let flight; let i = index"  class="cell-center clickable-cell">
+      <button mat-raised-button (click)="bookFlightForGoing(flight, i)">Book a flight</button>
+      <mat-form-field>
+        <mat-label>Number of tickets</mat-label>
+        <input matInput  type="number" min="1"   name="minPrice"  [(ngModel)]="numberOfTicketsForGoing[i]">
+      </mat-form-field>
+    </td>
+  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="displayedColumnsFlights; sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumnsFlights;"></tr>
+</table>
+<br>
+<p>Flights for returning</p>
+<table mat-table [dataSource]="dataSource2">
+  <ng-container matColumnDef="departure">
+    <th mat-header-cell *matHeaderCellDef class="cell-center"> Departure </th>
+    <td mat-cell *matCellDef="let flight" class="cell-center clickable-cell">{{flight.departureDate}}</td>
+  </ng-container>
+  <ng-container matColumnDef="arrival">
+    <th mat-header-cell *matHeaderCellDef class="cell-center"> Arrival </th>
+    <td mat-cell *matCellDef="let flight" class="cell-center clickable-cell">{{flight.arrivalDate}}</td>
+  </ng-container>
+  <ng-container matColumnDef="price">
+    <th mat-header-cell *matHeaderCellDef class="cell-center"> Price per ticket </th>
+    <td mat-cell *matCellDef="let flight" class="cell-center clickable-cell">{{flight.ticketPrice}}</td>
+  </ng-container>
+  <ng-container matColumnDef="buttons">
+    <th mat-header-cell *matHeaderCellDef class="cell-center"></th>
+    <td mat-cell *matCellDef="let flight; let i = index"  class="cell-center clickable-cell">
+      <button mat-raised-button (click)="bookFlightForReturning(flight, i)">Book a flight</button>
+      <mat-form-field>
+        <mat-label>Number of tickets</mat-label>
+        <input matInput  type="number" min="1"   name="minPrice"  [(ngModel)]="numberOfTicketsForReturning[i]">
+      </mat-form-field>
+    </td>
+  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="displayedColumnsFlights; sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumnsFlights;"></tr>
+</table>

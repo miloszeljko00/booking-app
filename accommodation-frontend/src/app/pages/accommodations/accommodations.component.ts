@@ -9,6 +9,8 @@ import { AuthService } from 'src/app/core/keycloak/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from 'src/app/core/components/dialog/dialog.component';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { GetSuggestedFlightsDto } from 'src/app/api/model/getSuggestedFlightsDto';
+import { SuggestedFlightsDialog } from './dialogs/suggested-flights/suggested-flights.dialog';
 
 @Component({
   selector: 'app-accommodations',
@@ -28,29 +30,35 @@ export class AccommodationsComponent implements OnInit {
   maxPrice: number = 0;
   isHost: boolean = false;
   lastSearchedDate: string = '';
-  
+
   benefitList: string[] = [];
   benefits = new FormControl('');
   selectedIndexes: number[] = [];
 
   dataSourceAcc = new MatTableDataSource<Accommodation>();
   displayedColumnsFlights = ['name', 'address', 'price', 'priceCalculation' , 'totalPrice','benefits', 'min', 'max', 'reservation'];
-                            
+
   accomodationList!: Accommodation[];
   acc!: Accommodation;
   user!: User | null;
-  constructor(private datepipe: DatePipe,public dialog: MatDialog, private accService: AccommodationService, private toastr : ToastrService, private authService: AuthService) {
+
+  departureLocation: any;
+  constructor(private datepipe: DatePipe,
+    public dialog: MatDialog,
+     private accService: AccommodationService,
+      private toastr : ToastrService,
+      private authService: AuthService,) {
     this.user = this.authService.getUser()
   }
 
   ngOnInit() {
     this.accService.getBenefits().subscribe((response: any) => {
       this.benefitList = response;
-      
+
     })
     this.accService.getAll().subscribe((response: any) => {
       this.accomodationList = response;
-      
+
       this.dataSourceAcc.data = this.accomodationList
     })
     this.formGroup1 = new FormGroup({
@@ -59,7 +67,7 @@ export class AccommodationsComponent implements OnInit {
       address: new FormControl('', [Validators.required]),
       numberOfGuests: new FormControl('',[Validators.min(1), Validators.required]),
     });
-    
+
   }
 
   openDialog(accommodation:Accommodation){
@@ -116,6 +124,23 @@ export class AccommodationsComponent implements OnInit {
     return stringFormat
   }
 
+  seeSuggestedFlights(){
+    var firstDayPlusOneDay = new Date(this.startDate)
+    firstDayPlusOneDay.setDate(firstDayPlusOneDay.getDate() + 1);
+    var lastDayPlusOneDay = new Date(this.endDate)
+    lastDayPlusOneDay.setDate(lastDayPlusOneDay.getDate() + 1);
+
+    var data : GetSuggestedFlightsDto = {
+      firstDayDate: firstDayPlusOneDay,
+      lastDayDate: lastDayPlusOneDay,
+      placeOfArrival: this.address,
+      placeOfDeparture: this.departureLocation
+    }
+    const dialogRef = this.dialog.open(SuggestedFlightsDialog,
+      {
+        data: data,
+      });
+  }
   validDate(date: string){
     let dateFormat = new Date(date);
     if(isNaN(dateFormat.getTime())){
@@ -165,7 +190,7 @@ export class AccommodationsComponent implements OnInit {
 
       return
     }
-    
+
     var sd =  this.datepipe.transform(this.startDate, 'MM/dd/yyyy')??''
     var ed = this.datepipe.transform(this.endDate, 'MM/dd/yyyy')??''
     this.lastSearchedDate = sd;
@@ -183,13 +208,13 @@ export class AccommodationsComponent implements OnInit {
   }
 
   showPictures(acc: Accommodation){
-      
+
       this.previews = acc.pictures;
   }
   getNumberOfDays(startDateStr: string, endDateStr: string): number {
     const startDate = new Date(startDateStr);
     const endDate = new Date(endDateStr);
-    
+
     if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
       return 0;
     }
@@ -215,10 +240,10 @@ export class AccommodationsComponent implements OnInit {
         });
       });
       this.dataSourceAcc.data = filteredList;
-    
+
     })
 
   }
-  
+
 
 }

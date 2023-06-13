@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Hosting;
 
 namespace FlightsBookingAPI
@@ -26,6 +27,18 @@ namespace FlightsBookingAPI
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+                //    if (webBuilder.GetSetting("environment") == "Cloud")
+                //    {
+                //        webBuilder.ConfigureKestrel((context, options) =>
+                //        {
+                //            options.ListenAnyIP(int.Parse(context.Configuration["HttpPort"]));
+                //            options.ListenAnyIP(int.Parse(context.Configuration["HttpsPort"]));
+                //            options.ListenAnyIP(int.Parse(context.Configuration["GrpcDruzina:Letici:Port"]), listenOptions =>
+                //            {
+                //                listenOptions.Protocols = HttpProtocols.Http2;
+                //            });
+                //        });
+                //    }
                     webBuilder.UseStartup<Startup>();
                 });
     }
