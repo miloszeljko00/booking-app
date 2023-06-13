@@ -1,5 +1,8 @@
 ﻿using AccomodationSuggestion.Application.Dtos;
+using AccomodationSuggestion.Domain.Entities;
 using AccomodationSuggestion.Domain.Interfaces;
+using AccomodationSuggestion.Infrastructure.Persistence.Settings;
+using Microsoft.Extensions.Options;
 using Neo4j.Driver;
 using System;
 using System.Collections.Generic;
@@ -12,30 +15,33 @@ namespace AccomodationSuggestion.Infrastructure.Repositories
     public class Neo4jAccommodationSuggestionRepository: IAccommodationSuggestionRepository
     {
         private readonly IDriver driver;
-        public Neo4jAccommodationSuggestionRepository()
+        public Neo4jAccommodationSuggestionRepository(IOptions<DatabaseSettings> dbSettings)
         {
-            driver = GraphDatabase.Driver("neo4j+s://ce07430c.databases.neo4j.io:7687", AuthTokens.Basic("neo4j", "v_1UcQcuqrmVtpPb1jxgJs6jqVZjNzeo1QTj23xBGuU"));
-            //await driver.VerifyConnectivityAsync();
+            driver = GraphDatabase.Driver(dbSettings.Value.Uri, AuthTokens.Basic(dbSettings.Value.Username, dbSettings.Value.Password));
         }
 
-        public async Task<List<UserNodeDTO>> getAllUserNodesAsync()
+        public async Task<List<UserNode>> getAllUserNodesAsync()
         {
+            //await driver.VerifyConnectivityAsync();
             using (var session = driver.AsyncSession())
             {
-                // Run a Cypher query to retrieve all user nodes
-                var result = await session.RunAsync("MATCH (u:User) RETURN u");
+                
+                var result = await session.RunAsync("MATCH (u:User) RETURN u.email AS email");
 
-                // Process the result and collect user nodes
-                var resultList = result.ToListAsync();
-                var users = new List<UserNodeDTO>();
-                foreach (var record in resultList.Result)
+                var resultList = await result.ToListAsync();
+                var users = new List<UserNode>();
+                var emails = resultList.Select(x => x["email"].As<string>());
+                foreach (var email1 in emails)
                 {
-                    var user = record["u"].As<UserNodeDTO>();
-                    users.Add(user);
+                    //var user = record["u"].As<UserNode>();
+                    users.Add(new UserNode(email1));
                 }
+                
 
                 return users;
             }
         }
+
+        
     }
 }

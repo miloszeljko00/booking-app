@@ -15,7 +15,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
 builder.Services
     .AddRepositories()
-    .AddHandlers();
+    .AddHandlers()
+    .AddInfrastructure(builder.Configuration);
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen(c =>
 {

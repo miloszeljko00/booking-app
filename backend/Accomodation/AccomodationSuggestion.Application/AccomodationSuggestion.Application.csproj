@@ -24,5 +24,8 @@
     <Folder Include="Mappers\" />
     <Folder Include="Suggestion\Commands\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AccomodationSuggestion.Domain\AccomodationSuggestion.Domain.csproj" />
+  </ItemGroup>
 
 </Project>
