@@ -137,6 +137,7 @@ app.UseCors("AllowOrigin");
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseRouting();
 
 app.UseMetricServer();
 app.UseHttpMetrics();

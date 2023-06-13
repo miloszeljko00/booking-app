@@ -121,15 +121,6 @@ services:
       dockerfile: ./Development.Dockerfile
     ports:
       - "4200:80"
-  flights-webapp:
-    environment:
-      - NODE_ENV=development
-    container_name: flights-webapp
-    build:
-      context: ../frontend
-      dockerfile: ./Development.Dockerfile
-    ports:
-      - "4201:80"
 networks:
   monitoring:
     external: true
