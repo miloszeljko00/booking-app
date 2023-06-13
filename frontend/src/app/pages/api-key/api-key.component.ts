@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { UserApiService } from 'src/app/api/api/user-api.service';
+import { UserApiService } from 'src/app/core/services/user-api.service';
 import { AuthService } from 'src/app/core/keycloak/auth.service';
 
 @Component({
