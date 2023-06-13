@@ -25,9 +25,18 @@ namespace AccomodationSuggestion.Presentation.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<List<GetAllSugestedFlightsDTO>>> GetAllAccommodations([FromBody] GetAllSugestedFlightsDTO getAllSugestedFlightsDTO)
+        [Route("get-suggested-flights")]
+        public async Task<ActionResult<GetAllSuggestedFlightsResponse>> GetAllSuggestedFlights([FromBody] GetAllSugestedFlightsDTO getAllSugestedFlightsDTO)
         {
             var query = new GetAllSuggestedFlightsQuery(getAllSugestedFlightsDTO);
+            var result = await _mediator.Send(query);
+            return Ok(result);
+        }
+        [HttpPost]
+        [Route("book-flight")]
+        public async Task<ActionResult<bool>> BookFlight([FromBody] BookFlightDto bookFlightDto)
+        {
+            var query = new BookFlightQuery(bookFlightDto);
             var result = await _mediator.Send(query);
             return Ok(result);
         }

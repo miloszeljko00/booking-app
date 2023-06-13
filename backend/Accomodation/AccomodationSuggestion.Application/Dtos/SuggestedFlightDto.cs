@@ -8,6 +8,7 @@ namespace AccomodationSuggestion.Application.Dtos
 {
     public class SuggestedFlightDto
     {
+        public Guid Id { get; set; }
         public DateTime DepartureDate { get; set; }
         public DateTime ArrivalDate { get; set; }
         public double TicketPrice { get; set; }

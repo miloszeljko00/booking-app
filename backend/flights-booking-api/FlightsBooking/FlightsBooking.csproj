@@ -16,9 +16,23 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
-    <PackageReference Include="MongoDB.Driver" Version="2.19.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <None Remove="Grpc\Protos\bookFlightGrpcService.proto" />
   </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Google.Protobuf" Version="3.23.0" />
+		<PackageReference Include="Grpc.AspNetCore" Version="2.53.0" />
+		<PackageReference Include="Grpc.AspNetCore.Server" Version="2.53.0" />
+		<PackageReference Include="Grpc.Core" Version="2.46.6" />
+		<PackageReference Include="Grpc.Tools" Version="2.54.0" />
+		<PackageReference Include="MediatR" Version="12.0.1" />
+		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+        <PackageReference Include="MongoDB.Driver" Version="2.19.0" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+	</ItemGroup>
+    <ItemGroup>
+	    <Protobuf Include="Grpc\Protos\model.proto" GrpcService="None" />
+	    <Protobuf Include="Grpc\Protos\bookFlightGrpcService.proto" GrpcServices="Server" />
+		<Protobuf Include="Grpc\Protos\suggestFlightsGrpcService.proto" GrpcServices="Server" />
+	</ItemGroup>
 
 </Project>

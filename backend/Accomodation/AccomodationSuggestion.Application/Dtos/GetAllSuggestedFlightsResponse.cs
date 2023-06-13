@@ -8,7 +8,13 @@ namespace AccomodationSuggestion.Application.Dtos
 {
     public class GetAllSuggestedFlightsResponse
     {
-        List<SuggestedFlightDto>? flightsForGoing { get; set; }
-        List<SuggestedFlightDto>? flightsForReturning { get; set; }
+        public List<SuggestedFlightDto>? FlightsForGoing { get; set; }
+        public List<SuggestedFlightDto>? FlightsForReturning { get; set; }
+
+        public GetAllSuggestedFlightsResponse(List<SuggestedFlightDto>? flightsForGoing, List<SuggestedFlightDto>? flightsForReturning)
+        {
+            FlightsForGoing = flightsForGoing;
+            FlightsForReturning = flightsForReturning;
+        }
     }
 }
