@@ -24,7 +24,7 @@ namespace Notification.Application.Notification.Support.Grpc
         public override Task<MessageResponseProto3> communicate(MessageProto3 request, ServerCallContext context)
         {
             List<HostNotification> hostNotifications = _repository.GetAllAsync().Result.ToList();
-            MessageResponseProto3 response = new MessageResponseProto3(); ;
+            MessageResponseProto3 response = new MessageResponseProto3();
 
             foreach (HostNotification hn in hostNotifications)
             {

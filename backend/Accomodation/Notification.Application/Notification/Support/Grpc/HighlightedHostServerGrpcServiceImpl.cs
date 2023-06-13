@@ -15,15 +15,34 @@ namespace Notification.Application.Notification.Support.Grpc
     public class HighlightedHostServerGrpcServiceImpl : HighlightedHostGrpcService.HighlightedHostGrpcServiceBase
     {
         private readonly IEmailService _emailService;
-        public HighlightedHostServerGrpcServiceImpl()
+        private readonly IHostNotificationRepository _repository;
+
+        public HighlightedHostServerGrpcServiceImpl(IHostNotificationRepository repository)
         {
+            _repository = repository;
             _emailService = new EmailService();
         }
         public override Task<MessageResponseProto7> check(MessageProto7 request, ServerCallContext context)
         {
-            MessageResponseProto7 response = new MessageResponseProto7(); ;
-            _emailService.SendHighlightedHostNotification(request.Email, request.Status);
-            response.Status = "SENT";
+            List<HostNotification> hostNotifications = _repository.GetAllAsync().Result.ToList();
+            MessageResponseProto7 response = new MessageResponseProto7();
+
+            foreach (HostNotification hn in hostNotifications)
+            {
+                if (hn.HostEmail.EmailAddress.Equals(request.Email) && hn.ReceiveAnswerForHighlightedHostStatus)
+                {
+                    _emailService.SendHighlightedHostNotification(request.Email, request.Status);
+                    response.Status = "SENT";
+                }
+                else if (hn.HostEmail.EmailAddress.Equals(request.Email) && !hn.ReceiveAnswerForHighlightedHostStatus)
+                {
+                    response.Status = "NOT SENT";
+                }
+                else
+                {
+                    response.Status = "NOT FOUND";
+                }
+            }
             return Task.FromResult(response);
         }
     }

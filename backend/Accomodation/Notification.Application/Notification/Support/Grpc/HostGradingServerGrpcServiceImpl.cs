@@ -24,7 +24,7 @@ namespace Notification.Application.Notification.Support.Grpc
         public override Task<MessageResponseProto4> hostGrading(MessageProto4 request, ServerCallContext context)
         {
             List<HostNotification> hostNotifications = _repository.GetAllAsync().Result.ToList();
-            MessageResponseProto4 response = new MessageResponseProto4(); ;
+            MessageResponseProto4 response = new MessageResponseProto4();
 
             foreach (HostNotification hn in hostNotifications)
             {

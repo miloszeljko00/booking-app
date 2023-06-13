@@ -24,7 +24,7 @@ namespace Notification.Application.Notification.Support.Grpc
         public override Task<MessageResponseProto5> accommodationGrading(MessageProto5 request, ServerCallContext context)
         {
             List<HostNotification> hostNotifications = _repository.GetAllAsync().Result.ToList();
-            MessageResponseProto5 response = new MessageResponseProto5(); ;
+            MessageResponseProto5 response = new MessageResponseProto5();
 
             foreach (HostNotification hn in hostNotifications)
             {

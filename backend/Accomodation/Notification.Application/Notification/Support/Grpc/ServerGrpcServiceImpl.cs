@@ -24,7 +24,7 @@ namespace Notification.Application.Notification.Support.Grpc
         public override Task<MessageResponseProto> communicate(MessageProto request, ServerCallContext context)
         {
             List<GuestNotification> guestNotifications = _repository.GetAllAsync().Result.ToList();
-            MessageResponseProto response = new MessageResponseProto(); ;
+            MessageResponseProto response = new MessageResponseProto();
 
             foreach (GuestNotification gn in guestNotifications)
             {
