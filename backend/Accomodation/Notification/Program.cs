@@ -53,7 +53,7 @@ if (env != null && env == "Cloud")
             HostCancelReservationNotificationGrpcService.BindService(new HostCancelReservationServerGrpcServiceImpl(serviceProvider.GetService<IHostNotificationRepository>())),
             HostGradingNotificationGrpcService.BindService(new HostGradingServerGrpcServiceImpl(serviceProvider.GetService<IHostNotificationRepository>())),
             AccommodationGradingNotificationGrpcService.BindService(new AccommodationGradingServerGrpcServiceImpl(serviceProvider.GetService<IHostNotificationRepository>())),
-            HighlightedHostGrpcService.BindService(new HighlightedHostServerGrpcServiceImpl())
+            HighlightedHostGrpcService.BindService(new HighlightedHostServerGrpcServiceImpl(serviceProvider.GetService<IHostNotificationRepository>()))
         },
     };
     server.Start();
@@ -68,7 +68,7 @@ else
             HostCancelReservationNotificationGrpcService.BindService(new HostCancelReservationServerGrpcServiceImpl(serviceProvider.GetService<IHostNotificationRepository>())),
             HostGradingNotificationGrpcService.BindService(new HostGradingServerGrpcServiceImpl(serviceProvider.GetService<IHostNotificationRepository>())),
             AccommodationGradingNotificationGrpcService.BindService(new AccommodationGradingServerGrpcServiceImpl(serviceProvider.GetService<IHostNotificationRepository>())),
-            HighlightedHostGrpcService.BindService(new HighlightedHostServerGrpcServiceImpl())
+            HighlightedHostGrpcService.BindService(new HighlightedHostServerGrpcServiceImpl(serviceProvider.GetService<IHostNotificationRepository>()))
         },
         Ports = { new ServerPort("0.0.0.0", int.Parse(builder.Configuration["GrpcDruzina:Notification:Port"]), ServerCredentials.Insecure) }
     };
