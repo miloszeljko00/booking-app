@@ -6,26 +6,26 @@
       <mat-label>Location</mat-label>
       <input matInput  name="Location" formControlName="address" [(ngModel)]="address">
     </mat-form-field>
-  
+
     <mat-form-field>
       <mat-label>Number of guests</mat-label>
       <input matInput  type="number" min="1"   name="numberOfGuests" formControlName="numberOfGuests" [(ngModel)]="numberOfGuests">
     </mat-form-field>
-  
+
     <mat-form-field>
       <mat-label>Start date</mat-label>
       <input matInput [matDatepicker]="picker1"  name="start-date" formControlName="startDate" [(ngModel)]="startDate">
       <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
       <mat-datepicker #picker1></mat-datepicker>
     </mat-form-field>
-  
+
     <mat-form-field>
       <mat-label>End date</mat-label>
       <input matInput [matDatepicker]="picker2"  name="end-date" formControlName="endDate" [(ngModel)]="endDate">
       <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
       <mat-datepicker #picker2></mat-datepicker>
     </mat-form-field>
-  
+
     <button class="button" mat-raised-button color="primary" (click)="search()" [disabled]="!formGroup1.valid">Search</button>
   </form>
   <form >
@@ -33,7 +33,7 @@
       <mat-label>Minimal price</mat-label>
       <input matInput  type="number" min="0"   name="minPrice"  [(ngModel)]="minPrice">
     </mat-form-field>
-  
+
     <mat-form-field>
       <mat-label>Maximal price</mat-label>
       <input matInput  type="number" min="0"   name="maxPrice"  [(ngModel)]="maxPrice">
@@ -45,7 +45,7 @@
         </mat-select>
     </mat-form-field>
     <mat-slide-toggle color="primary" [(ngModel)]="isHost" name="hosts">is Host highlighted?</mat-slide-toggle>
-  
+
     <button class="button" mat-raised-button color="primary" (click)="filter()" >Filter</button>
   </form>
   <table mat-table [dataSource]="dataSourceAcc">
@@ -84,7 +84,14 @@
       <ng-container matColumnDef="reservation">
         <th mat-header-cell *matHeaderCellDef class="cell-center"></th>
         <td mat-cell *matCellDef="let acc" class="cell-center">
-          <button mat-raised-button color="primary" [disabled]="!user || user.roles.includes('host')" (click)="openDialog(acc)">Make reservation</button>
+          <div style="display: flex; justify-content: space-between;">
+            <button mat-raised-button color="primary" [disabled]="!user || user.roles.includes('host')" (click)="openDialog(acc)">Make reservation</button>
+            <button mat-raised-button color="primary" [disabled]="!user || user.roles.includes('host')" (click)="seeSuggestedFlights()" [disabled]="!departureLocation || departureLocation==''">Also need a flight?</button>
+            <mat-form-field>
+              <mat-label>Airport</mat-label>
+              <input matInput  name="Location" [(ngModel)]="departureLocation">
+            </mat-form-field>
+          </div>
         </td>
     </ng-container>
       <tr mat-header-row *matHeaderRowDef="displayedColumnsFlights; sticky: true"></tr>

@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { DatePipe } from '@angular/common';
 import { AccommodationService } from 'src/app/api/api/accommodation.service';
 import { AccommodationCreate } from 'src/app/api/model/accommodationCreate';
-import { AuthService } from 'src/app/core/keycloak/auth.service'; 
+import { AuthService } from 'src/app/core/keycloak/auth.service';
 import { User } from 'src/app/core/keycloak/model/user';
 
 @Component({
@@ -30,7 +29,7 @@ export class AddAccommodationComponent implements OnInit {
   benefits = new FormControl('');
   selectedIndexes: number[] = [];
   user!: User | null;
-  
+
   benefitList: string[] = [];
   constructor(private authService: AuthService, private toastr : ToastrService, private accommodationService: AccommodationService){
     this.user = this.authService.getUser()
@@ -48,7 +47,7 @@ export class AddAccommodationComponent implements OnInit {
     });
     this.accommodationService.getBenefits().subscribe((response: any) => {
       this.benefitList = response;
-      
+
     })
   }
 
@@ -59,16 +58,16 @@ export class AddAccommodationComponent implements OnInit {
     console.log(this.selectedIndexes)
     this.accommodation = {name: this.name, address: {street: this.street, number: this.num, city: this.city, country: this.country}, pricePerGuest: [],
                           capacity: {min: this.min, max: this.max}, benefits:this.selectedIndexes, priceCalculation: perGuest, reserveAutomatically: this.isChecked,
-                        pictures:this.getPictureList(), hostEmail: this.user?.email ?? ''}; 
+                        pictures:this.getPictureList(), hostEmail: this.user?.email ?? ''};
     this.accommodationService.createAccomodation(this.accommodation).subscribe({
       next: (acc:any) => {
-        this.showSuccess('Successfully created flight');
+        this.showSuccess('Successfully created accommodation');
         this.formGroup1.reset();
         this.isChecked = false;
         this.isCheckedPrice = false;
         this.selectedIndexes = [];
       },
-      error: (e:any) => this.showError('Error happened while creating flight')
+      error: (e:any) => this.showError('Error happened while creating accommodation')
     })
 
   }
@@ -94,7 +93,7 @@ export class AddAccommodationComponent implements OnInit {
 
   selectFiles(event: any): void {
     this.selectedFiles = event.target.files;
-  
+
     this.previews = [];
     if (this.selectedFiles && this.selectedFiles[0]) {
       const numberOfFiles = this.selectedFiles.length;
@@ -103,11 +102,11 @@ export class AddAccommodationComponent implements OnInit {
         console.log(this.selectedFiles[i].name);
         reader.onload = (e: any) => {
           console.log(e.target.result);
-          
+
           this.previews.push(e.target.result);
           console.log(this.previews)
         };
-  
+
         reader.readAsDataURL(this.selectedFiles[i]);
       }
     }

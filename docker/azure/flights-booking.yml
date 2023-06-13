@@ -4,7 +4,7 @@ services:
     image: bookingappcontainers.azurecr.io/flights-booking-service:1.0.0
     container_name: flights-booking-service
     environment:
-      ASPNETCORE_ENVIRONMENT : Development
+      ASPNETCORE_ENVIRONMENT : Cloud
       ENABLE_CORS: true
       MongoDatabaseSettings:ConnectionString: mongodb+srv://svenadev:0mSCxqslvdQV46wi@booking-app.udfgsob.mongodb.net/?retryWrites=true&w=majority
       Jwt:Authority: https://login-keycloak.azurewebsites.net/auth/realms/booking-app

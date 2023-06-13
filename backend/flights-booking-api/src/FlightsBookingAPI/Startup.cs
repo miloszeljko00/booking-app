@@ -32,6 +32,7 @@ using Grpc.Core;
 using Rs.Ac.Uns.Ftn.Grpc;
 using Notification.Application.Notification.Support.Grpc;
 using FlightsBooking.Grpc;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 namespace FlightsBookingAPI
 {
@@ -174,6 +175,7 @@ namespace FlightsBookingAPI
                     }
                 };
             });
+            services.AddGrpc();
 
             //Cross-Origin 
             services
@@ -188,15 +190,33 @@ namespace FlightsBookingAPI
             services.AddScoped<IFlightService, FlightService>();
             services.AddScoped<IUserService, UserService>();
             IServiceProvider serviceProvider = services.BuildServiceProvider();
-            Server server = new Server
+            var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            if (environment != null && environment == "Cloud")
             {
-                Services = { 
+                Server server = new Server
+                {
+                    Services = {
+                        SuggestFlightsGrpcService.BindService(new SuggestFlightsServerGrpcServiceImpl(serviceProvider.GetService<IFlightService>())),
+                        BookFlightGrpcService.BindService(new BookFlightServerGrpcServiceImpl(serviceProvider.GetService<IFlightService>()))
+                    },
+                    Ports = { new ServerPort("0.0.0.0", Configuration.GetValue<int>("GrpcDruzina:Letici:Port"), ServerCredentials.Insecure) }
+
+                };
+                server.Start();
+            }
+            else
+            {
+                Server server = new Server
+                {
+                    Services = {
                     SuggestFlightsGrpcService.BindService(new SuggestFlightsServerGrpcServiceImpl(serviceProvider.GetService<IFlightService>())),
                     BookFlightGrpcService.BindService(new BookFlightServerGrpcServiceImpl(serviceProvider.GetService<IFlightService>()))
                 },
-                Ports = { new ServerPort("localhost", 6000, ServerCredentials.Insecure) }
-            };
-            server.Start();
+                    Ports = { new ServerPort(Configuration.GetValue<string>("GrpcDruzina:Letici:Address"), Configuration.GetValue<int>("GrpcDruzina:Letici:Port"), ServerCredentials.Insecure) }
+                };
+                server.Start();
+            }
+            
         }
 
         /// <summary>
@@ -228,10 +248,13 @@ namespace FlightsBookingAPI
                 });
             app.UseCors("AllowOrigin");
             app.UseRouting();
+            app.UseGrpcWeb(new GrpcWebOptions { DefaultEnabled = true });
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
                 {
+                    endpoints.MapGrpcService<SuggestFlightsServerGrpcServiceImpl>();
+                    endpoints.MapGrpcService<BookFlightServerGrpcServiceImpl>();
                     endpoints.MapControllers();
                 });
         }
