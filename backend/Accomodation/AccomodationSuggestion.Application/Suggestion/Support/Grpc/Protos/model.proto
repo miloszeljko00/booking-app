@@ -29,7 +29,8 @@ message BookFlightMessageProtoResponse {
 
 message CreateAccommodationProto{
 	string accomodationName = 1;
-	string hostEmail = 2;
+	string accommodationId = 2;
+	string hostEmail = 3;
 }
 message CreateAccommodationProtoResponse{
 	bool isCreated = 1;

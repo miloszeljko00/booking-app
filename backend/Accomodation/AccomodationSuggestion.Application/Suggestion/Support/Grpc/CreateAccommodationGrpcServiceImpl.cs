@@ -1,4 +1,5 @@
 ﻿using AccommodationSuggestionApplication.Suggestion.Support.Grpc.Protos;
+using AccomodationSuggestion.Domain.Entities;
 using AccomodationSuggestion.Domain.Interfaces;
 using DnsClient.Protocol;
 using Grpc.Core;
@@ -21,6 +22,7 @@ namespace AccomodationSuggestion.Application.Suggestion.Support.Grpc
         public override async Task<CreateAccommodationProtoResponse> createAccommodation(CreateAccommodationProto request, ServerCallContext context)
         {
             var response = new CreateAccommodationProtoResponse();
+            var createdNode = _repository.createAccommodationNode(new AccommodationNode(request.HostEmail, request.AccommodationId, request.AccomodationName));
             response.IsCreated = true;
             return response;
         }

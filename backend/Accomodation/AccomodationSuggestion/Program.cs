@@ -97,21 +97,6 @@ builder.Services
     });
 
 
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "MyAppAPI");
-        c.OAuthClientId(builder.Configuration["Jwt:ClientId"]);
-        c.OAuthClientSecret(builder.Configuration["Jwt:ClientSecret"]);
-        c.OAuthRealm(builder.Configuration["Jwt:Realm"]);
-        c.OAuthAppName("KEYCLOAK");
-    });
-}
 var env = builder.Environment.EnvironmentName;
 if (env != null && env == "Cloud")
 {
@@ -139,12 +124,29 @@ else
     };
     server.Start();
 }
+builder.Services.AddGrpc();
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "MyAppAPI");
+        c.OAuthClientId(builder.Configuration["Jwt:ClientId"]);
+        c.OAuthClientSecret(builder.Configuration["Jwt:ClientSecret"]);
+        c.OAuthRealm(builder.Configuration["Jwt:Realm"]);
+        c.OAuthAppName("KEYCLOAK");
+    });
+}
 app.UseHttpsRedirection();
 app.UseCors("AllowOrigin");
 
 app.UseAuthentication();
 app.UseAuthorization();
-
+app.UseRouting();
+app.UseGrpcWeb(new GrpcWebOptions { DefaultEnabled = true });
 app.MapControllers();
 
 app.Run();

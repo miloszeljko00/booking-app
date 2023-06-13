@@ -56,13 +56,13 @@ namespace AccomodationApplication.Accommodation.Commands
             }
             accommodationBuilder.withBenefits(benefits);
             var accommodation = accommodationBuilder.build();
+            var createdAcc = _repository.Create(accommodation);
             if (_env.EnvironmentName != "Cloud")
             {
                 var channel = new Channel(_configuration.GetValue<string>("GrpcDruzina:AccommodationSuggestion:Address") + ":" + _configuration.GetValue<int>("GrpcDruzina:AccommodationSUggestion:Port"), ChannelCredentials.Insecure);
                 client = new CreateAccommodationGrpcService.CreateAccommodationGrpcServiceClient(channel);
                 CreateAccommodationProtoResponse response = await client.createAccommodationAsync(new CreateAccommodationProto() { AccomodationName = accommodation.Name, HostEmail = accommodation.HostEmail.EmailAddress});
 
-                double averageGrade = 5;
 
             }
             else
@@ -72,13 +72,12 @@ namespace AccomodationApplication.Accommodation.Commands
                     HttpHandler = new GrpcWebHandler(new HttpClientHandler())
                 });
                 client = new CreateAccommodationGrpcService.CreateAccommodationGrpcServiceClient(channel);
-                CreateAccommodationProtoResponse response = await client.createAccommodationAsync(new CreateAccommodationProto() { AccomodationName = accommodation.Name, HostEmail = accommodation.HostEmail.EmailAddress });
+                CreateAccommodationProtoResponse response = await client.createAccommodationAsync(new CreateAccommodationProto() { AccomodationName = createdAcc.Result.Name, AccommodationId=createdAcc.Result.Id.ToString(), HostEmail = createdAcc.Result.HostEmail.EmailAddress });
 
-                double averageGrade = 5;
 
                 
             }
-            return _repository.Create(accommodation).Result;
+            return createdAcc.Result;
         }
     }
 }

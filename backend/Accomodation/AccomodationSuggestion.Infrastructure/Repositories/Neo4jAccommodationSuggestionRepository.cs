@@ -68,30 +68,32 @@ namespace AccomodationSuggestion.Infrastructure.Repositories
         public async Task<AccommodationNode> createAccommodationNode(AccommodationNode accommodationNode)
         {
             await using var session = driver.AsyncSession();
-
+            string accommodationId = accommodationNode.AccommodationId;
+            string accommodationName = accommodationNode.AccommodationName;
+            string hostEmail = accommodationNode.HostEmail;
             var accData = await session.ExecuteWriteAsync(async tx =>
             {
                 var query = @"
                     MERGE (a:Accommodation {
-                        accommodationId: $accId
+                        accommodationId: $accommodationId,
+                        accommodationName: $accommodationName,
+                        hostEmail: $hostEmail
                     })
-                    RETURN a.accommodationId AS id";
-                var cursor = await tx.RunAsync(query, new { accommodationNode.AccommodationId });
-            //a {.accommodationId, .accommodationName, .hostEmail} as a
-            //.accommodationId as id, a.accommodationName as accName, a.hostEmail as email
-            //,accommodationName: $accName, hostEmail: $hostEmail , accommodationNode.AccommodationName, accommodationNode.HostEmail
+                    RETURN a.accommodationId AS id, a.accommodationName as accName, a.hostEmail as email";
+                
+                var cursor = await tx.RunAsync(query, new { accommodationId, accommodationName, hostEmail });
 
                 var record = await cursor.SingleAsync();
-
-                /*string accId  =  record["id"].As<string>();
+                int a = 5;
+                string accId  =  record["id"].As<string>();
                 string accName = record["accName"].As<string>();
-                string hostEmail = record["email"].As<string>();
-                return new AccommodationNode(hostEmail, accId, accName);*/
-                return record["id"].As<string>();
+                string host = record["email"].As<string>();
+                return new AccommodationNode(host, accId, accName);
+                //return record["id"].As<string>();
             });
 
             //AccommodationNode accNode = new AccommodationNode(accData["accommodationId"], accData["accommodationName"], accData["hostEmail"]);
-            return accommodationNode;
+            return accData;
         }
     }
 }
