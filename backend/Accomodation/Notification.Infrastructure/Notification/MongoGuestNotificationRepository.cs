@@ -21,7 +21,7 @@ namespace Notification.Infrastructure.Notification
 
             var mongoDatabase = mongoClient.GetDatabase(dbSettings.Value.DatabaseName);
 
-            _notificationCollection = mongoDatabase.GetCollection<GuestNotification>(dbSettings.Value.CollectionName);
+            _notificationCollection = mongoDatabase.GetCollection<GuestNotification>(dbSettings.Value.GuestNotificationCollectionName);
         }
 
 
