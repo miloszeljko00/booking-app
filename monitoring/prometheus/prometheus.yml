@@ -47,4 +47,4 @@
 
     - job_name: 'cAdvisor'
       static_configs:
-        - targets: [ 'cadvisor:8000' ]
+        - targets: [ 'cadvisor:8080' ]
