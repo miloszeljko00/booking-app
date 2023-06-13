@@ -26,3 +26,11 @@ message BookFlightMessageProto {
 message BookFlightMessageProtoResponse {
   string isBooked = 1;
 }
+
+message CreateAccommodationProto{
+	string accomodationName = 1;
+	string hostEmail = 2;
+}
+message CreateAccommodationProtoResponse{
+	bool isCreated = 1;
+}

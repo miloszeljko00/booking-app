@@ -2,6 +2,13 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 using Accomodation.Configuration;
+using Grpc.Core;
+using MediatR;
+using Microsoft.Extensions.DependencyInjection;
+using Rs.Ac.Uns.Ftn.Grpc;
+using AccomodationSuggestion.Application.Suggestion.Support.Grpc;
+using AccomodationSuggestion.Domain.Interfaces;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +24,7 @@ builder.Services
     .AddRepositories()
     .AddHandlers()
     .AddInfrastructure(builder.Configuration);
+IServiceProvider serviceProvider = builder.Services.BuildServiceProvider();
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -104,9 +112,34 @@ if (app.Environment.IsDevelopment())
         c.OAuthAppName("KEYCLOAK");
     });
 }
-
+var env = builder.Environment.EnvironmentName;
+if (env != null && env == "Cloud")
+{
+    builder.WebHost.ConfigureKestrel(options =>
+    {
+        options.ListenAnyIP(int.Parse(builder.Configuration["HttpPort"]));
+        options.ListenAnyIP(int.Parse(builder.Configuration["HttpsPort"]));
+        options.ListenAnyIP(int.Parse(builder.Configuration["GrpcDruzina:AccommodationSuggestion:Port"]), listenOptions =>
+        {
+            listenOptions.Protocols = HttpProtocols.Http2;
+        });
+    });
+    Server server = new Server
+    {
+        Services = { CreateAccommodationGrpcService.BindService(new CreateAccommodationGrpcServiceImpl(serviceProvider.GetRequiredService<IAccommodationSuggestionRepository>())) },
+    };
+    server.Start();
+}
+else
+{
+    Server server = new Server
+    {
+        Services = { CreateAccommodationGrpcService.BindService(new CreateAccommodationGrpcServiceImpl(serviceProvider.GetRequiredService<IAccommodationSuggestionRepository>())) },
+        Ports = { new ServerPort("0.0.0.0", int.Parse(builder.Configuration["GrpcDruzina:AccommodationSuggestion:Port"]), ServerCredentials.Insecure) }
+    };
+    server.Start();
+}
 app.UseHttpsRedirection();
-
 app.UseCors("AllowOrigin");
 
 app.UseAuthentication();

@@ -52,3 +52,11 @@ message MessageProto7 {
 message MessageResponseProto7 {
   string status = 1;
 }
+
+message CreateAccommodationProto{
+	string accomodationName = 1;
+	string hostEmail = 2;
+}
+message CreateAccommodationProtoResponse{
+	bool isCreated = 1;
+}

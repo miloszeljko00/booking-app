@@ -19,6 +19,7 @@
 		<Protobuf Include="Suggestion\Support\Grpc\Protos\model.proto" GrpcService="None" />
 		<Protobuf Include="Suggestion\Support\Grpc\Protos\suggestFlightsGrpcService.proto" GrpcServices="Client" />
 		<Protobuf Include="Suggestion\Support\Grpc\Protos\bookFlightGrpcService.proto" GrpcServices="Client" />
+		<Protobuf Include="Suggestion\Support\Grpc\Protos\createAccommodationGrpcService.proto" GrpcServices="Server" />
 	</ItemGroup>
   <ItemGroup>
     <Folder Include="Mappers\" />

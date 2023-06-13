@@ -10,5 +10,7 @@ namespace AccomodationSuggestion.Domain.Interfaces
     public interface IAccommodationSuggestionRepository
     {
         public Task<List<UserNode>> getAllUserNodesAsync();
+        public Task<UserNode> createUserAsync(string email);
+        public Task<AccommodationNode> createAccommodationNode(AccommodationNode accommodationNode);
     }
 }
