@@ -17,9 +17,25 @@
       static_configs:
         - targets: ['localhost:9090']
 
-    - job_name: 'ocelot-apigateway'
+    - job_name: 'user-management-service'
       static_configs:
-        - targets: ['host.docker.internal:8080']
+        - targets: ['172.19.0.6:80']
+
+    - job_name: 'accommodation-service'
+      static_configs:
+        - targets: ['172.19.0.5:80']
+
+    - job_name: 'notification-service'
+      static_configs:
+        - targets: ['172.19.0.4:80']
+
+    - job_name: 'accommodation-grading-service'
+      static_configs:
+        - targets: ['172.19.0.3:80']
+
+    - job_name: 'accommodation-suggestion-service'
+      static_configs:
+        - targets: ['172.19.0.2:80']
 
     - job_name: 'node_exporter'
       static_configs:
