@@ -2,11 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using OpenTracing;
 using Prometheus;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UserManagement.Application.Users.Commands;
 
 namespace UserManagement.Presentation.Controllers;
@@ -36,6 +31,9 @@ public class UserController : ControllerBase
         var actionName = ControllerContext.ActionDescriptor.DisplayName;
         using var scope = _tracer.BuildSpan(actionName).StartActive(true);
         scope.Span.Log("Create user");
+        Console.SetOut(Console.Out);
+        Console.WriteLine("METHOD: POST, DESCRIPTION: Create user, TIME: " + DateTime.Now.ToString("dd.MM.yyyy. HH:mm:ss"));
+
         var result = await _mediator.Send(createUserCommand);
         if (result is null)
         {
@@ -53,6 +51,9 @@ public class UserController : ControllerBase
         var actionName = ControllerContext.ActionDescriptor.DisplayName;
         using var scope = _tracer.BuildSpan(actionName).StartActive(true);
         scope.Span.Log("Update user");
+        Console.SetOut(Console.Out);
+        Console.WriteLine("METHOD: PUT, DESCRIPTION: Update user, TIME: " + DateTime.Now.ToString("dd.MM.yyyy. HH:mm:ss"));
+
         if (userId != updateUserCommand.UserId)
         {
             UserCounter.WithLabels("user", "update_user", "400").Inc();
@@ -74,6 +75,9 @@ public class UserController : ControllerBase
         var actionName = ControllerContext.ActionDescriptor.DisplayName;
         using var scope = _tracer.BuildSpan(actionName).StartActive(true);
         scope.Span.Log("Update user flight's API key");
+        Console.SetOut(Console.Out);
+        Console.WriteLine("METHOD: PUT, DESCRIPTION: Update user flight's API key, TIME: " + DateTime.Now.ToString("dd.MM.yyyy. HH:mm:ss"));
+
         if (userId != updateUserFlightsApiKeyCommand.UserId)
         {
             UserCounter.WithLabels("user", "update_user_flights_api_key", "400").Inc();
@@ -95,6 +99,9 @@ public class UserController : ControllerBase
         var actionName = ControllerContext.ActionDescriptor.DisplayName;
         using var scope = _tracer.BuildSpan(actionName).StartActive(true);
         scope.Span.Log("Get user flight's API key");
+        Console.SetOut(Console.Out);
+        Console.WriteLine("METHOD: GET, DESCRIPTION: Get user flight's API key, TIME: " + DateTime.Now.ToString("dd.MM.yyyy. HH:mm:ss"));
+
         var result = await _mediator.Send(new GetUserFlightsApiKeyByUserIdQuery(userId));
         if (result is null)
         {
@@ -111,6 +118,9 @@ public class UserController : ControllerBase
         var actionName = ControllerContext.ActionDescriptor.DisplayName;
         using var scope = _tracer.BuildSpan(actionName).StartActive(true);
         scope.Span.Log("Get user");
+        Console.SetOut(Console.Out);
+        Console.WriteLine("METHOD: GET, DESCRIPTION: Get user, TIME: " + DateTime.Now.ToString("dd.MM.yyyy. HH:mm:ss"));
+
         var result = await _mediator.Send(new GetUserByIdQuery(userId));
         if (result is null)
         {
@@ -128,6 +138,9 @@ public class UserController : ControllerBase
         var actionName = ControllerContext.ActionDescriptor.DisplayName;
         using var scope = _tracer.BuildSpan(actionName).StartActive(true);
         scope.Span.Log("Delete user");
+        Console.SetOut(Console.Out);
+        Console.WriteLine("METHOD: DELETE, DESCRIPTION: Delete user, TIME: " + DateTime.Now.ToString("dd.MM.yyyy. HH:mm:ss"));
+
         var command = new DeleteUserCommand(userId);
         var result = await _mediator.Send(command);
         UserCounter.WithLabels("user", "delete_user", "200").Inc();

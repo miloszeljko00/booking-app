@@ -1,16 +1,10 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Notification.Domain.Entities;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Notification.Application.Notification.Commands;
 using Notification.Application.Notification.Queries;
 using Notification.Application.Dtos;
-using MongoDB.Driver;
 using OpenTracing;
 using Prometheus;
 
@@ -42,6 +36,9 @@ namespace Notification.Presentation.Controllers
             var actionName = ControllerContext.ActionDescriptor.DisplayName;
             using var scope = _tracer.BuildSpan(actionName).StartActive(true);
             scope.Span.Log("Get all notification options by guest");
+            Console.SetOut(Console.Out);
+            Console.WriteLine("METHOD: GET, DESCRIPTION: Get all notification options by guest, TIME: " + DateTime.Now.ToString("dd.MM.yyyy. HH:mm:ss"));
+
             var query = new GetNotificationsByGuestQuery(guestEmail);
             try
             {
@@ -63,6 +60,9 @@ namespace Notification.Presentation.Controllers
             var actionName = ControllerContext.ActionDescriptor.DisplayName;
             using var scope = _tracer.BuildSpan(actionName).StartActive(true);
             scope.Span.Log("Set notification options for guest");
+            Console.SetOut(Console.Out);
+            Console.WriteLine("METHOD: PUT, DESCRIPTION: Set notification options for guest, TIME: " + DateTime.Now.ToString("dd.MM.yyyy. HH:mm:ss"));
+
             if (!ModelState.IsValid)
             {
                 NotificationCounter.WithLabels("notification", "set_guest_notification", "400").Inc();
@@ -81,6 +81,9 @@ namespace Notification.Presentation.Controllers
             var actionName = ControllerContext.ActionDescriptor.DisplayName;
             using var scope = _tracer.BuildSpan(actionName).StartActive(true);
             scope.Span.Log("Get all notification options by host");
+            Console.SetOut(Console.Out);
+            Console.WriteLine("METHOD: GET, DESCRIPTION: Get all notification options by host, TIME: " + DateTime.Now.ToString("dd.MM.yyyy. HH:mm:ss"));
+
             var query = new GetNotificationsByHostQuery(hostEmail);
             try
             {
@@ -103,6 +106,9 @@ namespace Notification.Presentation.Controllers
             var actionName = ControllerContext.ActionDescriptor.DisplayName;
             using var scope = _tracer.BuildSpan(actionName).StartActive(true);
             scope.Span.Log("Set notification options for host");
+            Console.SetOut(Console.Out);
+            Console.WriteLine("METHOD: PUT, DESCRIPTION: Set notification options for host, TIME: " + DateTime.Now.ToString("dd.MM.yyyy. HH:mm:ss"));
+
             if (!ModelState.IsValid)
             {
                 NotificationCounter.WithLabels("notification", "set_host_notification", "400").Inc();

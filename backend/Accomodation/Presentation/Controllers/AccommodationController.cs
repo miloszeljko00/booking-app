@@ -1,7 +1,6 @@
 ﻿using Accomodation.Application.Accommodation.Commands;
 using Accomodation.Application.Accommodation.Queries;
 using Accomodation.Application.Dtos;
-using Accomodation.Domain.Primitives.Enums;
 using AccomodationApplication.Accommodation.Commands;
 using AccomodationApplication.Accommodation.Queries;
 using AccomodationApplication.Dtos;
@@ -12,12 +11,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using OpenTracing;
 using Prometheus;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AccomodationPresentation.Controllers
 {
@@ -46,6 +40,8 @@ namespace AccomodationPresentation.Controllers
             var actionName = ControllerContext.ActionDescriptor.DisplayName;
             using var scope = _tracer.BuildSpan(actionName).StartActive(true);
             scope.Span.Log("Get all accommodation");
+            Console.SetOut(Console.Out);
+            Console.WriteLine("METHOD: GET, DESCRIPTION: Get all accommodation, TIME: " + DateTime.Now.ToString("dd.MM.yyyy. HH:mm:ss"));
 
             var query = new GetAllAccommodationsQuery();
             var result = await _mediator.Send(query);
@@ -74,6 +70,9 @@ namespace AccomodationPresentation.Controllers
             var actionName = ControllerContext.ActionDescriptor.DisplayName;
             using var scope = _tracer.BuildSpan(actionName).StartActive(true);
             scope.Span.Log("Create reservation request");
+            Console.SetOut(Console.Out);
+            Console.WriteLine("METHOD: PUT, DESCRIPTION: Create reservation request, TIME: " + DateTime.Now.ToString("dd.MM.yyyy. HH:mm:ss"));
+
             if (!ModelState.IsValid)
             {
                 AccommodationCounter.WithLabels("accommodation", "create_reservation_request", "400").Inc();
@@ -103,6 +102,9 @@ namespace AccomodationPresentation.Controllers
             var actionName = ControllerContext.ActionDescriptor.DisplayName;
             using var scope = _tracer.BuildSpan(actionName).StartActive(true);
             scope.Span.Log("Reservation request review");
+            Console.SetOut(Console.Out);
+            Console.WriteLine("METHOD: PUT, DESCRIPTION: Reservation request review, TIME: " + DateTime.Now.ToString("dd.MM.yyyy. HH:mm:ss"));
+
             if (!ModelState.IsValid)
             {
                 AccommodationCounter.WithLabels("accommodation", "manage_reservation_request", "400").Inc();
@@ -132,6 +134,9 @@ namespace AccomodationPresentation.Controllers
             var actionName = ControllerContext.ActionDescriptor.DisplayName;
             using var scope = _tracer.BuildSpan(actionName).StartActive(true);
             scope.Span.Log("Cancel reservation request");
+            Console.SetOut(Console.Out);
+            Console.WriteLine("METHOD: DELETE, DESCRIPTION: Cancel reservation request, TIME: " + DateTime.Now.ToString("dd.MM.yyyy. HH:mm:ss"));
+
             if (!ModelState.IsValid)
             {
                 AccommodationCounter.WithLabels("accommodation", "cancel_reservation_request", "400").Inc();
@@ -161,6 +166,9 @@ namespace AccomodationPresentation.Controllers
             var actionName = ControllerContext.ActionDescriptor.DisplayName;
             using var scope = _tracer.BuildSpan(actionName).StartActive(true);
             scope.Span.Log("Cancel reservation");
+            Console.SetOut(Console.Out);
+            Console.WriteLine("METHOD: DELETE, DESCRIPTION: Cancel reservation, TIME: " + DateTime.Now.ToString("dd.MM.yyyy. HH:mm:ss"));
+
             if (!ModelState.IsValid)
             {
                 AccommodationCounter.WithLabels("accommodation", "cancel_reservation", "400").Inc();
@@ -190,6 +198,9 @@ namespace AccomodationPresentation.Controllers
             var actionName = ControllerContext.ActionDescriptor.DisplayName;
             using var scope = _tracer.BuildSpan(actionName).StartActive(true);
             scope.Span.Log("Get all reservations by guest");
+            Console.SetOut(Console.Out);
+            Console.WriteLine("METHOD: GET, DESCRIPTION: Get all reservations by guest, TIME: " + DateTime.Now.ToString("dd.MM.yyyy. HH:mm:ss"));
+
             var query = new GetAllReservationsByGuestQuery(guestEmail);
             var result = await _mediator.Send(query);
             AccommodationCounter.WithLabels("accommodation", "get_reservations_by_guest", "200").Inc();
@@ -203,6 +214,9 @@ namespace AccomodationPresentation.Controllers
             var actionName = ControllerContext.ActionDescriptor.DisplayName;
             using var scope = _tracer.BuildSpan(actionName).StartActive(true);
             scope.Span.Log("Check if the host is highlighted");
+            Console.SetOut(Console.Out);
+            Console.WriteLine("METHOD: GET, DESCRIPTION: Check if the host is highlighted, TIME: " + DateTime.Now.ToString("dd.MM.yyyy. HH:mm:ss"));
+
             var query = new CheckHighlightedHostQuery(hostEmail);
             var result = await _mediator.Send(query);
             AccommodationCounter.WithLabels("accommodation", "check_highlighted_host", "200").Inc();
@@ -216,6 +230,9 @@ namespace AccomodationPresentation.Controllers
             var actionName = ControllerContext.ActionDescriptor.DisplayName;
             using var scope = _tracer.BuildSpan(actionName).StartActive(true);
             scope.Span.Log("Get all reservation requests by guest");
+            Console.SetOut(Console.Out);
+            Console.WriteLine("METHOD: GET, DESCRIPTION: Get all reservation requests by guest, TIME: " + DateTime.Now.ToString("dd.MM.yyyy. HH:mm:ss"));
+
             var query = new GetAllRequestsByGuestQuery(guestEmail);
             var result = await _mediator.Send(query);
             AccommodationCounter.WithLabels("accommodation", "get_requests_by_guest", "200").Inc();
@@ -229,6 +246,9 @@ namespace AccomodationPresentation.Controllers
             var actionName = ControllerContext.ActionDescriptor.DisplayName;
             using var scope = _tracer.BuildSpan(actionName).StartActive(true);
             scope.Span.Log("Get all reservation requests by host");
+            Console.SetOut(Console.Out);
+            Console.WriteLine("METHOD: GET, DESCRIPTION: Get all reservation requests by host, TIME: " + DateTime.Now.ToString("dd.MM.yyyy. HH:mm:ss"));
+
             var query = new GetAllRequestsByAdminQuery(adminEmail);
             var result = await _mediator.Send(query);
             AccommodationCounter.WithLabels("accommodation", "get_requests_by_host", "200").Inc();
@@ -242,6 +262,9 @@ namespace AccomodationPresentation.Controllers
             var actionName = ControllerContext.ActionDescriptor.DisplayName;
             using var scope = _tracer.BuildSpan(actionName).StartActive(true);
             scope.Span.Log("Get all accommodation hosts for guest's reservations");
+            Console.SetOut(Console.Out);
+            Console.WriteLine("METHOD: GET, DESCRIPTION: Get all accommodation hosts for guest's reservations, TIME: " + DateTime.Now.ToString("dd.MM.yyyy. HH:mm:ss"));
+
             var query = new GetHostsByGuestReservationsQuery(guestEmail);
             var result = await _mediator.Send(query);
             AccommodationCounter.WithLabels("accommodation", "get_hosts_by_guest_reservations", "200").Inc();
@@ -255,6 +278,9 @@ namespace AccomodationPresentation.Controllers
             var actionName = ControllerContext.ActionDescriptor.DisplayName;
             using var scope = _tracer.BuildSpan(actionName).StartActive(true);
             scope.Span.Log("Get all accommodation for guest's reservations");
+            Console.SetOut(Console.Out);
+            Console.WriteLine("METHOD: GET, DESCRIPTION: Get all accommodation for guest's reservations, TIME: " + DateTime.Now.ToString("dd.MM.yyyy. HH:mm:ss"));
+
             var query = new GetAccommodationByGuestReservationsQuery(guestEmail);
             var result = await _mediator.Send(query);
             AccommodationCounter.WithLabels("accommodation", "get_accommodation_by_guest_reservations", "200").Inc();
@@ -267,6 +293,9 @@ namespace AccomodationPresentation.Controllers
             var actionName = ControllerContext.ActionDescriptor.DisplayName;
             using var scope = _tracer.BuildSpan(actionName).StartActive(true);
             scope.Span.Log("Create accommodation");
+            Console.SetOut(Console.Out);
+            Console.WriteLine("METHOD: POST, DESCRIPTION: Create accommodation, TIME: " + DateTime.Now.ToString("dd.MM.yyyy. HH:mm:ss"));
+
             if (!ModelState.IsValid)
             {
                 AccommodationCounter.WithLabels("accommodation", "create_accommodation", "400").Inc();
@@ -288,6 +317,9 @@ namespace AccomodationPresentation.Controllers
             var actionName = ControllerContext.ActionDescriptor.DisplayName;
             using var scope = _tracer.BuildSpan(actionName).StartActive(true);
             scope.Span.Log("Get all accommodation benefits");
+            Console.SetOut(Console.Out);
+            Console.WriteLine("METHOD: GET, DESCRIPTION: Get all accommodation benefits, TIME: " + DateTime.Now.ToString("dd.MM.yyyy. HH:mm:ss"));
+
             List<string> benefitList = new List<string>();
 
             foreach (Benefit benefit in Enum.GetValues(typeof(Benefit)))
@@ -305,6 +337,9 @@ namespace AccomodationPresentation.Controllers
             var actionName = ControllerContext.ActionDescriptor.DisplayName;
             using var scope = _tracer.BuildSpan(actionName).StartActive(true);
             scope.Span.Log("Search accommodation");
+            Console.SetOut(Console.Out);
+            Console.WriteLine("METHOD: GET, DESCRIPTION: Search accommodation, TIME: " + DateTime.Now.ToString("dd.MM.yyyy. HH:mm:ss"));
+
             if (!ModelState.IsValid)
             {
                 AccommodationCounter.WithLabels("accommodation", "search_accommodation", "400").Inc();
@@ -323,6 +358,9 @@ namespace AccomodationPresentation.Controllers
             var actionName = ControllerContext.ActionDescriptor.DisplayName;
             using var scope = _tracer.BuildSpan(actionName).StartActive(true);
             scope.Span.Log("Get all accommodation by host");
+            Console.SetOut(Console.Out);
+            Console.WriteLine("METHOD: GET, DESCRIPTION: Get all accommodation by host, TIME: " + DateTime.Now.ToString("dd.MM.yyyy. HH:mm:ss"));
+
             var query = new GetAllAccommodationByAdminQuery(adminEmail);
             var result = await _mediator.Send(query);
             AccommodationCounter.WithLabels("accommodation", "get_accommodation_by_host", "200").Inc();
@@ -336,6 +374,9 @@ namespace AccomodationPresentation.Controllers
             var actionName = ControllerContext.ActionDescriptor.DisplayName;
             using var scope = _tracer.BuildSpan(actionName).StartActive(true);
             scope.Span.Log("Create new price for accommodation");
+            Console.SetOut(Console.Out);
+            Console.WriteLine("METHOD: POST, DESCRIPTION: Create new price for accommodation, TIME: " + DateTime.Now.ToString("dd.MM.yyyy. HH:mm:ss"));
+
             if (!ModelState.IsValid)
             {
                 AccommodationCounter.WithLabels("accommodation", "add_new_price", "400").Inc();
@@ -354,6 +395,9 @@ namespace AccomodationPresentation.Controllers
             var actionName = ControllerContext.ActionDescriptor.DisplayName;
             using var scope = _tracer.BuildSpan(actionName).StartActive(true);
             scope.Span.Log("Filter accommodation");
+            Console.SetOut(Console.Out);
+            Console.WriteLine("METHOD: GET, DESCRIPTION: Filter accommodation, TIME: " + DateTime.Now.ToString("dd.MM.yyyy. HH:mm:ss"));
+
             if (!ModelState.IsValid)
             {
                 AccommodationCounter.WithLabels("accommodation", "filter_accommodation", "400").Inc();

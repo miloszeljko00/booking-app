@@ -1,12 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MongoDB.Driver;
 using AccomodationGradingDomain.Entities;
 using AccomodationGradingApplication.Dtos;
 using AccomodationGradingApplication.Grading.Commands;
@@ -42,6 +36,9 @@ namespace AccomodationGrading.Presentation.Controllers
             var actionName = ControllerContext.ActionDescriptor.DisplayName;
             using var scope = _tracer.BuildSpan(actionName).StartActive(true);
             scope.Span.Log("Create grade for host");
+            Console.SetOut(Console.Out);
+            Console.WriteLine("METHOD: POST, DESCRIPTION: Create grade for host, TIME: " + DateTime.Now.ToString("dd.MM.yyyy. HH:mm:ss"));
+
             if (!ModelState.IsValid)
             {
                 GradingCounter.WithLabels("grading", "create_host_grading", "400").Inc();
@@ -63,6 +60,9 @@ namespace AccomodationGrading.Presentation.Controllers
             var actionName = ControllerContext.ActionDescriptor.DisplayName;
             using var scope = _tracer.BuildSpan(actionName).StartActive(true);
             scope.Span.Log("Create grade for accommodation");
+            Console.SetOut(Console.Out);
+            Console.WriteLine("METHOD: POST, DESCRIPTION: Create grade for accommodation, TIME: " + DateTime.Now.ToString("dd.MM.yyyy. HH:mm:ss"));
+
             if (!ModelState.IsValid)
             {
                 GradingCounter.WithLabels("grading", "create_accommodation_grading", "400").Inc();
@@ -84,6 +84,9 @@ namespace AccomodationGrading.Presentation.Controllers
             var actionName = ControllerContext.ActionDescriptor.DisplayName;
             using var scope = _tracer.BuildSpan(actionName).StartActive(true);
             scope.Span.Log("Update grade for host");
+            Console.SetOut(Console.Out);
+            Console.WriteLine("METHOD: PUT, DESCRIPTION: Update grade for host, TIME: " + DateTime.Now.ToString("dd.MM.yyyy. HH:mm:ss"));
+
             if (!ModelState.IsValid)
             {
                 GradingCounter.WithLabels("grading", "update_host_grading", "400").Inc();
@@ -112,6 +115,9 @@ namespace AccomodationGrading.Presentation.Controllers
             var actionName = ControllerContext.ActionDescriptor.DisplayName;
             using var scope = _tracer.BuildSpan(actionName).StartActive(true);
             scope.Span.Log("Update grade for accommodation");
+            Console.SetOut(Console.Out);
+            Console.WriteLine("METHOD: PUT, DESCRIPTION: Update grade for accommodation, TIME: " + DateTime.Now.ToString("dd.MM.yyyy. HH:mm:ss"));
+
             if (!ModelState.IsValid)
             {
                 GradingCounter.WithLabels("grading", "update_accommodation_grading", "400").Inc();
@@ -141,6 +147,9 @@ namespace AccomodationGrading.Presentation.Controllers
             var actionName = ControllerContext.ActionDescriptor.DisplayName;
             using var scope = _tracer.BuildSpan(actionName).StartActive(true);
             scope.Span.Log("Get grades for host");
+            Console.SetOut(Console.Out);
+            Console.WriteLine("METHOD: GET, DESCRIPTION: Get grades for host, TIME: " + DateTime.Now.ToString("dd.MM.yyyy. HH:mm:ss"));
+
             var command = new GetHostGradingQuery();
 
             var result = await _mediator.Send(command);
@@ -155,6 +164,9 @@ namespace AccomodationGrading.Presentation.Controllers
             var actionName = ControllerContext.ActionDescriptor.DisplayName;
             using var scope = _tracer.BuildSpan(actionName).StartActive(true);
             scope.Span.Log("Get grades for accommodation");
+            Console.SetOut(Console.Out);
+            Console.WriteLine("METHOD: GET, DESCRIPTION: Get grades for accommodation, TIME: " + DateTime.Now.ToString("dd.MM.yyyy. HH:mm:ss"));
+
             var command = new GetAccommodationGradingQuery();
 
             var result = await _mediator.Send(command);
@@ -169,6 +181,9 @@ namespace AccomodationGrading.Presentation.Controllers
             var actionName = ControllerContext.ActionDescriptor.DisplayName;
             using var scope = _tracer.BuildSpan(actionName).StartActive(true);
             scope.Span.Log("Delete grade for host");
+            Console.SetOut(Console.Out);
+            Console.WriteLine("METHOD: DELETE, DESCRIPTION: Delete grade for host, TIME: " + DateTime.Now.ToString("dd.MM.yyyy. HH:mm:ss"));
+
             var command = new DeleteHostGradingCommand(gradeId);
 
             try
@@ -191,6 +206,9 @@ namespace AccomodationGrading.Presentation.Controllers
             var actionName = ControllerContext.ActionDescriptor.DisplayName;
             using var scope = _tracer.BuildSpan(actionName).StartActive(true);
             scope.Span.Log("Delete grade for accommodation");
+            Console.SetOut(Console.Out);
+            Console.WriteLine("METHOD: DELETE, DESCRIPTION: Delete grade for accommodation, TIME: " + DateTime.Now.ToString("dd.MM.yyyy. HH:mm:ss"));
+
             var command = new DeleteAccommodationGradingCommand(gradeId);
 
             try

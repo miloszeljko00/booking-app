@@ -8,13 +8,11 @@ using Accomodation.Application.Accommodation;
 using MediatR;
 using AccomodationSuggestionDomain.Interfaces;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
-using System.Runtime.CompilerServices;
 using OpenTracing;
 using Jaeger.Reporters;
 using Jaeger;
 using Jaeger.Senders.Thrift;
 using Jaeger.Samplers;
-using OpenTracing.Contrib.NetCore.Configuration;
 using OpenTracing.Util;
 using Prometheus;
 

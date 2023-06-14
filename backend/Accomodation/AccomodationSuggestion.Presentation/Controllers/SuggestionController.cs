@@ -1,13 +1,5 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MongoDB.Driver;
-using System.Diagnostics;
 using AccomodationSuggestion.Application.Dtos;
 using AccomodationSuggestion.Application.Suggestion.Queries;
 using OpenTracing;
@@ -41,6 +33,9 @@ namespace AccomodationSuggestion.Presentation.Controllers
             var actionName = ControllerContext.ActionDescriptor.DisplayName;
             using var scope = _tracer.BuildSpan(actionName).StartActive(true);
             scope.Span.Log("Get all suggested flights");
+            Console.SetOut(Console.Out);
+            Console.WriteLine("METHOD: POST, DESCRIPTION: Get all suggested flights, TIME: " + DateTime.Now.ToString("dd.MM.yyyy. HH:mm:ss"));
+
             if (!ModelState.IsValid)
             {
                 SuggestionCounter.WithLabels("suggestion", "get_all_suggested_flights", "400").Inc();
@@ -58,6 +53,9 @@ namespace AccomodationSuggestion.Presentation.Controllers
             var actionName = ControllerContext.ActionDescriptor.DisplayName;
             using var scope = _tracer.BuildSpan(actionName).StartActive(true);
             scope.Span.Log("Book chosen flight");
+            Console.SetOut(Console.Out);
+            Console.WriteLine("METHOD: POST, DESCRIPTION: Book chosen flight, TIME: " + DateTime.Now.ToString("dd.MM.yyyy. HH:mm:ss"));
+
             if (!ModelState.IsValid)
             {
                 SuggestionCounter.WithLabels("suggestion", "book_flight", "400").Inc();

@@ -20,6 +20,9 @@ services:
     networks:
       - docker-network
       - monitoring
+    logging: *fluent-bit
+    env_file:
+      - .env
   #----------------------------------------------------------------
   accommodation-grading-service:
     container_name: accommodation-grading-service
@@ -35,6 +38,9 @@ services:
     networks:
       - docker-network
       - monitoring
+    logging: *fluent-bit
+    env_file:
+      - .env
   #----------------------------------------------------------------
   accommodation-suggestion-service:
     container_name: accommodation-suggestion-service
@@ -50,6 +56,9 @@ services:
     networks:
       - docker-network
       - monitoring
+    logging: *fluent-bit
+    env_file:
+      - .env
   #----------------------------------------------------------------
   user-management-service:
     container_name: user-management-service
@@ -65,6 +74,9 @@ services:
     networks:
       - docker-network
       - monitoring
+    logging: *fluent-bit
+    env_file:
+      - .env
   #----------------------------------------------------------------
   notification-service:
     container_name: notification-service
@@ -80,6 +92,9 @@ services:
     networks:
       - docker-network
       - monitoring
+    logging: *fluent-bit
+    env_file:
+      - .env
 #----------------------------------------------------------------
   ocelot-apigateway:
     container_name: ocelot-apigateway
