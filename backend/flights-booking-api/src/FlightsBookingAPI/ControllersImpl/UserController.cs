@@ -34,19 +34,20 @@ namespace FlightsBookingAPI.ControllersImpl
 
         [Authorize(Roles = "user")]
         [HttpGet]
-        [Route("/users/generateApiKey/{userId}")]
-        public async Task<IActionResult> GenerateApiKey(string userId)
+        [Route("/users/generateApiKey/{userId}/{email}")]
+        public async Task<IActionResult> GenerateApiKey(string userId, string email)
         {
             var apiKey = Guid.NewGuid();
             var user = await userService.GetAsync(Guid.Parse(userId));
             if (user == null)
             {
-                user = new User() { Id = Guid.Parse(userId), ApiKey = apiKey.ToString() };
+                user = new User() { Id = Guid.Parse(userId), ApiKey = apiKey.ToString(), Email = email };
                 await userService.CreateAsync(user);
             }
             else
             {
                 user.ApiKey = apiKey.ToString();
+                user.Email = email;
                 await userService.UpdateAsync(user.Id, user);
             }
             return Ok(user);

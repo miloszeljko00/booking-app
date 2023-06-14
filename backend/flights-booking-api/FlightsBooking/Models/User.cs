@@ -10,5 +10,6 @@ namespace FlightsBooking.Models
     {
         public Guid Id { get; set; }
         public string ApiKey { get; set; } = "";
+        public string Email { get; set; } = ""; 
     }
 }

@@ -25,6 +25,8 @@ namespace FlightsBooking.Services
 
         public async Task<User?> GetAsync(Guid id) =>
             await _userCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
+        public async Task<User?> GetByKeyAsync(string key) =>
+            await _userCollection.Find(x => x.ApiKey == key).FirstOrDefaultAsync();
 
         public async Task CreateAsync(User newUser) =>
             await _userCollection.InsertOneAsync(newUser);

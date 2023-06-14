@@ -20,6 +20,7 @@ message BookFlightMessageProto {
     string flightId = 1;
 	string userId = 2;
 	string numberOfTickets = 3;
+	string apiKey = 4;
 }
 
 message BookFlightMessageProtoResponse {
