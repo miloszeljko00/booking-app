@@ -12,5 +12,11 @@ message MessageProto2 {
 message MessageResponseProto2 {
   bool canDelete = 1;
 }
+message CreateGuestProto{
+	string guestEmail = 1;
+}
 
+message CreateGuestProtoResponse{
+	bool isCreated = 1;
+}
 

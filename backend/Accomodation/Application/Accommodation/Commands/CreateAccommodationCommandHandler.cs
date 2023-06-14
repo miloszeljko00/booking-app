@@ -72,10 +72,8 @@ namespace AccomodationApplication.Accommodation.Commands
                     HttpHandler = new GrpcWebHandler(new HttpClientHandler())
                 });
                 client = new CreateAccommodationGrpcService.CreateAccommodationGrpcServiceClient(channel);
-                CreateAccommodationProtoResponse response = await client.createAccommodationAsync(new CreateAccommodationProto() { AccomodationName = createdAcc.Result.Name, AccommodationId=createdAcc.Result.Id.ToString(), HostEmail = createdAcc.Result.HostEmail.EmailAddress });
-
-
-                
+                CreateAccommodationProtoResponse response = await client.createAccommodationAsync(new CreateAccommodationProto() { AccomodationName = createdAcc.Result.Name, HostEmail = createdAcc.Result.HostEmail.EmailAddress });
+      
             }
             return createdAcc.Result;
         }

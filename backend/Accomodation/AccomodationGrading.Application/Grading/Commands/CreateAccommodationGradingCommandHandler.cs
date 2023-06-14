@@ -23,6 +23,7 @@ namespace AccomodationGradingApplication.Grading.Commands
         private readonly IConfiguration _configuration;
         private readonly IHostEnvironment _env;
         private AccommodationGradingNotificationGrpcService.AccommodationGradingNotificationGrpcServiceClient client;
+        private CreateGradeGrpcService.CreateGradeGrpcServiceClient gradeClient;
         public CreateAccommodationGradingCommandHandler(IAccommodationGradingRepository repository, IConfiguration configuration, IHostEnvironment env)
         {
             _repository = repository;
@@ -44,6 +45,9 @@ namespace AccomodationGradingApplication.Grading.Commands
                 var channel = new Channel(_configuration.GetValue<string>("GrpcDruzina:Notification:Address") + ":" + _configuration.GetValue<int>("GrpcDruzina:Notification:Port"), ChannelCredentials.Insecure);
                 client = new AccommodationGradingNotificationGrpcService.AccommodationGradingNotificationGrpcServiceClient(channel);
                 MessageResponseProto5 response = await client.accommodationGradingAsync(new MessageProto5() { Email = accommodationGrading.HostEmail.EmailAddress, Accommodation = accommodationGrading.AccommodationName, Grade = accommodationGrading.Grade });
+                var gradeChannel = new Channel(_configuration.GetValue<string>("GrpcDruzina:AccommodationSuggestion:Address") + ":" + _configuration.GetValue<int>("GrpcDruzina:AccommodationSuggestion:Port"), ChannelCredentials.Insecure);
+                gradeClient = new CreateGradeGrpcService.CreateGradeGrpcServiceClient(gradeChannel);
+                CreateGradeProtoResponse gradeResponse = await gradeClient.createGradeAsync(new CreateGradeProto() { AccommodationName = accommodationGrading.AccommodationName, GuestEmail= request.createAccommodationGradingDTO.GuestEmail, Grade = accommodationGrading.Grade });
             }
             else
             {
@@ -53,6 +57,12 @@ namespace AccomodationGradingApplication.Grading.Commands
                 });
                 client = new AccommodationGradingNotificationGrpcService.AccommodationGradingNotificationGrpcServiceClient(channel);
                 MessageResponseProto5 response = await client.accommodationGradingAsync(new MessageProto5() { Email = accommodationGrading.HostEmail.EmailAddress, Accommodation = accommodationGrading.AccommodationName, Grade = accommodationGrading.Grade });
+                using var gradeChannel = GrpcChannel.ForAddress(_configuration.GetValue<string>("GrpcDruzina:AccommodationSuggestion:Address"), new GrpcChannelOptions
+                {
+                    HttpHandler = new GrpcWebHandler(new HttpClientHandler())
+                });
+                gradeClient = new CreateGradeGrpcService.CreateGradeGrpcServiceClient(gradeChannel);
+                CreateGradeProtoResponse gradeResponse = await gradeClient.createGradeAsync(new CreateGradeProto() { AccommodationName = accommodationGrading.AccommodationName, GuestEmail = request.createAccommodationGradingDTO.GuestEmail, Grade = accommodationGrading.Grade });
             }
             
 

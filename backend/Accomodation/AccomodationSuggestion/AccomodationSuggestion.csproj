@@ -21,7 +21,7 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\AccomodationSuggestion.Application\AccomodationSuggestion.Application.csproj" />
-	  <ProjectReference Include="..\AccomodationSuggestion.Domain\AccomodationSuggestion.Domain.csproj" />
+	  
 	  <ProjectReference Include="..\AccomodationSuggestion.Infrastructure\AccomodationSuggestion.Infrastructure.csproj" />
 	  <ProjectReference Include="..\AccomodationSuggestion.Presentation\AccomodationSuggestion.Presentation.csproj" />
 	</ItemGroup>

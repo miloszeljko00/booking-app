@@ -16,8 +16,9 @@ namespace AccomodationSuggestion.Application.Suggestion.Queries
         public async Task<UserNode> Handle(GetAllUserNodesQuery request, CancellationToken cancellationToken)
         {
             List<UserNode> users = _repository.getAllUserNodesAsync().Result;
-            var userNode = _repository.createUserAsync("proba@mail.com");
-            var accNode = _repository.createAccommodationNode(new AccommodationNode("aaa@mail", "id", "accname"));
+            //var userNode = _repository.createUserAsync("proba@mail.com");
+            //var accNode = _repository.createAccommodationNode(new AccommodationNode("aaa@mail", "id", "accname"));
+            var iscreated = _repository.createGradeRelationship(4, "15f", "proba@mail.com");
             return users.First();
         }
     }

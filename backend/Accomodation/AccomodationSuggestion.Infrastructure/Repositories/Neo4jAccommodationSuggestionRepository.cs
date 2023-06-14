@@ -68,32 +68,55 @@ namespace AccomodationSuggestion.Infrastructure.Repositories
         public async Task<AccommodationNode> createAccommodationNode(AccommodationNode accommodationNode)
         {
             await using var session = driver.AsyncSession();
-            string accommodationId = accommodationNode.AccommodationId;
             string accommodationName = accommodationNode.AccommodationName;
             string hostEmail = accommodationNode.HostEmail;
             var accData = await session.ExecuteWriteAsync(async tx =>
             {
                 var query = @"
                     MERGE (a:Accommodation {
-                        accommodationId: $accommodationId,
                         accommodationName: $accommodationName,
                         hostEmail: $hostEmail
                     })
-                    RETURN a.accommodationId AS id, a.accommodationName as accName, a.hostEmail as email";
+                    RETURN a.accommodationName as accName, a.hostEmail as email";
                 
-                var cursor = await tx.RunAsync(query, new { accommodationId, accommodationName, hostEmail });
+                var cursor = await tx.RunAsync(query, new { accommodationName, hostEmail });
 
                 var record = await cursor.SingleAsync();
                 int a = 5;
-                string accId  =  record["id"].As<string>();
+                
                 string accName = record["accName"].As<string>();
                 string host = record["email"].As<string>();
-                return new AccommodationNode(host, accId, accName);
-                //return record["id"].As<string>();
+                return new AccommodationNode(host, accName);
+                
             });
 
-            //AccommodationNode accNode = new AccommodationNode(accData["accommodationId"], accData["accommodationName"], accData["hostEmail"]);
+            
             return accData;
         }
+        public async Task<bool> createGradeRelationship(int grade, string accommodationName, string email)
+        {
+            await using var session = driver.AsyncSession();
+           
+            var accData = await session.ExecuteWriteAsync(async tx =>
+            {
+                var query = @"
+                    MATCH (a:Accommodation {accommodationName: $accommodationName })
+                    MATCH (u: User {email :$email})
+                    MERGE (u) -[g:Graded{grade: $grade}]-> (a)                       
+                    RETURN g.grade as grade";
+
+                var cursor = await tx.RunAsync(query, new { accommodationName, email, grade });
+
+                var record = await cursor.SingleAsync();
+                int a = record["grade"].As<int>(); ;
+                
+                return a;
+
+            });
+
+            return true;
+        }
+
+
     }
 }

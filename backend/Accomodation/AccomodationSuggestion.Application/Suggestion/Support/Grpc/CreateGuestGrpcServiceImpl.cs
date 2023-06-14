@@ -1,7 +1,6 @@
 ﻿using AccommodationSuggestionApplication.Suggestion.Support.Grpc.Protos;
 using AccomodationSuggestion.Domain.Entities;
 using AccomodationSuggestion.Domain.Interfaces;
-using DnsClient.Protocol;
 using Grpc.Core;
 using Rs.Ac.Uns.Ftn.Grpc;
 using System;
@@ -12,19 +11,21 @@ using System.Threading.Tasks;
 
 namespace AccomodationSuggestion.Application.Suggestion.Support.Grpc
 {
-    public class CreateAccommodationGrpcServiceImpl : CreateAccommodationGrpcService.CreateAccommodationGrpcServiceBase
+    public class CreateGuestGrpcServiceImpl: CreateGuestGrpcService.CreateGuestGrpcServiceBase
     {
         private readonly IAccommodationSuggestionRepository _repository;
-        public CreateAccommodationGrpcServiceImpl(IAccommodationSuggestionRepository repository)
+
+        public CreateGuestGrpcServiceImpl(IAccommodationSuggestionRepository repository)
         {
             _repository = repository;
         }
-        public override async Task<CreateAccommodationProtoResponse> createAccommodation(CreateAccommodationProto request, ServerCallContext context)
+        public override async Task<CreateGuestProtoResponse> createGuest(CreateGuestProto request, ServerCallContext context)
         {
-            var response = new CreateAccommodationProtoResponse();
-            var createdNode = _repository.createAccommodationNode(new AccommodationNode(request.HostEmail, request.AccomodationName));
+            var response = new CreateGuestProtoResponse();
+            var createdNode = _repository.createUserAsync(request.GuestEmail);
             response.IsCreated = true;
             return response;
         }
     }
+    
 }

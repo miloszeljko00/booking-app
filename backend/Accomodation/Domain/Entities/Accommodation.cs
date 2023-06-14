@@ -398,7 +398,6 @@ namespace AccomodationSuggestionDomain.Entities
             RuleFor(v => v.Benefits).NotNull();
             RuleFor(v => v.Benefits).NotEmpty();
             RuleFor(v => v.Pictures).NotNull();
-            RuleFor(v => v.Pictures).NotEmpty();
             RuleFor(v => v.Capacity).NotNull();
             RuleFor(v => v.ReserveAutomatically).NotNull();
         }
