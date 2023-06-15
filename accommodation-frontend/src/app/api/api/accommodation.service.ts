@@ -27,6 +27,7 @@ const httpOptions = {
 
 export class AccommodationService{
     private apiUrl = environment.apiUrl + '/Accommodation'
+    private reccommendationUrl = environment.apiUrl + '/Suggestion'
 
     constructor(private http: HttpClient) { }
 
@@ -114,4 +115,9 @@ filterAccommodation(minPrice: number, maxPrice: number, benefits: number[], isHo
       return this.http.get(this.apiUrl + "/filter", {params});
 
     }
+    getRecommendedAccommodation(guestEmail: string){
+      return this.http.get(this.reccommendationUrl + "/recommend-accomodation/" + guestEmail );
+    }
+
+  
 }

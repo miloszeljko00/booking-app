@@ -30,6 +30,7 @@ import { CreateHostGradingDialogComponent } from './components/create-host-gradi
 import { UpdateHostGradingDialogComponent } from './components/update-host-grading-dialog/update-host-grading-dialog.component';
 import { CreateAccommodationGradingDialogComponent } from './components/create-accommodation-grading-dialog/create-accommodation-grading-dialog.component';
 import { UpdateAccommodationGradingDialogComponent } from './components/update-accommodation-grading-dialog/update-accommodation-grading-dialog.component';
+import { RecommendationComponent } from '../pages/recommendation/recommendation.component';
 
 
 @NgModule({
@@ -50,6 +51,7 @@ import { UpdateAccommodationGradingDialogComponent } from './components/update-a
     UpdateHostGradingDialogComponent,
     CreateAccommodationGradingDialogComponent,
     UpdateAccommodationGradingDialogComponent,
+    RecommendationComponent,
 
   ],
   imports:[

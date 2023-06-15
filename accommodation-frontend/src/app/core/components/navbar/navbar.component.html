@@ -16,6 +16,7 @@
                 <app-navbar-button (click)="goToRequestsReview()">Requests</app-navbar-button>
                 <app-navbar-button (click)="goToGrading()">Grading</app-navbar-button>
                 <app-navbar-button (click)="goToFlightsIntegration()">Flights Integration</app-navbar-button>
+                <app-navbar-button (click)="goToRecommendation()">Recommendation</app-navbar-button>
             </ng-container>
             <ng-container class="admin-pages" *ngIf="user.roles.includes('host')">
                 <!-- TODO: Ovde dodavati dugmad za administratora -->
