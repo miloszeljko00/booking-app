@@ -63,6 +63,7 @@
 		<Protobuf Include="Accommodation\Support\Grpc\Protos\guestNotificationGrpcService.proto" GrpcService="Client" />
 		<Protobuf Include="Accommodation\Support\Grpc\Protos\hostRequestNotificationGrpcService.proto" GrpcService="Client" />
 		<Protobuf Include="Accommodation\Support\Grpc\Protos\hostCancelReservationNotificationGrpcService.proto" GrpcService="Client" />
+		<Protobuf Include="Accommodation\Support\Grpc\Protos\createAccommodationGrpcService.proto" GrpcService="Client" />
 	</ItemGroup>
 
 </Project>

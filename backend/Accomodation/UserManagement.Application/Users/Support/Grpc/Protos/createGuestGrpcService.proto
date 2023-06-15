@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package rs.ac.uns.ftn.grpc;
+option csharp_namespace = "UserManagement.Application.Users.Support.Grpc.Protos";
+import "Users/Support/Grpc/Protos/model.proto";
+
+service CreateGuestGrpcService {
+  rpc createGuest (CreateGuestProto) returns (CreateGuestProtoResponse);
+}

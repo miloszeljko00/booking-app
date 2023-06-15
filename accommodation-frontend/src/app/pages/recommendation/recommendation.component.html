@@ -1,0 +1,21 @@
+
+
+<div class="container">
+    <p> Accommodation liked by similar users!</p>
+    <table mat-table [dataSource]="dataSourceAcc">
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef class="cell-center"> Name </th>
+            <td mat-cell *matCellDef="let acc" class="cell-center">{{acc.accommodationName}}</td>
+        </ng-container>
+        <ng-container matColumnDef="avg">
+          <th mat-header-cell *matHeaderCellDef class="cell-center"> Average Grade </th>
+          <td mat-cell *matCellDef="let acc" class="cell-center">{{acc.averageGrade}}</td>
+        </ng-container>
+        <ng-container matColumnDef="host">
+            <th mat-header-cell *matHeaderCellDef class="cell-center"> Host Email </th>
+            <td mat-cell *matCellDef="let acc" class="cell-center">{{acc.hostEmail}}</td>
+          </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>

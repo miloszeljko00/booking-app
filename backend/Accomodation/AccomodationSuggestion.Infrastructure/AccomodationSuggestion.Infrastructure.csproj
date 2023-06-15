@@ -8,6 +8,12 @@
 
   <ItemGroup>
     <PackageReference Include="MongoDB.Driver" Version="2.19.1" />
+    <PackageReference Include="Neo4j.Driver" Version="5.9.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AccomodationSuggestion.Application\AccomodationSuggestion.Application.csproj" />
+    <ProjectReference Include="..\AccomodationSuggestion.Domain\AccomodationSuggestion.Domain.csproj" />
   </ItemGroup>
 
 </Project>

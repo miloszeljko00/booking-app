@@ -10,6 +10,7 @@ using MongoDB.Driver;
 using System.Diagnostics;
 using AccomodationSuggestion.Application.Dtos;
 using AccomodationSuggestion.Application.Suggestion.Queries;
+using AccomodationSuggestion.Domain.Entities;
 
 namespace AccomodationSuggestion.Presentation.Controllers
 {
@@ -37,6 +38,22 @@ namespace AccomodationSuggestion.Presentation.Controllers
         public async Task<ActionResult<bool>> BookFlight([FromBody] BookFlightDto bookFlightDto)
         {
             var query = new BookFlightQuery(bookFlightDto);
+            var result = await _mediator.Send(query);
+            return Ok(result);
+        }
+        [HttpGet]
+        public async Task<ActionResult<UserNode>> getFirstUserNode()
+        {
+            var query = new GetAllUserNodesQuery();
+            var result = await _mediator.Send(query);
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("recommend-accomodation/{guestEmail}")]
+        public async Task<ActionResult<List<AccommodationNode>>> getRecommendedAccommodation(string guestEmail)
+        {
+            var query = new GetRecommendedAccommodationQuery(guestEmail);
             var result = await _mediator.Send(query);
             return Ok(result);
         }

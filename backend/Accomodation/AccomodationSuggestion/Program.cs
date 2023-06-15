@@ -2,6 +2,12 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 using Accomodation.Configuration;
+using Grpc.Core;
+using MediatR;
+using Rs.Ac.Uns.Ftn.Grpc;
+using AccomodationSuggestion.Application.Suggestion.Support.Grpc;
+using AccomodationSuggestion.Domain.Interfaces;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +21,47 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
 builder.Services
     .AddRepositories()
-    .AddHandlers();
+    .AddHandlers()
+    .AddInfrastructure(builder.Configuration);
+IServiceProvider serviceProvider = builder.Services.BuildServiceProvider();
+
+var env = builder.Environment.EnvironmentName;
+if (env != null && env == "Cloud")
+{
+    builder.WebHost.ConfigureKestrel(options =>
+    {
+        options.ListenAnyIP(int.Parse(builder.Configuration["HttpPort"]));
+        options.ListenAnyIP(int.Parse(builder.Configuration["HttpsPort"]));
+        options.ListenAnyIP(int.Parse(builder.Configuration["GrpcDruzina:AccommodationSuggestion:Port"]), listenOptions =>
+        {
+            listenOptions.Protocols = HttpProtocols.Http2;
+        });
+    });
+    Server server = new Server
+    {
+        Services =
+        {
+            CreateAccommodationGrpcService.BindService(new CreateAccommodationGrpcServiceImpl(serviceProvider.GetRequiredService<IAccommodationSuggestionRepository>())),
+            CreateGuestGrpcService.BindService(new CreateGuestGrpcServiceImpl(serviceProvider.GetRequiredService<IAccommodationSuggestionRepository>())),
+            CreateGradeGrpcService.BindService(new CreateGradeGrpcServiceImpl(serviceProvider.GetRequiredService<IAccommodationSuggestionRepository>()))
+        },
+    };
+    server.Start();
+}
+else
+{
+    Server server = new Server
+    {
+        Services =
+        {
+            CreateAccommodationGrpcService.BindService(new CreateAccommodationGrpcServiceImpl(serviceProvider.GetRequiredService<IAccommodationSuggestionRepository>())),
+            CreateGuestGrpcService.BindService(new CreateGuestGrpcServiceImpl(serviceProvider.GetRequiredService<IAccommodationSuggestionRepository>())),
+            CreateGradeGrpcService.BindService(new CreateGradeGrpcServiceImpl(serviceProvider.GetRequiredService<IAccommodationSuggestionRepository>()))
+        },
+        Ports = { new ServerPort("0.0.0.0", int.Parse(builder.Configuration["GrpcDruzina:AccommodationSuggestion:Port"]), ServerCredentials.Insecure) }
+    };
+    server.Start();
+}
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -88,6 +134,9 @@ builder.Services
     });
 
 
+
+
+builder.Services.AddGrpc();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -103,14 +152,21 @@ if (app.Environment.IsDevelopment())
         c.OAuthAppName("KEYCLOAK");
     });
 }
-
 app.UseHttpsRedirection();
-
 app.UseCors("AllowOrigin");
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseRouting();
 
+app.UseGrpcWeb(new GrpcWebOptions { DefaultEnabled = true });
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapGrpcService<CreateAccommodationGrpcServiceImpl>();
+    endpoints.MapGrpcService<CreateGuestGrpcServiceImpl>();
+    endpoints.MapGrpcService<CreateGradeGrpcServiceImpl>();
+   
+});
 app.MapControllers();
 
 app.Run();

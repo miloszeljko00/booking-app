@@ -19,10 +19,16 @@
 		<Protobuf Include="Suggestion\Support\Grpc\Protos\model.proto" GrpcService="None" />
 		<Protobuf Include="Suggestion\Support\Grpc\Protos\suggestFlightsGrpcService.proto" GrpcServices="Client" />
 		<Protobuf Include="Suggestion\Support\Grpc\Protos\bookFlightGrpcService.proto" GrpcServices="Client" />
+		<Protobuf Include="Suggestion\Support\Grpc\Protos\createAccommodationGrpcService.proto" GrpcServices="Server" />
+		<Protobuf Include="Suggestion\Support\Grpc\Protos\createGuestGrpcService.proto" GrpcServices="Server" />
+		<Protobuf Include="Suggestion\Support\Grpc\Protos\createGradeGrpcService.proto" GrpcServices="Server" />
 	</ItemGroup>
   <ItemGroup>
     <Folder Include="Mappers\" />
     <Folder Include="Suggestion\Commands\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AccomodationSuggestion.Domain\AccomodationSuggestion.Domain.csproj" />
   </ItemGroup>
 
 </Project>
