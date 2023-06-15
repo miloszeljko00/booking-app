@@ -12,6 +12,9 @@ namespace AccomodationSuggestion.Domain.Interfaces
         public Task<List<UserNode>> getAllUserNodesAsync();
         public Task<UserNode> createUserAsync(string email);
         public Task<AccommodationNode> createAccommodationNode(AccommodationNode accommodationNode);
-        public Task<bool> createGradeRelationship(int grade, string accommodationName, string email);
+        public Task<bool> createGradeRelationship(int grade, string accommodationName, string email, string date);
+        public Task<List<AccommodationNode>> getAccommodationLikedBySimilarUsers(string email);
+        public Task<int> getNumberOfRecentBadGrades(string accommodationName);
+        public Task<float> getAverageGrade(string accommodationName);
     }
 }

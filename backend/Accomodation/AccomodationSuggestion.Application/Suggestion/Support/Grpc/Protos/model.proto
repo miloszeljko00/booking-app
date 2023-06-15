@@ -46,6 +46,7 @@ message CreateGradeProto{
 	string accommodationName = 1;
 	int32 grade = 2;
 	string guestEmail = 3;
+	string date = 4;
 }
 message CreateGradeProtoResponse{
 	bool isCreated = 1;

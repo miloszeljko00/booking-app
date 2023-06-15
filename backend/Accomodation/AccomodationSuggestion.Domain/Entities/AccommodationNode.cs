@@ -12,8 +12,11 @@ namespace AccomodationSuggestion.Domain.Entities
         
         public string AccommodationName { get; set; }
 
+        public float AverageGrade { get; set; }
+
         public AccommodationNode(string hostEmail, string accommodationName)
         {
+            AverageGrade = 0;
             HostEmail = hostEmail;
             AccommodationName = accommodationName;
         }

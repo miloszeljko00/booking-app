@@ -47,7 +47,7 @@ namespace AccomodationGradingApplication.Grading.Commands
                 MessageResponseProto5 response = await client.accommodationGradingAsync(new MessageProto5() { Email = accommodationGrading.HostEmail.EmailAddress, Accommodation = accommodationGrading.AccommodationName, Grade = accommodationGrading.Grade });
                 var gradeChannel = new Channel(_configuration.GetValue<string>("GrpcDruzina:AccommodationSuggestion:Address") + ":" + _configuration.GetValue<int>("GrpcDruzina:AccommodationSuggestion:Port"), ChannelCredentials.Insecure);
                 gradeClient = new CreateGradeGrpcService.CreateGradeGrpcServiceClient(gradeChannel);
-                CreateGradeProtoResponse gradeResponse = await gradeClient.createGradeAsync(new CreateGradeProto() { AccommodationName = accommodationGrading.AccommodationName, GuestEmail= request.createAccommodationGradingDTO.GuestEmail, Grade = accommodationGrading.Grade });
+                CreateGradeProtoResponse gradeResponse = await gradeClient.createGradeAsync(new CreateGradeProto() { AccommodationName = accommodationGrading.AccommodationName, GuestEmail= request.createAccommodationGradingDTO.GuestEmail, Grade = accommodationGrading.Grade, Date = DateTime.Now.ToString("yyyy-MM-dd") });
             }
             else
             {
@@ -62,7 +62,7 @@ namespace AccomodationGradingApplication.Grading.Commands
                     HttpHandler = new GrpcWebHandler(new HttpClientHandler())
                 });
                 gradeClient = new CreateGradeGrpcService.CreateGradeGrpcServiceClient(gradeChannel);
-                CreateGradeProtoResponse gradeResponse = await gradeClient.createGradeAsync(new CreateGradeProto() { AccommodationName = accommodationGrading.AccommodationName, GuestEmail = request.createAccommodationGradingDTO.GuestEmail, Grade = accommodationGrading.Grade });
+                CreateGradeProtoResponse gradeResponse = await gradeClient.createGradeAsync(new CreateGradeProto() { AccommodationName = accommodationGrading.AccommodationName, GuestEmail = request.createAccommodationGradingDTO.GuestEmail, Grade = accommodationGrading.Grade, Date = DateTime.Now.ToString("yyyy-MM-dd") });
             }
             
 

@@ -21,7 +21,7 @@ namespace AccomodationSuggestion.Application.Suggestion.Support.Grpc
         public override async Task<CreateGradeProtoResponse> createGrade(CreateGradeProto request, ServerCallContext context)
         {
             var response = new CreateGradeProtoResponse();
-            var createdrelationship = _repository.createGradeRelationship(request.Grade, request.AccommodationName, request.GuestEmail);
+            var createdrelationship = _repository.createGradeRelationship(request.Grade, request.AccommodationName, request.GuestEmail, request.Date);
             response.IsCreated = true;
             return response;
         }

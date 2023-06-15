@@ -18,7 +18,10 @@ namespace AccomodationSuggestion.Application.Suggestion.Queries
             List<UserNode> users = _repository.getAllUserNodesAsync().Result;
             //var userNode = _repository.createUserAsync("proba@mail.com");
             //var accNode = _repository.createAccommodationNode(new AccommodationNode("aaa@mail", "id", "accname"));
-            var iscreated = _repository.createGradeRelationship(4, "15f", "proba@mail.com");
+            //var iscreated = _repository.createGradeRelationship(4, "15f", "proba@mail.com");
+            //var accNodes = _repository.getAccommodationLikedBySimilarUsers("ime@ime.com");
+            var rez1 = _repository.getNumberOfRecentBadGrades("Acc1");
+            var rez2 = _repository.getAverageGrade("Acc1");
             return users.First();
         }
     }

@@ -22,6 +22,7 @@ namespace Accomodation.Configuration
             services.AddScoped<IRequestHandler<GetAllSuggestedFlightsQuery, GetAllSuggestedFlightsResponse>, GetAllSuggestedFlightsQueryHandler>();
             services.AddScoped<IRequestHandler<BookFlightQuery, bool>, BookFlightQueryHandler>();
             services.AddScoped<IRequestHandler<GetAllUserNodesQuery, UserNode>, GetAllUserNodesQueryHandler>();
+            services.AddScoped<IRequestHandler<GetRecommendedAccommodationQuery, List<AccommodationNode>>, GetRecommendedAccommodationQueryHandler>();
             return services;
         }
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, ConfigurationManager builderConfiguration)

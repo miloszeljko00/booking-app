@@ -48,5 +48,14 @@ namespace AccomodationSuggestion.Presentation.Controllers
             var result = await _mediator.Send(query);
             return Ok(result);
         }
+
+        [HttpGet]
+        [Route("recommend-accomodation/{guestEmail}")]
+        public async Task<ActionResult<List<AccommodationNode>>> getRecommendedAccommodation(string guestEmail)
+        {
+            var query = new GetRecommendedAccommodationQuery(guestEmail);
+            var result = await _mediator.Send(query);
+            return Ok(result);
+        }
     }
 }

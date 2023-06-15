@@ -82,7 +82,7 @@ namespace AccomodationSuggestion.Infrastructure.Repositories
                 var cursor = await tx.RunAsync(query, new { accommodationName, hostEmail });
 
                 var record = await cursor.SingleAsync();
-                int a = 5;
+                
                 
                 string accName = record["accName"].As<string>();
                 string host = record["email"].As<string>();
@@ -93,7 +93,7 @@ namespace AccomodationSuggestion.Infrastructure.Repositories
             
             return accData;
         }
-        public async Task<bool> createGradeRelationship(int grade, string accommodationName, string email)
+        public async Task<bool> createGradeRelationship(int grade, string accommodationName, string email, string date)
         {
             await using var session = driver.AsyncSession();
            
@@ -102,10 +102,10 @@ namespace AccomodationSuggestion.Infrastructure.Repositories
                 var query = @"
                     MATCH (a:Accommodation {accommodationName: $accommodationName })
                     MATCH (u: User {email :$email})
-                    MERGE (u) -[g:Graded{grade: $grade}]-> (a)                       
+                    MERGE (u) -[g:Graded{grade: $grade, date: date($date)}]-> (a)                       
                     RETURN g.grade as grade";
 
-                var cursor = await tx.RunAsync(query, new { accommodationName, email, grade });
+                var cursor = await tx.RunAsync(query, new { accommodationName, email, grade, date });
 
                 var record = await cursor.SingleAsync();
                 int a = record["grade"].As<int>(); ;
@@ -115,6 +115,78 @@ namespace AccomodationSuggestion.Infrastructure.Repositories
             });
 
             return true;
+        }
+        public async Task<List<AccommodationNode>> getAccommodationLikedBySimilarUsers(string email)
+        {
+            await using var session = driver.AsyncSession();
+            
+            var accData = await session.ExecuteReadAsync(async tx =>
+            {
+                var query = @"
+                    MATCH (u:User)-[g:Graded]->(a)<-[g2:Graded]-(u2:User)
+                    WHERE u <> u2 AND u.email = $email
+                    WITH u, u2, COLLECT(g.grade) AS grades, COLLECT(g2.grade) AS grades2
+                    WHERE all(idx IN range(0, size(grades)-1) WHERE abs(grades[idx] - grades2[idx]) < 2)
+                    MATCH (a2:Accommodation)<-[g3:Graded]-(u2)
+                    WHERE NOT ((u)-[:Graded]->(a2)) AND g3.grade > 3
+                    RETURN a2.accommodationName AS name, a2.hostEmail AS email";
+
+                var cursor = await tx.RunAsync(query, new { email });
+
+                var records = await cursor.ToListAsync();
+                
+
+                var accNames = records.Select(x => x["name"].As<string>()).ToList();   
+                var hostEmails = records.Select(x => x["email"].As<string>()).ToList();
+                List<AccommodationNode> accNodes = new List<AccommodationNode>();
+                for(int i =0; i<accNames.Count; i++)
+                {
+                    accNodes.Add(new AccommodationNode(hostEmails[i], accNames[i]));
+                }
+
+                return accNodes;
+ 
+            });
+
+            return accData;
+
+        }
+        public async Task<int> getNumberOfRecentBadGrades(string accommodationName)
+        {
+            await using var session = driver.AsyncSession();
+            var number = await session.ExecuteReadAsync(async tx =>
+            {
+                var query = @"
+                    MATCH (a:Accommodation{accommodationName:$accommodationName})<-[g:Graded]-(u)
+                    WHERE Date(g.date) >= date()-duration('P3M') and g.grade < 3
+                    RETURN count(g) AS number";
+
+                var cursor = await tx.RunAsync(query, new { accommodationName });
+
+                var record = await cursor.SingleAsync();
+                int number = record["number"].As<int>(); 
+                return number;
+            });
+            return number;
+        }
+
+        public async Task<float> getAverageGrade(string accommodationName)
+        {
+            await using var session = driver.AsyncSession();
+            var number = await session.ExecuteReadAsync(async tx =>
+            {
+                var query = @"
+                    MATCH (a:Accommodation{accommodationName:$accommodationName})<-[g:Graded]-(u)
+                    RETURN avg(g.grade) AS average";
+
+                var cursor = await tx.RunAsync(query, new { accommodationName });
+
+                var record = await cursor.SingleAsync();
+                float number = record["average"].As<float>();
+                return number;
+            });
+            return number;
+
         }
 
 
