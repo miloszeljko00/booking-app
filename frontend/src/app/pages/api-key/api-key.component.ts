@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { UserApiService } from 'src/app/core/services/user-api.service';
@@ -34,7 +34,7 @@ export class ApiKeyComponent {
         const formValues = {
           apiKey: response.apiKey
         };
-      
+
         this.formGroup.patchValue(formValues);
       },
       error: (err: HttpErrorResponse) => {
@@ -52,7 +52,7 @@ export class ApiKeyComponent {
           const formValues = {
             apiKey: ''
           };
-        
+
           this.formGroup.patchValue(formValues);
       },
       error: (err: HttpErrorResponse) => {
@@ -64,14 +64,14 @@ export class ApiKeyComponent {
     const user = this.authService.getUser()
     if(!user) return
 
-    this.userApiService.generateApiKey(user.id).subscribe({
+    this.userApiService.generateApiKey(user.id, user.email).subscribe({
       next: (response:any) => {
         if(response) {
           this.toastr.success('API Key generated successfully!')
           const formValues = {
             apiKey: response.apiKey
           };
-        
+
           this.formGroup.patchValue(formValues);
         }
         else this.toastr.error('Error occurred while generating API Key!')

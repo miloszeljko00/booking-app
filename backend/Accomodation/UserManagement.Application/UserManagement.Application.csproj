@@ -28,10 +28,12 @@
 		<PackageReference Include="prometheus-net.AspNetCore" Version="6.0.0" />
 	</ItemGroup>
   <ItemGroup>
+   
     <ProjectReference Include="..\UserManagement.Domain\UserManagement.Domain.csproj" />
   </ItemGroup>
 	<ItemGroup>
 		<Protobuf Include="Users\Support\Grpc\Protos\model.proto" GrpcService="None" />
 		<Protobuf Include="Users\Support\Grpc\Protos\accomodationGrpcService.proto" GrpcService="Client" />
+		<Protobuf Include="Users\Support\Grpc\Protos\createGuestGrpcService.proto" GrpcService="Client" />
 	</ItemGroup>
 </Project>

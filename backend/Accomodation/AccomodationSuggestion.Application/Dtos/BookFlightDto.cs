@@ -11,6 +11,7 @@ namespace AccomodationSuggestion.Application.Dtos
         public string UserId { get; set; }
         public string FlightId { get; set; }
         public int NumberOfTickets { get; set; }
+        public string ApiKey { get; set; }
 
     }
 }

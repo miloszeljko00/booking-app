@@ -18,20 +18,30 @@ namespace FlightsBooking.Grpc
     public class BookFlightServerGrpcServiceImpl : BookFlightGrpcService.BookFlightGrpcServiceBase
     {
         IFlightService _flightService;
-        public BookFlightServerGrpcServiceImpl(IFlightService flightService)
+        IUserService _userService;
+        public BookFlightServerGrpcServiceImpl(IFlightService flightService, IUserService userService)
         {
             _flightService = flightService;
+            _userService = userService;
         }
 
         public override async Task<BookFlightMessageProtoResponse> bookFlight(BookFlightMessageProto request, ServerCallContext context)
         {
             try
             {
+                var user = await _userService.GetByKeyAsync(request.ApiKey);
+                if (user == null)
+                {
+                    return new BookFlightMessageProtoResponse()
+                    {
+                        IsBooked = true.ToString()
+                    };
+                }
                 Flight flight = await _flightService.GetAsync(new Guid(request.FlightId));
                 List<UserFlightTicket> userFlightTickets = new List<UserFlightTicket>();
                 for (int i = 0; i < int.Parse(request.NumberOfTickets); i++)
                 {
-                    SoldTicket soldTicket = new SoldTicket(Guid.NewGuid(), DateTime.Now, request.UserId, flight.TicketPrice);
+                    SoldTicket soldTicket = new SoldTicket(Guid.NewGuid(), DateTime.Now, user.Email, flight.TicketPrice);
                     userFlightTickets.Add(new UserFlightTicket
                     {
                         FlightTicketId = soldTicket.Id,

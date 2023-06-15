@@ -11,6 +11,7 @@
 	<ItemGroup>
 		<PackageReference Include="Jaeger.Core" Version="1.0.3" />
 		<PackageReference Include="Jaeger.Senders.Thrift" Version="1.0.3" />
+		<PackageReference Include="Grpc.AspNetCore.Web" Version="2.53.0" />
 		<PackageReference Include="Grpc.Net.Client.Web" Version="2.53.0" />
 		<PackageReference Include="MediatR" Version="12.0.1" />
 		<PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="6.0.0" />
@@ -26,7 +27,6 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\AccomodationSuggestion.Application\AccomodationSuggestion.Application.csproj" />
-	  <ProjectReference Include="..\AccomodationSuggestion.Domain\AccomodationSuggestion.Domain.csproj" />
 	  <ProjectReference Include="..\AccomodationSuggestion.Infrastructure\AccomodationSuggestion.Infrastructure.csproj" />
 	  <ProjectReference Include="..\AccomodationSuggestion.Presentation\AccomodationSuggestion.Presentation.csproj" />
 	</ItemGroup>

@@ -7,5 +7,4 @@ public class DatabaseSettings
     public string DatabaseName { get; set; } = null!;
     public string HostNotificationCollectionName { get; set; } = null!;
     public string GuestNotificationCollectionName { get; set; } = null!;
-
 }

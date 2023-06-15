@@ -48,6 +48,7 @@
       <GrpcService>Client</GrpcService>
     </Protobuf>
 	  <Protobuf Include="Grading\Support\Grpc\Protos\hostGradeGrpcService.proto" GrpcServices="Server" />
+	  <Protobuf Include="Grading\Support\Grpc\Protos\createGradeGrpcService.proto" GrpcServices="Client" />
   </ItemGroup>
 
 </Project>

@@ -2,5 +2,7 @@ export interface BookFlightDto{
   //userId is email address!!!
   userId: string,
   flightId: string,
-  numberOfTickets: number
+  numberOfTickets: number,
+  apiKey: string,
+
 }

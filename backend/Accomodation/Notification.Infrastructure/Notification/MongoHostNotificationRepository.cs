@@ -20,7 +20,7 @@ namespace Notification.Infrastructure.Notification
             var mongoClient = new MongoClient(dbSettings.Value.ConnectionString);
 
             var mongoDatabase = mongoClient.GetDatabase(dbSettings.Value.DatabaseName);
-
+            
             _notificationCollection = mongoDatabase.GetCollection<HostNotification>(dbSettings.Value.HostNotificationCollectionName);
         }
 

@@ -13,8 +13,8 @@ export class UserApiService {
     return this.http.get(`${environment.apiUrl}/users/getApiKey/${userId}`);
   }
 
-  generateApiKey(userId: string) {
-    return this.http.get(`${environment.apiUrl}/users/generateApiKey/${userId}`);
+  generateApiKey(userId: string, email: string) {
+    return this.http.get(`${environment.apiUrl}/users/generateApiKey/${userId}/${email}`);
   }
   revokeApiKey(userId: string) {
     return this.http.delete(`${environment.apiUrl}/users/revokeApiKey/${userId}`);

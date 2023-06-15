@@ -4,6 +4,7 @@ using AccomodationSuggestion.Application.Dtos;
 using AccomodationSuggestion.Application.Suggestion.Queries;
 using OpenTracing;
 using Prometheus;
+using AccomodationSuggestion.Domain.Entities;
 
 namespace AccomodationSuggestion.Presentation.Controllers
 {
@@ -64,6 +65,22 @@ namespace AccomodationSuggestion.Presentation.Controllers
             var query = new BookFlightQuery(bookFlightDto);
             var result = await _mediator.Send(query);
             SuggestionCounter.WithLabels("suggestion", "book_flight", "200").Inc();
+            return Ok(result);
+        }
+        [HttpGet]
+        public async Task<ActionResult<UserNode>> getFirstUserNode()
+        {
+            var query = new GetAllUserNodesQuery();
+            var result = await _mediator.Send(query);
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("recommend-accomodation/{guestEmail}")]
+        public async Task<ActionResult<List<AccommodationNode>>> getRecommendedAccommodation(string guestEmail)
+        {
+            var query = new GetRecommendedAccommodationQuery(guestEmail);
+            var result = await _mediator.Send(query);
             return Ok(result);
         }
     }

@@ -197,7 +197,7 @@ namespace FlightsBookingAPI
                 {
                     Services = {
                         SuggestFlightsGrpcService.BindService(new SuggestFlightsServerGrpcServiceImpl(serviceProvider.GetService<IFlightService>())),
-                        BookFlightGrpcService.BindService(new BookFlightServerGrpcServiceImpl(serviceProvider.GetService<IFlightService>()))
+                        BookFlightGrpcService.BindService(new BookFlightServerGrpcServiceImpl(serviceProvider.GetService<IFlightService>(), serviceProvider.GetService<IUserService>()))
                     },
                     Ports = { new ServerPort("0.0.0.0", Configuration.GetValue<int>("GrpcDruzina:Letici:Port"), ServerCredentials.Insecure) }
 
@@ -210,7 +210,7 @@ namespace FlightsBookingAPI
                 {
                     Services = {
                     SuggestFlightsGrpcService.BindService(new SuggestFlightsServerGrpcServiceImpl(serviceProvider.GetService<IFlightService>())),
-                    BookFlightGrpcService.BindService(new BookFlightServerGrpcServiceImpl(serviceProvider.GetService<IFlightService>()))
+                    BookFlightGrpcService.BindService(new BookFlightServerGrpcServiceImpl(serviceProvider.GetService<IFlightService>(), serviceProvider.GetService<IUserService>()))
                 },
                     Ports = { new ServerPort(Configuration.GetValue<string>("GrpcDruzina:Letici:Address"), Configuration.GetValue<int>("GrpcDruzina:Letici:Port"), ServerCredentials.Insecure) }
                 };

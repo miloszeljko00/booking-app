@@ -18,7 +18,6 @@ namespace AccomodationSuggestion.Application.Suggestion.Queries
 {
     public sealed class BookFlightQueryHandler : IQueryHandler<BookFlightQuery, bool>
     {
-        private Channel channel;
         private BookFlightGrpcService.BookFlightGrpcServiceClient client;
         private IConfiguration _configuration;
         private IHostEnvironment _env;
@@ -36,7 +35,8 @@ namespace AccomodationSuggestion.Application.Suggestion.Queries
                 {
                     FlightId = request.bookFlightDto.FlightId,
                     NumberOfTickets = request.bookFlightDto.NumberOfTickets.ToString(),
-                    UserId = request.bookFlightDto.UserId
+                    UserId = request.bookFlightDto.UserId,
+                    ApiKey = request.bookFlightDto.ApiKey
                 });
                 return bool.Parse(response.IsBooked);
             }

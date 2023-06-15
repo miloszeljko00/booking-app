@@ -1,7 +1,13 @@
-﻿using AccomodationApplication.Abstractions.Messaging;
+﻿using AccommodationApplication.Accommodation.Support.Grpc.Protos;
+using AccomodationApplication.Abstractions.Messaging;
 using AccomodationSuggestionDomain.Entities;
 using AccomodationSuggestionDomain.Interfaces;
 using AccomodationSuggestionDomain.Primitives.Enums;
+using Grpc.Core;
+using Grpc.Net.Client.Web;
+using Grpc.Net.Client;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,13 +19,19 @@ namespace AccomodationApplication.Accommodation.Commands
     public sealed class CreateAccommodationCommandHandler : ICommandHandler<CreateAccommodationCommand, AccomodationSuggestionDomain.Entities.Accommodation>
     {
         private readonly IAccommodationRepository _repository;
+        private readonly IConfiguration _configuration;
+        private readonly IHostEnvironment _env;
+        private CreateAccommodationGrpcService.CreateAccommodationGrpcServiceClient client;
+
         public AccommodationBuilder AccommodationBuilder { get; set; } = new AccommodationBuilder();
-        public CreateAccommodationCommandHandler(IAccommodationRepository repository)
+        public CreateAccommodationCommandHandler(IAccommodationRepository repository, IConfiguration configuration, IHostEnvironment env)
         {
             _repository = repository;
+            _configuration = configuration;
+            _env = env;
         }
 
-        public Task<AccomodationSuggestionDomain.Entities.Accommodation> Handle(CreateAccommodationCommand request, CancellationToken cancellationToken)
+        public async Task<AccomodationSuggestionDomain.Entities.Accommodation> Handle(CreateAccommodationCommand request, CancellationToken cancellationToken)
         {
             var accommodationBuilder = AccommodationBuilder.withAddress(request.AccommodationDto.Address.Country,
                 request.AccommodationDto.Address.City, request.AccommodationDto.Address.Street, request.AccommodationDto.Address.Number)
@@ -44,7 +56,26 @@ namespace AccomodationApplication.Accommodation.Commands
             }
             accommodationBuilder.withBenefits(benefits);
             var accommodation = accommodationBuilder.build();
-            return _repository.Create(accommodation);
+            var createdAcc = _repository.Create(accommodation);
+            if (_env.EnvironmentName != "Cloud")
+            {
+                var channel = new Channel(_configuration.GetValue<string>("GrpcDruzina:AccommodationSuggestion:Address") + ":" + _configuration.GetValue<int>("GrpcDruzina:AccommodationSUggestion:Port"), ChannelCredentials.Insecure);
+                client = new CreateAccommodationGrpcService.CreateAccommodationGrpcServiceClient(channel);
+                CreateAccommodationProtoResponse response = await client.createAccommodationAsync(new CreateAccommodationProto() { AccomodationName = accommodation.Name, HostEmail = accommodation.HostEmail.EmailAddress});
+
+
+            }
+            else
+            {
+                using var channel = GrpcChannel.ForAddress(_configuration.GetValue<string>("GrpcDruzina:AccommodationSuggestion:Address"), new GrpcChannelOptions
+                {
+                    HttpHandler = new GrpcWebHandler(new HttpClientHandler())
+                });
+                client = new CreateAccommodationGrpcService.CreateAccommodationGrpcServiceClient(channel);
+                CreateAccommodationProtoResponse response = await client.createAccommodationAsync(new CreateAccommodationProto() { AccomodationName = createdAcc.Result.Name, HostEmail = createdAcc.Result.HostEmail.EmailAddress });
+      
+            }
+            return createdAcc.Result;
         }
     }
 }
