@@ -70,8 +70,15 @@ namespace AccomodationSuggestion.Presentation.Controllers
         [HttpGet]
         public async Task<ActionResult<UserNode>> getFirstUserNode()
         {
+            var actionName = ControllerContext.ActionDescriptor.DisplayName;
+            using var scope = _tracer.BuildSpan(actionName).StartActive(true);
+            scope.Span.Log("Get first user from graph database");
+            Console.SetOut(Console.Out);
+            Console.WriteLine("METHOD: GET, DESCRIPTION: Get first user from graph database, TIME: " + DateTime.Now.ToString("dd.MM.yyyy. HH:mm:ss"));
+
             var query = new GetAllUserNodesQuery();
             var result = await _mediator.Send(query);
+            SuggestionCounter.WithLabels("suggestion", "get_first_user_node", "200").Inc();
             return Ok(result);
         }
 
@@ -79,8 +86,15 @@ namespace AccomodationSuggestion.Presentation.Controllers
         [Route("recommend-accomodation/{guestEmail}")]
         public async Task<ActionResult<List<AccommodationNode>>> getRecommendedAccommodation(string guestEmail)
         {
+            var actionName = ControllerContext.ActionDescriptor.DisplayName;
+            using var scope = _tracer.BuildSpan(actionName).StartActive(true);
+            scope.Span.Log("Get recommended accommodation for guest");
+            Console.SetOut(Console.Out);
+            Console.WriteLine("METHOD: GET, DESCRIPTION: Get recommended accommodation for guest, TIME: " + DateTime.Now.ToString("dd.MM.yyyy. HH:mm:ss"));
+
             var query = new GetRecommendedAccommodationQuery(guestEmail);
             var result = await _mediator.Send(query);
+            SuggestionCounter.WithLabels("suggestion", "get_recommended_accommodation", "200").Inc();
             return Ok(result);
         }
     }
