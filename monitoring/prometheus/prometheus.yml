@@ -19,23 +19,23 @@
 
     - job_name: 'user-management-service'
       static_configs:
-        - targets: ['172.19.0.10:80']
+        - targets: ['user-management-service:80']
 
     - job_name: 'accommodation-service'
       static_configs:
-        - targets: ['172.19.0.12:80']
+        - targets: ['accommodation-service:80']
 
     - job_name: 'notification-service'
       static_configs:
-        - targets: ['172.19.0.14:80']
+        - targets: ['notification-service:80']
 
     - job_name: 'accommodation-grading-service'
       static_configs:
-        - targets: ['172.19.0.13:80']
+        - targets: ['accommodation-grading-service:80']
 
     - job_name: 'accommodation-suggestion-service'
       static_configs:
-        - targets: ['172.19.0.11:80']
+        - targets: ['accommodation-suggestion-service:80']
 
     - job_name: 'node_exporter'
       static_configs:
