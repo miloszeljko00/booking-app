@@ -8,6 +8,11 @@ using Rs.Ac.Uns.Ftn.Grpc;
 using AccomodationGradingApplication.Grading.Support.Grpc;
 using AccomodationGradingDomain.Interfaces;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
+using MassTransit;
+using AccomodationGrading.Settings;
+using Microsoft.Extensions.Options;
+using AccomodationGrading;
+using AccomodationGrading.Consumers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +28,27 @@ builder.Services
     .AddRepositories()
     .AddInfrastructure(builder.Configuration)
     .AddHandlers();
+builder.Services.Configure<MessageBrokerSettings>(builder.Configuration.GetSection(MessageBrokerSettings.SectionName));
+builder.Services.AddSingleton(provider => provider.GetRequiredService<IOptions<MessageBrokerSettings>>().Value);
+builder.Services.AddMassTransit(configurator =>
+{
+    var assembly = typeof(IAssembly).Assembly;
+    configurator.SetKebabCaseEndpointNameFormatter();
+    configurator.AddConsumers(assembly);
+    configurator.AddSagaStateMachines(assembly);
+    configurator.AddSagas(assembly);
+    configurator.AddActivities(assembly);
+    configurator.UsingRabbitMq((context, cfg) =>
+    {
+        var messageBrokerSettings = context.GetRequiredService<MessageBrokerSettings>();
+        cfg.Host(new Uri(messageBrokerSettings.Host), h =>
+        {
+            h.Username(messageBrokerSettings.Username);
+            h.Password(messageBrokerSettings.Password);
+        });
+        cfg.ConfigureEndpoints(context, KebabCaseEndpointNameFormatter.Instance);
+    });
+});
 IServiceProvider serviceProvider = builder.Services.BuildServiceProvider();
 var env = builder.Environment.EnvironmentName;
 

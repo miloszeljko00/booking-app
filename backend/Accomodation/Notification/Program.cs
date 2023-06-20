@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Grpc.Core;
 using Notification.Application.Notification.Support.Grpc;
 using MediatR;
+using MassTransit;
+using Notification.Settings;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +26,27 @@ builder.Services
     .AddRepositories()
     .AddHandlers()
     .AddInfrastructure(builder.Configuration);
+builder.Services.Configure<MessageBrokerSettings>(builder.Configuration.GetSection(MessageBrokerSettings.SectionName));
+builder.Services.AddSingleton(provider => provider.GetRequiredService<IOptions<MessageBrokerSettings>>().Value);
+builder.Services.AddMassTransit(configurator =>
+{
+    var assembly = typeof(Program).Assembly;
+    configurator.SetKebabCaseEndpointNameFormatter();
+    configurator.AddConsumers(assembly);
+    configurator.AddSagaStateMachines(assembly);
+    configurator.AddSagas(assembly);
+    configurator.AddActivities(assembly);
+    configurator.UsingRabbitMq((context, cfg) =>
+    {
+        var messageBrokerSettings = context.GetRequiredService<MessageBrokerSettings>();
+        cfg.Host(new Uri(messageBrokerSettings.Host), h =>
+        {
+            h.Username(messageBrokerSettings.Username);
+            h.Password(messageBrokerSettings.Password);
+        });
+        cfg.ConfigureEndpoints(context, KebabCaseEndpointNameFormatter.Instance);
+    });
+});
 IServiceProvider serviceProvider = builder.Services.BuildServiceProvider();
 
 var env = builder.Environment.EnvironmentName;

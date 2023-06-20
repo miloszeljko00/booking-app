@@ -16,10 +16,13 @@
 		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
 		<PackageReference Include="MongoDB.Driver" Version="2.19.1" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+		<PackageReference Include="MassTransit" Version="8.1.0-develop.1394" />
+		<PackageReference Include="MassTransit.RabbitMQ" Version="8.1.0-develop.1394" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\Notification.Infrastructure\Notification.Infrastructure.csproj" />
 		<ProjectReference Include="..\Notification.Presentation\Notification.Presentation.csproj" />
+		<ProjectReference Include="..\SharedEvents\SharedEvents.csproj" />
 	</ItemGroup>
 </Project>

@@ -170,6 +170,40 @@
           "Port": 5136
         }
       ]
+    },
+    {
+      "UpstreamPathTemplate": "/Orchestrator",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE"
+      ],
+      "DownstreamPathTemplate": "/Orchestrator",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5248
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/Orchestrator/{anyPath}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE"
+      ],
+      "DownstreamPathTemplate": "/Orchestrator/{anyPath}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5248
+        }
+      ]
     }
   ],
   "GlobalConfiguration": {
